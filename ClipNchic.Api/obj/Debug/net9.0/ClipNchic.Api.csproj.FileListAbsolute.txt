@@ -137,3 +137,4 @@ D:\exe_team\BE_clipNchick\ClipNchic.Api\obj\Debug\net9.0\refint\ClipNchic.Api.dl
 D:\exe_team\BE_clipNchick\ClipNchic.Api\obj\Debug\net9.0\ClipNchic.Api.pdb
 D:\exe_team\BE_clipNchick\ClipNchic.Api\obj\Debug\net9.0\ClipNchic.Api.genruntimeconfig.cache
 D:\exe_team\BE_clipNchick\ClipNchic.Api\obj\Debug\net9.0\ref\ClipNchic.Api.dll
+D:\exe_team\BE_clipNchick\ClipNchic.Api\obj\Debug\net9.0\ClipNchic.Api.sourcelink.json
