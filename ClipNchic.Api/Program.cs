@@ -1,4 +1,4 @@
-using ClipNchic.Api.Data;
+using ClipNchic.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

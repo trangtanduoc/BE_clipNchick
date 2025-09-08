@@ -16,4 +16,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ClipNchic.Business\ClipNchic.Business.csproj" />
+    <ProjectReference Include="..\ClipNchic.DataAccess\ClipNchic.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>

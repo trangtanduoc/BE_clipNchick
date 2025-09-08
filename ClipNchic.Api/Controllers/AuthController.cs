@@ -1,4 +1,4 @@
-using ClipNchic.Api.Data;
+using ClipNchic.DataAccess.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClipNchic.Api.Controllers;

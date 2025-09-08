@@ -1,30 +1,38 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\exe_team\\BE_clipNchick\\",
+  "WorkspaceRootPath": "D:\\BE_clipNchick\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|d:\\exe_team\\be_clipnchick\\clipnchic.api\\clipnchic.api.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
-      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\clipnchic.api.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|d:\\exe_team\\be_clipnchick\\clipnchic.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|d:\\exe_team\\be_clipnchick\\clipnchic.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|d:\\exe_team\\be_clipnchick\\clipnchic.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|d:\\be_clipnchick\\clipnchic.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|d:\\exe_team\\be_clipnchick\\clipnchic.api\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|d:\\be_clipnchick\\clipnchic.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|d:\\exe_team\\be_clipnchick\\clipnchic.api\\controllers\\crudcontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|d:\\be_clipnchick\\clipnchic.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|d:\\be_clipnchick\\clipnchic.api\\clipnchic.api.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\clipnchic.api.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CF92AD8-ADDC-462B-A37A-DF0CDC0A4C1F}|ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj|d:\\be_clipnchick\\clipnchic.dataaccess\\models\\entities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1CF92AD8-ADDC-462B-A37A-DF0CDC0A4C1F}|ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj|solutionrelative:clipnchic.dataaccess\\models\\entities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CF92AD8-ADDC-462B-A37A-DF0CDC0A4C1F}|ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj|d:\\be_clipnchick\\clipnchic.dataaccess\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1CF92AD8-ADDC-462B-A37A-DF0CDC0A4C1F}|ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj|solutionrelative:clipnchic.dataaccess\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|d:\\be_clipnchick\\clipnchic.api\\controllers\\crudcontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\controllers\\crudcontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|d:\\be_clipnchick\\clipnchic.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -47,80 +55,105 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "appsettings.Development.json",
-              "DocumentMoniker": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\appsettings.Development.json",
-              "RelativeDocumentMoniker": "ClipNchic.Api\\appsettings.Development.json",
-              "ToolTip": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\appsettings.Development.json",
-              "RelativeToolTip": "ClipNchic.Api\\appsettings.Development.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-08T07:20:37.66Z",
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "D:\\BE_clipNchick\\ClipNchic.Api\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "ClipNchic.Api\\Controllers\\AuthController.cs",
+              "ToolTip": "D:\\BE_clipNchick\\ClipNchic.Api\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "ClipNchic.Api\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T14:16:32.377Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "D:\\BE_clipNchick\\ClipNchic.DataAccess\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "ClipNchic.DataAccess\\Data\\AppDbContext.cs",
+              "ToolTip": "D:\\BE_clipNchick\\ClipNchic.DataAccess\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "ClipNchic.DataAccess\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T14:12:51.873Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "ClipNchic.Api\\Data\\AppDbContext.cs",
-              "ToolTip": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "ClipNchic.Api\\Data\\AppDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "Entities.cs",
+              "DocumentMoniker": "D:\\BE_clipNchick\\ClipNchic.DataAccess\\Models\\Entities.cs",
+              "RelativeDocumentMoniker": "ClipNchic.DataAccess\\Models\\Entities.cs",
+              "ToolTip": "D:\\BE_clipNchick\\ClipNchic.DataAccess\\Models\\Entities.cs",
+              "RelativeToolTip": "ClipNchic.DataAccess\\Models\\Entities.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-08T07:13:08.293Z",
+              "WhenOpened": "2025-09-08T14:12:24.302Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "ClipNchic.Api.http",
-              "DocumentMoniker": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.http",
+              "DocumentMoniker": "D:\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.http",
               "RelativeDocumentMoniker": "ClipNchic.Api\\ClipNchic.Api.http",
-              "ToolTip": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.http",
+              "ToolTip": "D:\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.http",
               "RelativeToolTip": "ClipNchic.Api\\ClipNchic.Api.http",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
               "WhenOpened": "2025-09-08T07:13:04.033Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
-              "DocumentMoniker": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\Program.cs",
+              "DocumentMoniker": "D:\\BE_clipNchick\\ClipNchic.Api\\Program.cs",
               "RelativeDocumentMoniker": "ClipNchic.Api\\Program.cs",
-              "ToolTip": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\Program.cs",
+              "ToolTip": "D:\\BE_clipNchick\\ClipNchic.Api\\Program.cs",
               "RelativeToolTip": "ClipNchic.Api\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAADwvxgAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-08T07:13:01.51Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CrudControllers.cs",
+              "DocumentMoniker": "D:\\BE_clipNchick\\ClipNchic.Api\\Controllers\\CrudControllers.cs",
+              "RelativeDocumentMoniker": "ClipNchic.Api\\Controllers\\CrudControllers.cs",
+              "ToolTip": "D:\\BE_clipNchick\\ClipNchic.Api\\Controllers\\CrudControllers.cs",
+              "RelativeToolTip": "ClipNchic.Api\\Controllers\\CrudControllers.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T07:12:47.338Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
               "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\appsettings.json",
+              "DocumentMoniker": "D:\\BE_clipNchick\\ClipNchic.Api\\appsettings.json",
               "RelativeDocumentMoniker": "ClipNchic.Api\\appsettings.json",
-              "ToolTip": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\appsettings.json",
+              "ToolTip": "D:\\BE_clipNchick\\ClipNchic.Api\\appsettings.json",
               "RelativeToolTip": "ClipNchic.Api\\appsettings.json",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAkAAACIAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAACIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-09-08T07:13:00.034Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CrudControllers.cs",
-              "DocumentMoniker": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\Controllers\\CrudControllers.cs",
-              "RelativeDocumentMoniker": "ClipNchic.Api\\Controllers\\CrudControllers.cs",
-              "ToolTip": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\Controllers\\CrudControllers.cs",
-              "RelativeToolTip": "ClipNchic.Api\\Controllers\\CrudControllers.cs",
-              "ViewState": "AgIAANIBAAAAAAAAAAAkwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-08T07:12:47.338Z",
-              "EditorCaption": ""
+              "DocumentIndex": 7,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "D:\\BE_clipNchick\\ClipNchic.Api\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "ClipNchic.Api\\appsettings.Development.json",
+              "ToolTip": "D:\\BE_clipNchick\\ClipNchic.Api\\appsettings.Development.json",
+              "RelativeToolTip": "ClipNchic.Api\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-08T07:20:37.66Z"
             }
           ]
         }
