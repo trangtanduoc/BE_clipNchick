@@ -1,5 +1,5 @@
-using ClipNchic.Api.Data;
-using ClipNchic.Api.Models;
+using ClipNchic.DataAccess.Data;
+using ClipNchic.DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

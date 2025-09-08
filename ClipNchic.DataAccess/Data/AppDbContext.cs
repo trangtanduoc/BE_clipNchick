@@ -1,7 +1,7 @@
-using ClipNchic.Api.Models;
+using ClipNchic.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClipNchic.Api.Data;
+namespace ClipNchic.DataAccess.Data;
 
 public class AppDbContext : DbContext
 {

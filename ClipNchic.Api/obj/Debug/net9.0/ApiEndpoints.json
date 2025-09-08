@@ -9,7 +9,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.Api.Models.Accessory, ClipNchic.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.DataAccess.Models.Accessory, ClipNchic.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -29,13 +29,13 @@
     "Parameters": [
       {
         "Name": "accessory",
-        "Type": "ClipNchic.Api.Models.Accessory",
+        "Type": "ClipNchic.DataAccess.Models.Accessory",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.Accessory",
+        "Type": "ClipNchic.DataAccess.Models.Accessory",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -61,7 +61,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.Accessory",
+        "Type": "ClipNchic.DataAccess.Models.Accessory",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -86,7 +86,7 @@
       },
       {
         "Name": "accessory",
-        "Type": "ClipNchic.Api.Models.Accessory",
+        "Type": "ClipNchic.DataAccess.Models.Accessory",
         "IsRequired": true
       }
     ],
@@ -109,6 +109,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ClipNchic.Api.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/Auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ClipNchic.Api.Controllers.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ClipNchic.Api.Controllers.CustomDesignAccessoriesController",
     "Method": "GetAll",
     "RelativePath": "api/CustomDesignAccessories",
@@ -118,7 +134,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.Api.Models.CustomDesignAccessory, ClipNchic.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.DataAccess.Models.CustomDesignAccessory, ClipNchic.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -138,13 +154,13 @@
     "Parameters": [
       {
         "Name": "record",
-        "Type": "ClipNchic.Api.Models.CustomDesignAccessory",
+        "Type": "ClipNchic.DataAccess.Models.CustomDesignAccessory",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.CustomDesignAccessory",
+        "Type": "ClipNchic.DataAccess.Models.CustomDesignAccessory",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -175,7 +191,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.CustomDesignAccessory",
+        "Type": "ClipNchic.DataAccess.Models.CustomDesignAccessory",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -205,7 +221,7 @@
       },
       {
         "Name": "record",
-        "Type": "ClipNchic.Api.Models.CustomDesignAccessory",
+        "Type": "ClipNchic.DataAccess.Models.CustomDesignAccessory",
         "IsRequired": true
       }
     ],
@@ -242,7 +258,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.Api.Models.CustomDesign, ClipNchic.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.DataAccess.Models.CustomDesign, ClipNchic.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -262,13 +278,13 @@
     "Parameters": [
       {
         "Name": "design",
-        "Type": "ClipNchic.Api.Models.CustomDesign",
+        "Type": "ClipNchic.DataAccess.Models.CustomDesign",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.CustomDesign",
+        "Type": "ClipNchic.DataAccess.Models.CustomDesign",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -294,7 +310,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.CustomDesign",
+        "Type": "ClipNchic.DataAccess.Models.CustomDesign",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -319,7 +335,7 @@
       },
       {
         "Name": "design",
-        "Type": "ClipNchic.Api.Models.CustomDesign",
+        "Type": "ClipNchic.DataAccess.Models.CustomDesign",
         "IsRequired": true
       }
     ],
@@ -351,7 +367,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.Api.Models.Material, ClipNchic.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.DataAccess.Models.Material, ClipNchic.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -371,13 +387,13 @@
     "Parameters": [
       {
         "Name": "material",
-        "Type": "ClipNchic.Api.Models.Material",
+        "Type": "ClipNchic.DataAccess.Models.Material",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.Material",
+        "Type": "ClipNchic.DataAccess.Models.Material",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -403,7 +419,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.Material",
+        "Type": "ClipNchic.DataAccess.Models.Material",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -428,7 +444,7 @@
       },
       {
         "Name": "material",
-        "Type": "ClipNchic.Api.Models.Material",
+        "Type": "ClipNchic.DataAccess.Models.Material",
         "IsRequired": true
       }
     ],
@@ -460,7 +476,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.Api.Models.OrderDetail, ClipNchic.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.DataAccess.Models.OrderDetail, ClipNchic.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -480,13 +496,13 @@
     "Parameters": [
       {
         "Name": "detail",
-        "Type": "ClipNchic.Api.Models.OrderDetail",
+        "Type": "ClipNchic.DataAccess.Models.OrderDetail",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.OrderDetail",
+        "Type": "ClipNchic.DataAccess.Models.OrderDetail",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -512,7 +528,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.OrderDetail",
+        "Type": "ClipNchic.DataAccess.Models.OrderDetail",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -537,7 +553,7 @@
       },
       {
         "Name": "detail",
-        "Type": "ClipNchic.Api.Models.OrderDetail",
+        "Type": "ClipNchic.DataAccess.Models.OrderDetail",
         "IsRequired": true
       }
     ],
@@ -569,7 +585,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.Api.Models.Order, ClipNchic.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.DataAccess.Models.Order, ClipNchic.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -589,13 +605,13 @@
     "Parameters": [
       {
         "Name": "order",
-        "Type": "ClipNchic.Api.Models.Order",
+        "Type": "ClipNchic.DataAccess.Models.Order",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.Order",
+        "Type": "ClipNchic.DataAccess.Models.Order",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -621,7 +637,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.Order",
+        "Type": "ClipNchic.DataAccess.Models.Order",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -646,7 +662,7 @@
       },
       {
         "Name": "order",
-        "Type": "ClipNchic.Api.Models.Order",
+        "Type": "ClipNchic.DataAccess.Models.Order",
         "IsRequired": true
       }
     ],
@@ -678,7 +694,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.Api.Models.ProductModel, ClipNchic.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.DataAccess.Models.ProductModel, ClipNchic.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -698,13 +714,13 @@
     "Parameters": [
       {
         "Name": "model",
-        "Type": "ClipNchic.Api.Models.ProductModel",
+        "Type": "ClipNchic.DataAccess.Models.ProductModel",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.ProductModel",
+        "Type": "ClipNchic.DataAccess.Models.ProductModel",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -730,7 +746,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.ProductModel",
+        "Type": "ClipNchic.DataAccess.Models.ProductModel",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -755,7 +771,7 @@
       },
       {
         "Name": "model",
-        "Type": "ClipNchic.Api.Models.ProductModel",
+        "Type": "ClipNchic.DataAccess.Models.ProductModel",
         "IsRequired": true
       }
     ],
@@ -787,7 +803,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.Api.Models.Product, ClipNchic.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.DataAccess.Models.Product, ClipNchic.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -807,13 +823,13 @@
     "Parameters": [
       {
         "Name": "product",
-        "Type": "ClipNchic.Api.Models.Product",
+        "Type": "ClipNchic.DataAccess.Models.Product",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.Product",
+        "Type": "ClipNchic.DataAccess.Models.Product",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -839,7 +855,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.Product",
+        "Type": "ClipNchic.DataAccess.Models.Product",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -864,7 +880,7 @@
       },
       {
         "Name": "product",
-        "Type": "ClipNchic.Api.Models.Product",
+        "Type": "ClipNchic.DataAccess.Models.Product",
         "IsRequired": true
       }
     ],
@@ -896,7 +912,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.Api.Models.Role, ClipNchic.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.DataAccess.Models.Role, ClipNchic.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -916,13 +932,13 @@
     "Parameters": [
       {
         "Name": "role",
-        "Type": "ClipNchic.Api.Models.Role",
+        "Type": "ClipNchic.DataAccess.Models.Role",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.Role",
+        "Type": "ClipNchic.DataAccess.Models.Role",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -948,7 +964,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.Role",
+        "Type": "ClipNchic.DataAccess.Models.Role",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -973,7 +989,7 @@
       },
       {
         "Name": "role",
-        "Type": "ClipNchic.Api.Models.Role",
+        "Type": "ClipNchic.DataAccess.Models.Role",
         "IsRequired": true
       }
     ],
@@ -1005,7 +1021,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.Api.Models.Texture, ClipNchic.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.DataAccess.Models.Texture, ClipNchic.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1025,13 +1041,13 @@
     "Parameters": [
       {
         "Name": "texture",
-        "Type": "ClipNchic.Api.Models.Texture",
+        "Type": "ClipNchic.DataAccess.Models.Texture",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.Texture",
+        "Type": "ClipNchic.DataAccess.Models.Texture",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1057,7 +1073,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.Texture",
+        "Type": "ClipNchic.DataAccess.Models.Texture",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1082,7 +1098,7 @@
       },
       {
         "Name": "texture",
-        "Type": "ClipNchic.Api.Models.Texture",
+        "Type": "ClipNchic.DataAccess.Models.Texture",
         "IsRequired": true
       }
     ],
@@ -1114,7 +1130,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.Api.Models.User, ClipNchic.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[ClipNchic.DataAccess.Models.User, ClipNchic.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1134,13 +1150,13 @@
     "Parameters": [
       {
         "Name": "user",
-        "Type": "ClipNchic.Api.Models.User",
+        "Type": "ClipNchic.DataAccess.Models.User",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.User",
+        "Type": "ClipNchic.DataAccess.Models.User",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1166,7 +1182,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ClipNchic.Api.Models.User",
+        "Type": "ClipNchic.DataAccess.Models.User",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1191,7 +1207,7 @@
       },
       {
         "Name": "user",
-        "Type": "ClipNchic.Api.Models.User",
+        "Type": "ClipNchic.DataAccess.Models.User",
         "IsRequired": true
       }
     ],

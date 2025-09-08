@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ClipNchic.Api.Models;
+namespace ClipNchic.DataAccess.Models;
 
 [Table("Roles")]
 public class Role

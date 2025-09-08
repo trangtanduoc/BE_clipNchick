@@ -8,6 +8,8 @@
     ".NETCoreApp,Version=v9.0": {
       "ClipNchic.Api/1.0.0": {
         "dependencies": {
+          "ClipNchic.Business": "1.0.0",
+          "ClipNchic.DataAccess": "1.0.0",
           "Microsoft.AspNetCore.OpenApi": "9.0.7",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.8",
           "Microsoft.EntityFrameworkCore.Tools": "8.0.8",
@@ -915,6 +917,29 @@
             "fileVersion": "6.0.21.52210"
           }
         }
+      },
+      "ClipNchic.Business/1.0.0": {
+        "dependencies": {
+          "ClipNchic.DataAccess": "1.0.0"
+        },
+        "runtime": {
+          "ClipNchic.Business.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "ClipNchic.DataAccess/1.0.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.SqlServer": "8.0.8",
+          "Swashbuckle.AspNetCore": "6.6.2"
+        },
+        "runtime": {
+          "ClipNchic.DataAccess.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -1504,6 +1529,16 @@
       "sha512": "sha512-IXoJOXIqc39AIe+CIR7koBtRGMiCt/LPM3lI+PELtDIy9XdyeSrwXFdWV9dzJ2Awl0paLWUaknLxFQ5HpHZUog==",
       "path": "system.windows.extensions/6.0.0",
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
+    },
+    "ClipNchic.Business/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ClipNchic.DataAccess/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }
