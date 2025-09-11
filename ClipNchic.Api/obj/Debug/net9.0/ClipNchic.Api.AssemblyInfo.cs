@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ClipNchic.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+298381ebdaf7287231f75f55e14a508de025d8a7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+db0cbd1b5ba4ff1fc3634d57c8a2fcd68e29b4eb")]
 [assembly: System.Reflection.AssemblyProductAttribute("ClipNchic.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ClipNchic.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

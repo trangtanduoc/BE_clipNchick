@@ -1,5 +1,6 @@
-using ClipNchic.DataAccess.Data;
+using ClipNchic.Business.Services;
 using Microsoft.AspNetCore.Mvc;
+using ClipNchic.DataAccess.Models;
 
 namespace ClipNchic.Api.Controllers;
 
@@ -7,21 +8,41 @@ namespace ClipNchic.Api.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly AppDbContext _db;
-    public AuthController(AppDbContext db)
+    private readonly UserService _userService;
+    public AuthController(UserService userService)
     {
-        _db = db;
+        _userService = userService;
     }
 
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginRequest request)
     {
-        var user = _db.Users.FirstOrDefault(u => u.Email == request.Username && u.PasswordHash == request.Password);
-        if (user == null)
+        var token = _userService.LoginAndGenerateTokenAsync(request.Username, request.Password);
+        if (token.Result == null)
         {
             return Unauthorized(new { message = "Invalid username or password" });
         }
-        return Ok(new { message = "Login successful", userId = user.UserId, email = user.Email, fullName = user.FullName });
+        return Ok(new { message = "Login successful", token });
+    }
+
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+    {
+        try
+        {
+            var user = new User
+            {
+                FullName = request.FullName,
+                PasswordHash = request.Password,
+                Email = request.Email
+            };
+            var userId = await _userService.RegisterUserAsync(user);
+            return Ok(new { message = "Registration successful", userId });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 }
 
@@ -29,4 +50,10 @@ public class LoginRequest
 {
     public string Username { get; set; }
     public string Password { get; set; }
+}
+public class RegisterRequest
+{
+    public string FullName { get; set; }
+    public string Password { get; set; }
+    public string Email { get; set; }
 }
