@@ -95,50 +95,87 @@ public class UsersController : ControllerBase
     }
 }
 
-[ApiController]
-[Route("api/[controller]")]
-public class ProductsController : ControllerBase
-{
-    private readonly AppDbContext _db;
-    public ProductsController(AppDbContext db) { _db = db; }
+//[ApiController]
+//[Route("api/[controller]")]
+//public class ProductsController : ControllerBase
+//{
+//    private readonly AppDbContext _db;
+//    public ProductsController(AppDbContext<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+//  <Nodes>
+//    <Node Id="(@1 @2)" Visibility="Hidden" />
+//    <Node Id="(@3 Type=CheckoutDto)" Category="CodeSchema_Class" CodeSchemaProperty_IsPublic="True" CommonLabel="CheckoutDto" Icon="Microsoft.VisualStudio.Class.Public" IsDragSource="True" Label="CheckoutDto" SourceLocation="(Assembly=file:///C:/Users/cungt/Source/Repos/BE_clipNchick/ClipNchic.Api/Controllers/CartController.cs StartLineNumber=60 StartCharacterOffset=13 EndLineNumber=60 EndCharacterOffset=24)" />
+//  </Nodes>
+//  <Links>
+//    <Link Source="(@1 @2)" Target="(@3 Type=CheckoutDto)" Category="Contains" />
+//  </Links>
+//  <Categories>
+//    <Category Id="CodeSchema_Class" Label="Class" BasedOn="CodeSchema_Type" Icon="CodeSchema_Class" />
+//    <Category Id="CodeSchema_Type" Label="Type" Icon="CodeSchema_Class" />
+//    <Category Id="Contains" Label="Contains" Description="Whether the source of the link contains the target object" IsContainment="True" />
+//  </Categories>
+//  <Properties>
+//    <Property Id="CodeSchemaProperty_IsPublic" Label="Is Public" Description="Flag to indicate the scope is Public" DataType="System.Boolean" />
+//    <Property Id="CommonLabel" DataType="System.String" />
+//    <Property Id="Icon" Label="Icon" DataType="System.String" />
+//    <Property Id="IsContainment" DataType="System.Boolean" />
+//    <Property Id="IsDragSource" Label="IsDragSource" Description="IsDragSource" DataType="System.Boolean" />
+//    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+//    <Property Id="SourceLocation" Label="Start Line Number" DataType="Microsoft.VisualStudio.GraphModel.CodeSchema.SourceLocation" />
+//    <Property Id="Visibility" Label="Visibility" Description="Defines whether a node in the graph is visible or not" DataType="System.Windows.Visibility" />
+//  </Properties>
+//  <QualifiedNames>
+//    <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
+//    <Name Id="File" Label="File" ValueType="Uri" />
+//    <Name Id="Type" Label="Type" ValueType="System.Object" />
+//  </QualifiedNames>
+//  <IdentifierAliases>
+//    <Alias n="1" Uri="Assembly=$(VsSolutionUri)/ClipNchic.Api/ClipNchic.Api.csproj" />
+//    <Alias n="2" Uri="File=$(VsSolutionUri)/ClipNchic.Api/Controllers/CartController.cs" />
+//    <Alias n="3" Uri="Assembly=$(cee037fe-7fe8-4c20-8a77-48929d713ccc.OutputPathUri)" />
+//  </IdentifierAliases>
+//  <Paths>
+//    <Path Id="cee037fe-7fe8-4c20-8a77-48929d713ccc.OutputPathUri" Value="file:///C:/Users/cungt/Source/Repos/BE_clipNchick/ClipNchic.Api/bin/Debug/net9.0/ClipNchic.Api.dll" />
+//    <Path Id="VsSolutionUri" Value="file:///C:/Users/cungt/Source/Repos/BE_clipNchick" />
+//  </Paths>
+//</DirectedGraph> db) { _db = db; }
 
-    [HttpGet]
-    public Task<List<Product>> GetAll() => _db.Products.ToListAsync();
+//    [HttpGet]
+//    public Task<List<Product>> GetAll() => _db.Products.ToListAsync();
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Product>> Get(int id)
-    {
-        var entity = await _db.Products.FindAsync(id);
-        return entity is null ? NotFound() : entity;
-    }
+//    [HttpGet("{id}")]
+//    public async Task<ActionResult<Product>> Get(int id)
+//    {
+//        var entity = await _db.Products.FindAsync(id);
+//        return entity is null ? NotFound() : entity;
+//    }
 
-    [HttpPost]
-    public async Task<ActionResult<Product>> Create(Product product)
-    {
-        _db.Products.Add(product);
-        await _db.SaveChangesAsync();
-        return CreatedAtAction(nameof(Get), new { id = product.ProductId }, product);
-    }
+//    [HttpPost]
+//    public async Task<ActionResult<Product>> Create(Product product)
+//    {
+//        _db.Products.Add(product);
+//        await _db.SaveChangesAsync();
+//        return CreatedAtAction(nameof(Get), new { id = product.ProductId }, product);
+//    }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, Product product)
-    {
-        if (id != product.ProductId) return BadRequest();
-        _db.Entry(product).State = EntityState.Modified;
-        await _db.SaveChangesAsync();
-        return NoContent();
-    }
+//    [HttpPut("{id}")]
+//    public async Task<IActionResult> Update(int id, Product product)
+//    {
+//        if (id != product.ProductId) return BadRequest();
+//        _db.Entry(product).State = EntityState.Modified;
+//        await _db.SaveChangesAsync();
+//        return NoContent();
+//    }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
-    {
-        var entity = await _db.Products.FindAsync(id);
-        if (entity is null) return NotFound();
-        _db.Products.Remove(entity);
-        await _db.SaveChangesAsync();
-        return NoContent();
-    }
-}
+//    [HttpDelete("{id}")]
+//    public async Task<IActionResult> Delete(int id)
+//    {
+//        var entity = await _db.Products.FindAsync(id);
+//        if (entity is null) return NotFound();
+//        _db.Products.Remove(entity);
+//        await _db.SaveChangesAsync();
+//        return NoContent();
+//    }
+//}
 
 [ApiController]
 [Route("api/[controller]")]
