@@ -1,7 +1,10 @@
+﻿using ClipNchic.Business.Services;
 using ClipNchic.DataAccess.Data;
-using Microsoft.EntityFrameworkCore;
-using ClipNchic.Business.Services;
 using ClipNchic.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +16,60 @@ builder.Services.AddControllers().AddJsonOptions(options => {
 });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Version = "v1",
+        Title = "API"
+
+    });
+
+    // Tùy chỉnh Swagger để hỗ trợ TimeOnly dưới dạng chuỗi
+    c.MapType<TimeOnly>(() => new OpenApiSchema
+    {
+        Type = "string",
+        Format = "time",
+        Example = new OpenApiString("00:00:00")
+    });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+    // Thêm JWT Bearer Token vào Swagger
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "JWT Authorization header sử dụng scheme Bearer.",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Name = "Authorization",
+        Scheme = "bearer"
+    });
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+                {
+                    {
+                        new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                        {
+                            Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                            {
+                                Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
+
+    c.OrderActionsBy((apiDesc) =>
+    {
+        if (apiDesc.HttpMethod == "POST") return "3";
+        if (apiDesc.HttpMethod == "GET") return "1";
+        if (apiDesc.HttpMethod == "PUT") return "2";
+        if (apiDesc.HttpMethod == "DELETE") return "4";
+        return "5";
+    });
+});
+        
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -25,11 +81,12 @@ builder.Services.AddScoped<ClipNchic.Business.Services.CartService>();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+    c.RoutePrefix = string.Empty;
+});
 
 app.UseHttpsRedirection();
 
