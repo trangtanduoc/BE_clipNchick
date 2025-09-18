@@ -147,6 +147,85 @@
     ]
   },
   {
+    "ContainingType": "ClipNchic.Api.Controllers.OrderController",
+    "Method": "GetAll",
+    "RelativePath": "Order",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.OrderController",
+    "Method": "Create",
+    "RelativePath": "Order",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "order",
+        "Type": "ClipNchic.DataAccess.Models.Order",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.OrderController",
+    "Method": "Get",
+    "RelativePath": "Order/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.OrderController",
+    "Method": "Update",
+    "RelativePath": "Order/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "order",
+        "Type": "ClipNchic.DataAccess.Models.Order",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.OrderController",
+    "Method": "Delete",
+    "RelativePath": "Order/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ClipNchic.Api.Controllers.ProductController",
     "Method": "Create",
     "RelativePath": "Product/Create",
