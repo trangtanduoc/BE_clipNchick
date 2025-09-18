@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ClipNchic.Api.Controllers;
 
 [ApiController]
-[Route("Product")] // rõ ràng hơn, không phụ thuộc [controller]
+[Route("Product")]
 public class ProductController : ControllerBase
 {
     private readonly ProductService _service;
