@@ -1,4 +1,4 @@
-﻿using ClipNchic.DataAccess.Models;
+﻿﻿using ClipNchic.DataAccess.Models;
 using ClipNchic.DataAccess.Repositories;
 
 namespace ClipNchic.Business.Services
@@ -16,7 +16,7 @@ namespace ClipNchic.Business.Services
         public async Task<Order?> GetOrderAsync(int id) => await _repo.GetByIdAsync(id);
         public async Task<int> CreateOrderAsync(Order order)
         {
-            order.OrderDate = DateTime.UtcNow;
+            order.createDate = DateTime.UtcNow;
             return await _repo.CreateAsync(order);
         }
         public async Task<int> UpdateOrderAsync(Order order) => await _repo.UpdateAsync(order);

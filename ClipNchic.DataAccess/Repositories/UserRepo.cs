@@ -1,4 +1,4 @@
-﻿using ClipNchic.DataAccess.Data;
+﻿﻿using ClipNchic.DataAccess.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +22,11 @@ namespace ClipNchic.DataAccess.Repositories
         }
         public async Task<User?> GetUserByEmailAsync(string email)
         {
-            return await Task.FromResult(_context.Users.FirstOrDefault(u => u.Email == email));
+            return await Task.FromResult(_context.Users.FirstOrDefault(u => u.email == email));
         }
         public async Task<User?> LoginAsync(string email, string password)
         {
-            return await Task.FromResult(_context.Users.FirstOrDefault(u => u.Email == email && u.PasswordHash == password));
+            return await Task.FromResult(_context.Users.FirstOrDefault(u => u.email == email && u.password == password));
         }
     }
 }

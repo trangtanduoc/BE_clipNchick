@@ -16,43 +16,43 @@ namespace ClipNchic.DataAccess.Repositories
         {
             return await _context.Orders
                 .Include(o => o.OrderDetails)
-                .ThenInclude(od => od.Design)
-                .FirstOrDefaultAsync(o => o.UserId == userId && o.Status == "Cart");
+                .ThenInclude(od => od.Product)
+                .FirstOrDefaultAsync(o => o.userId == userId && o.status == "Cart");
         }
 
         public async Task<Order> CreateCartAsync(int userId)
         {
             var cart = new Order
             {
-                UserId = userId,
-                Status = "Cart",
-                OrderDate = DateTime.UtcNow,
-                TotalAmount = 0
+                userId = userId,
+                status = "Cart",
+                createDate = DateTime.UtcNow,
+                totalPrice = 0
             };
             _context.Orders.Add(cart);
             await _context.SaveChangesAsync();
             return cart;
         }
 
-        public async Task AddOrUpdateCartItemAsync(int cartId, int designId, int quantity, decimal price)
+        public async Task AddOrUpdateCartItemAsync(int cartId, int productId, int quantity, decimal price)
         {
-            var detail = await _context.OrderDetails.FirstOrDefaultAsync(od => od.OrderId == cartId && od.DesignId == designId);
+            var detail = await _context.OrderDetails.FirstOrDefaultAsync(od => od.orderId == cartId && od.productId == productId);
             if (detail == null)
             {
-                detail = new OrderDetail { OrderId = cartId, DesignId = designId, Quantity = quantity, Price = price };
+                detail = new OrderDetail { orderId = cartId, productId = productId, quantity = quantity, price = price };
                 _context.OrderDetails.Add(detail);
             }
             else
             {
-                detail.Quantity = quantity;
-                detail.Price = price;
+                detail.quantity = quantity;
+                detail.price = price;
             }
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoveCartItemAsync(int cartId, int designId)
+        public async Task RemoveCartItemAsync(int cartId, int productId)
         {
-            var detail = await _context.OrderDetails.FirstOrDefaultAsync(od => od.OrderId == cartId && od.DesignId == designId);
+            var detail = await _context.OrderDetails.FirstOrDefaultAsync(od => od.orderId == cartId && od.productId == productId);
             if (detail != null)
             {
                 _context.OrderDetails.Remove(detail);
@@ -60,14 +60,14 @@ namespace ClipNchic.DataAccess.Repositories
             }
         }
 
-        public async Task CheckoutAsync(int cartId, decimal totalAmount)
+        public async Task CheckoutAsync(int cartId, decimal totalPrice)
         {
             var cart = await _context.Orders.FindAsync(cartId);
-            if (cart != null && cart.Status == "Cart")
+            if (cart != null && cart.status == "Cart")
             {
-                cart.Status = "Completed";
-                cart.TotalAmount = totalAmount;
-                cart.OrderDate = DateTime.UtcNow;
+                cart.status = "Completed";
+                cart.totalPrice = totalPrice;
+                cart.createDate = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
             }
         }

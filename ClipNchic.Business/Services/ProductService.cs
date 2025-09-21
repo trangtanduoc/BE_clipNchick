@@ -1,4 +1,4 @@
-﻿using ClipNchic.DataAccess.Models;
+﻿﻿using ClipNchic.DataAccess.Models;
 using ClipNchic.DataAccess.Repositories;
 
 namespace ClipNchic.Business.Services
@@ -17,7 +17,7 @@ namespace ClipNchic.Business.Services
 
         public Task<int> CreateProductAsync(Product product)
         {
-            product.CreatedAt = DateTime.UtcNow;
+            product.createDate = DateTime.UtcNow;
             return _repo.AddAsync(product);
         }
 

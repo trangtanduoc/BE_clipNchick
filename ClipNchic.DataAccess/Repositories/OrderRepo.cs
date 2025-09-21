@@ -1,4 +1,4 @@
-﻿using ClipNchic.DataAccess.Data;
+﻿﻿using ClipNchic.DataAccess.Data;
 using ClipNchic.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,7 +28,7 @@ namespace ClipNchic.DataAccess.Repositories
                 .Include(o => o.User)
                 .Include(o => o.OrderDetails)
                 .ThenInclude(od => od.Product)
-                .FirstOrDefaultAsync(o => o.OrderId == id);
+                .FirstOrDefaultAsync(o => o.id == id);
         }
 
         public async Task<int> CreateAsync(Order order)

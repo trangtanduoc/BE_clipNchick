@@ -32,14 +32,14 @@ namespace ClipNchic.Api.Controllers
         [HttpPost("AddOrUpdateCartItem/{cartId}")]
         public async Task<IActionResult> AddOrUpdateCartItem(int cartId, [FromBody] CartItemDto dto)
         {
-            await _cartService.AddOrUpdateCartItemAsync(cartId, dto.DesignId, dto.Quantity, dto.Price);
+            await _cartService.AddOrUpdateCartItemAsync(cartId, dto.ProductId, dto.Quantity, dto.Price);
             return Ok();
         }
 
-        [HttpDelete("{cartId}/item/{designId}")]
-        public async Task<IActionResult> RemoveCartItem(int cartId, int designId)
+        [HttpDelete("{cartId}/item/{productId}")]
+        public async Task<IActionResult> RemoveCartItem(int cartId, int productId)
         {
-            await _cartService.RemoveCartItemAsync(cartId, designId);
+            await _cartService.RemoveCartItemAsync(cartId, productId);
             return Ok();
         }
 
@@ -53,7 +53,7 @@ namespace ClipNchic.Api.Controllers
 }
 public class CartItemDto
 {
-    public int DesignId { get; set; }
+    public int ProductId { get; set; }
     public int Quantity { get; set; }
     public decimal Price { get; set; }
 }
