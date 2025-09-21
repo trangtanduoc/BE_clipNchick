@@ -44,7 +44,7 @@ public class ProductController : ControllerBase
     [HttpPut("Update/{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] Product product)
     {
-        if (id != product.ProductId) return BadRequest(new { message = "Product ID mismatch" });
+        if (id != product.id) return BadRequest(new { message = "Product ID mismatch" });
 
         var result = await _service.UpdateProductAsync(product);
         if (result > 0) return Ok(new { message = "Product updated successfully" });

@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,12 +27,12 @@ namespace ClipNchic.Business.Services
 
         public async Task<int> RegisterUserAsync(User user)
         {
-            var existingUser = await _userRepo.GetUserByEmailAsync(user.Email);
+            var existingUser = await _userRepo.GetUserByEmailAsync(user.email);
             if (existingUser != null)
             {
                 throw new Exception("User with this email already exists.");
             }
-            user.CreatedAt = DateTime.UtcNow;
+            user.createDate = DateTime.UtcNow;
             return await _userRepo.AddUserAsync(user);
         }
 
@@ -44,9 +44,9 @@ namespace ClipNchic.Business.Services
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role?.RoleName ?? "User")
+                new Claim(JwtRegisteredClaimNames.Sub, user.id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.email ?? ""),
+                new Claim(ClaimTypes.Role, "User") // Default role since Role table is removed
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_jwtKey));

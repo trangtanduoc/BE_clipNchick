@@ -1,4 +1,4 @@
-﻿using ClipNchic.DataAccess.Data;
+﻿﻿using ClipNchic.DataAccess.Data;
 using ClipNchic.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,12 +14,16 @@ namespace ClipNchic.DataAccess.Repositories
 
         public async Task<Product?> GetByIdAsync(int id) =>
             await _context.Products
-                .Include(p => p.Model3D) // load model 3D nếu có
-                .FirstOrDefaultAsync(p => p.ProductId == id);
+                .Include(p => p.Model) // load model if available
+                .Include(p => p.Base) // load base if available
+                .Include(p => p.Collection) // load collection if available
+                .FirstOrDefaultAsync(p => p.id == id);
 
         public async Task<IEnumerable<Product>> GetAllAsync() =>
             await _context.Products
-                .Include(p => p.Model3D)
+                .Include(p => p.Model)
+                .Include(p => p.Base)
+                .Include(p => p.Collection)
                 .ToListAsync();
 
         public async Task<int> AddAsync(Product product)

@@ -3,226 +3,327 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClipNchic.DataAccess.Models;
 
-[Table("Roles")]
-public class Role
-{
-    [Key]
-    public int RoleId { get; set; }
-
-    [Required, MaxLength(50)]
-    public string RoleName { get; set; } = string.Empty;
-
-    public ICollection<User> Users { get; set; } = new List<User>();
-}
-
-[Table("Users")]
+[Table("User")]
 public class User
 {
     [Key]
-    public int UserId { get; set; }
-
-    [MaxLength(100)]
-    public string? FullName { get; set; }
-
-    [Required, MaxLength(100)]
-    public string Email { get; set; } = string.Empty;
-
-    [Required, MaxLength(255)]
-    public string PasswordHash { get; set; } = string.Empty;
-
-    public int? RoleId { get; set; }
-    public Role? Role { get; set; }
-
-    public DateTime CreatedAt { get; set; }
-
-    public ICollection<Order> Orders { get; set; } = new List<Order>();
-    public ICollection<CustomDesign> CustomDesigns { get; set; } = new List<CustomDesign>();
-}
-
-[Table("ProductModels")]
-public class ProductModel
-{
-    [Key]
-    public int Model3DId { get; set; }
+    public int id { get; set; }
 
     [MaxLength(255)]
-    public string? FileName { get; set; }
+    public string? email { get; set; }
 
-    [MaxLength(500)]
-    public string? FilePath { get; set; }
+    [MaxLength(255)]
+    public string? password { get; set; }
 
     [MaxLength(50)]
-    public string? FileType { get; set; }
+    public string? phone { get; set; }
+
+    public DateTime? birthday { get; set; }
+
+    [MaxLength(255)]
+    public string? name { get; set; }
+
+    [MaxLength(500)]
+    public string? address { get; set; }
+
+    [MaxLength(255)]
+    public string? image { get; set; }
+
+    public DateTime? createDate { get; set; }
+
+    [MaxLength(50)]
+    public string? status { get; set; }
 
     public ICollection<Product> Products { get; set; } = new List<Product>();
-    public ICollection<CustomDesign> CustomDesigns { get; set; } = new List<CustomDesign>();
+    public ICollection<Order> Orders { get; set; } = new List<Order>();
 }
 
-[Table("Products")]
+[Table("Collection")]
+public class Collection
+{
+    [Key]
+    public int id { get; set; }
+
+    [MaxLength(255)]
+    public string? name { get; set; }
+
+    [MaxLength(500)]
+    public string? descript { get; set; }
+
+    public ICollection<Product> Products { get; set; } = new List<Product>();
+    public ICollection<BlindBox> BlindBoxes { get; set; } = new List<BlindBox>();
+}
+
+[Table("Model")]
+public class Model
+{
+    [Key]
+    public int id { get; set; }
+
+    [MaxLength(255)]
+    public string? name { get; set; }
+
+    [MaxLength(255)]
+    public string? address { get; set; }
+
+    public ICollection<Base> Bases { get; set; } = new List<Base>();
+    public ICollection<Charm> Charms { get; set; } = new List<Charm>();
+    public ICollection<Product> Products { get; set; } = new List<Product>();
+}
+
+[Table("Image")]
+public class Image
+{
+    [Key]
+    public int id { get; set; }
+
+    [MaxLength(255)]
+    public string? name { get; set; }
+
+    [MaxLength(255)]
+    public string? address { get; set; }
+
+    public ICollection<Base> Bases { get; set; } = new List<Base>();
+    public ICollection<Charm> Charms { get; set; } = new List<Charm>();
+    public ICollection<ProductPic> ProductPics { get; set; } = new List<ProductPic>();
+    public ICollection<BlindPic> BlindPics { get; set; } = new List<BlindPic>();
+}
+
+[Table("Base")]
+public class Base
+{
+    [Key]
+    public int id { get; set; }
+
+    [MaxLength(255)]
+    public string? name { get; set; }
+
+    [MaxLength(100)]
+    public string? color { get; set; }
+
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal? price { get; set; }
+
+    public int? imageId { get; set; }
+    public Image? Image { get; set; }
+
+    public int? modelId { get; set; }
+    public Model? Model { get; set; }
+
+    public ICollection<Product> Products { get; set; } = new List<Product>();
+}
+
+[Table("Charm")]
+public class Charm
+{
+    [Key]
+    public int id { get; set; }
+
+    [MaxLength(255)]
+    public string? name { get; set; }
+
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal? price { get; set; }
+
+    public int? imageId { get; set; }
+    public Image? Image { get; set; }
+
+    public int? modelId { get; set; }
+    public Model? Model { get; set; }
+
+    public ICollection<CharmProduct> CharmProducts { get; set; } = new List<CharmProduct>();
+}
+
+[Table("Product")]
 public class Product
 {
     [Key]
-    public int ProductId { get; set; }
+    public int id { get; set; }
 
-    [Required, MaxLength(100)]
-    public string ProductName { get; set; } = string.Empty;
+    public int? collectId { get; set; }
+    public Collection? Collection { get; set; }
 
-    public string? Description { get; set; }
-
-    [Column(TypeName = "decimal(18,2)")]
-    public decimal Price { get; set; }
+    [MaxLength(255)]
+    public string? title { get; set; }
 
     [MaxLength(500)]
-    public string? PreviewImage { get; set; }
+    public string? descript { get; set; }
 
-    public int? Model3DId { get; set; }
-    public ProductModel? Model3D { get; set; }
+    public int? baseId { get; set; }
+    public Base? Base { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal? price { get; set; }
 
-    public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
-    public ICollection<CustomDesign> CustomDesigns { get; set; } = new List<CustomDesign>();
-}
-
-[Table("Materials")]
-public class Material
-{
-    [Key]
-    public int MaterialId { get; set; }
-
-    [MaxLength(100)]
-    public string? MaterialName { get; set; }
-
-    public string? Description { get; set; }
-
-    [MaxLength(20)]
-    public string? ColorCode { get; set; }
-
-    public ICollection<CustomDesign> CustomDesigns { get; set; } = new List<CustomDesign>();
-}
-
-[Table("Textures")]
-public class Texture
-{
-    [Key]
-    public int TextureId { get; set; }
-
-    [MaxLength(100)]
-    public string? TextureName { get; set; }
-
-    public string? Description { get; set; }
-
-    [MaxLength(500)]
-    public string? TexturePath { get; set; }
-
-    public ICollection<CustomDesign> CustomDesigns { get; set; } = new List<CustomDesign>();
-}
-
-[Table("Accessories")]
-public class Accessory
-{
-    [Key]
-    public int AccessoryId { get; set; }
-
-    [MaxLength(100)]
-    public string? AccessoryName { get; set; }
-
-    public string? Description { get; set; }
-
-    [MaxLength(500)]
-    public string? AccessoryImage { get; set; }
-
-    [Column(TypeName = "decimal(18,2)")]
-    public decimal Price { get; set; }
-
-    public ICollection<CustomDesignAccessory> CustomDesignAccessories { get; set; } = new List<CustomDesignAccessory>();
-}
-
-[Table("CustomDesigns")]
-public class CustomDesign
-{
-    [Key]
-    public int DesignId { get; set; }
-
-    public int? UserId { get; set; }
+    public int? userId { get; set; }
     public User? User { get; set; }
 
-    public int? BaseProductId { get; set; }
-    public Product? BaseProduct { get; set; }
+    public int? stock { get; set; }
 
-    public int? MaterialId { get; set; }
-    public Material? Material { get; set; }
+    public int? modelId { get; set; }
+    public Model? Model { get; set; }
 
-    public int? TextureId { get; set; }
-    public Texture? Texture { get; set; }
+    public DateTime? createDate { get; set; }
 
-    public int? Model3DId { get; set; }
-    public ProductModel? Model3D { get; set; }
+    [MaxLength(50)]
+    public string? status { get; set; }
 
-    [MaxLength(500)]
-    public string? PreviewImage { get; set; }
-
-    public string? Description { get; set; }
-
-    public bool IsPublic { get; set; }
-
-    public DateTime CreatedAt { get; set; }
-
-    public ICollection<CustomDesignAccessory> CustomDesignAccessories { get; set; } = new List<CustomDesignAccessory>();
+    public ICollection<CharmProduct> CharmProducts { get; set; } = new List<CharmProduct>();
+    public ICollection<ProductPic> ProductPics { get; set; } = new List<ProductPic>();
     public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }
 
-[Table("CustomDesignAccessories")]
-public class CustomDesignAccessory
+[Table("CharmProduct")]
+public class CharmProduct
 {
-    public int DesignId { get; set; }
-    public CustomDesign? Design { get; set; }
+    [Key]
+    public int id { get; set; }
 
-    public int AccessoryId { get; set; }
-    public Accessory? Accessory { get; set; }
+    public int? productId { get; set; }
+    public Product? Product { get; set; }
 
-    public int Quantity { get; set; } = 1;
+    public int? charmId { get; set; }
+    public Charm? Charm { get; set; }
 }
 
-[Table("Orders")]
+[Table("ProductPic")]
+public class ProductPic
+{
+    [Key]
+    public int id { get; set; }
+
+    public int? productId { get; set; }
+    public Product? Product { get; set; }
+
+    public int? imageId { get; set; }
+    public Image? Image { get; set; }
+}
+
+[Table("BlindBox")]
+public class BlindBox
+{
+    [Key]
+    public int id { get; set; }
+
+    public int? collectId { get; set; }
+    public Collection? Collection { get; set; }
+
+    [MaxLength(255)]
+    public string? name { get; set; }
+
+    [MaxLength(500)]
+    public string? descript { get; set; }
+
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal? price { get; set; }
+
+    public int? stock { get; set; }
+
+    [MaxLength(50)]
+    public string? status { get; set; }
+
+    public ICollection<BlindPic> BlindPics { get; set; } = new List<BlindPic>();
+}
+
+[Table("BlindPic")]
+public class BlindPic
+{
+    [Key]
+    public int id { get; set; }
+
+    public int? blindId { get; set; }
+    public BlindBox? BlindBox { get; set; }
+
+    public int? imageId { get; set; }
+    public Image? Image { get; set; }
+}
+
+[Table("Ship")]
+public class Ship
+{
+    [Key]
+    public int id { get; set; }
+
+    [MaxLength(255)]
+    public string? name { get; set; }
+
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal? price { get; set; }
+}
+
+[Table("Voucher")]
+public class Voucher
+{
+    [Key]
+    public int id { get; set; }
+
+    [MaxLength(255)]
+    public string? name { get; set; }
+
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal? discount { get; set; }
+
+    public int? stock { get; set; }
+
+    public DateTime? start { get; set; }
+
+    public DateTime? end { get; set; }
+}
+
+[Table("Order")]
 public class Order
 {
     [Key]
-    public int OrderId { get; set; }
+    public int id { get; set; }
 
-    public int? UserId { get; set; }
+    public int? userId { get; set; }
     public User? User { get; set; }
 
-    public DateTime OrderDate { get; set; }
+    [MaxLength(50)]
+    public string? phone { get; set; }
 
-    [Column(TypeName = "decimal(18,2)")]
-    public decimal TotalAmount { get; set; }
+    [MaxLength(500)]
+    public string? address { get; set; }
+
+    [MaxLength(255)]
+    public string? name { get; set; }
+
+    public DateTime? createDate { get; set; }
+
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal? totalPrice { get; set; }
+
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal? shipPrice { get; set; }
+
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal? payPrice { get; set; }
 
     [MaxLength(50)]
-    public string? Status { get; set; }
+    public string? status { get; set; }
+
+    [MaxLength(100)]
+    public string? payMethod { get; set; }
 
     public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }
 
-[Table("OrderDetails")]
+[Table("OrderDetail")]
 public class OrderDetail
 {
     [Key]
-    public int OrderDetailId { get; set; }
+    public int id { get; set; }
 
-    public int? OrderId { get; set; }
+    public int? orderId { get; set; }
     public Order? Order { get; set; }
 
-    public int? ProductId { get; set; }
+    public int? productId { get; set; }
     public Product? Product { get; set; }
 
-    public int? DesignId { get; set; }
-    public CustomDesign? Design { get; set; }
+    public int? quantity { get; set; }
 
-    public int Quantity { get; set; }
-
-    [Column(TypeName = "decimal(18,2)")]
-    public decimal Price { get; set; }
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal? price { get; set; }
 }
 
 
