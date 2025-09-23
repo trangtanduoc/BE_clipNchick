@@ -9,7 +9,7 @@ GO
 -- Table: User
 -- ========================
 CREATE TABLE [User] (
-    id INT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     email NVARCHAR(255),
     password NVARCHAR(255),
     phone NVARCHAR(50),
@@ -17,7 +17,7 @@ CREATE TABLE [User] (
     name NVARCHAR(255),
     address NVARCHAR(500),
     image NVARCHAR(255),
-    createDate DATE,
+    createDate DATETIME2,
     status NVARCHAR(50)
 );
 
@@ -25,7 +25,7 @@ CREATE TABLE [User] (
 -- Table: Collection
 -- ========================
 CREATE TABLE Collection (
-    id INT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(255),
     descript NVARCHAR(500)
 );
@@ -34,7 +34,7 @@ CREATE TABLE Collection (
 -- Table: Model
 -- ========================
 CREATE TABLE Model (
-    id INT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(255),
     address NVARCHAR(255)
 );
@@ -43,7 +43,7 @@ CREATE TABLE Model (
 -- Table: Image
 -- ========================
 CREATE TABLE Image (
-    id INT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(255),
     address NVARCHAR(255)
 );
@@ -52,7 +52,7 @@ CREATE TABLE Image (
 -- Table: Base
 -- ========================
 CREATE TABLE Base (
-    id INT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(255),
     color NVARCHAR(100),
     price DECIMAL(10,2),
@@ -64,7 +64,7 @@ CREATE TABLE Base (
 -- Table: Charm
 -- ========================
 CREATE TABLE Charm (
-    id INT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(255),
     price DECIMAL(10,2),
     imageId INT NULL FOREIGN KEY REFERENCES Image(id),
@@ -75,7 +75,7 @@ CREATE TABLE Charm (
 -- Table: Product
 -- ========================
 CREATE TABLE Product (
-    id INT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     collectId INT NULL FOREIGN KEY REFERENCES Collection(id),
     title NVARCHAR(255),
     descript NVARCHAR(500),
@@ -84,7 +84,7 @@ CREATE TABLE Product (
     userId INT NULL FOREIGN KEY REFERENCES [User](id),
     stock INT,
     modelId INT NULL FOREIGN KEY REFERENCES Model(id),
-    createDate DATE,
+    createDate DATETIME2,
     status NVARCHAR(50)
 );
 
@@ -92,7 +92,7 @@ CREATE TABLE Product (
 -- Table: CharmProduct (Many-to-Many for Product & Charm)
 -- ========================
 CREATE TABLE CharmProduct (
-    id INT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     productId INT NULL FOREIGN KEY REFERENCES Product(id),
     charmId INT NULL FOREIGN KEY REFERENCES Charm(id)
 );
@@ -101,7 +101,7 @@ CREATE TABLE CharmProduct (
 -- Table: ProductPic
 -- ========================
 CREATE TABLE ProductPic (
-    id INT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     productId INT NULL FOREIGN KEY REFERENCES Product(id),
     imageId INT NULL FOREIGN KEY REFERENCES Image(id)
 );
@@ -110,7 +110,7 @@ CREATE TABLE ProductPic (
 -- Table: BlindBox
 -- ========================
 CREATE TABLE BlindBox (
-    id INT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     collectId INT NULL FOREIGN KEY REFERENCES Collection(id),
     name NVARCHAR(255),
     descript NVARCHAR(500),
@@ -123,7 +123,7 @@ CREATE TABLE BlindBox (
 -- Table: BlindPic
 -- ========================
 CREATE TABLE BlindPic (
-    id INT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     blindId INT NULL FOREIGN KEY REFERENCES BlindBox(id),
     imageId INT NULL FOREIGN KEY REFERENCES Image(id)
 );
@@ -132,7 +132,7 @@ CREATE TABLE BlindPic (
 -- Table: Ship
 -- ========================
 CREATE TABLE Ship (
-    id INT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(255),
     price DECIMAL(10,2)
 );
@@ -141,24 +141,25 @@ CREATE TABLE Ship (
 -- Table: Voucher
 -- ========================
 CREATE TABLE Voucher (
-    id INT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(255),
     discount DECIMAL(10,2),
     stock INT,
-    start DATE,
-    [end] DATE
+    start DATETIME2,
+    [end] DATETIME2
 );
 
 -- ========================
 -- Table: Order
--- ========================
+-- ======================id = table.Column<int>(type: "int", nullable: false)
+    .Annotation("SqlServer:Identity", "1, 1"),  // ✅ Auto-increment enabled
 CREATE TABLE [Order] (
-    id INT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     userId INT NULL FOREIGN KEY REFERENCES [User](id),
     phone NVARCHAR(50),
     address NVARCHAR(500),
     name NVARCHAR(255),
-    createDate DATE,
+    createDate DATETIME2,
     totalPrice DECIMAL(10,2),
     shipPrice DECIMAL(10,2),
     payPrice DECIMAL(10,2),
@@ -170,7 +171,7 @@ CREATE TABLE [Order] (
 -- Table: OrderDetail
 -- ========================
 CREATE TABLE OrderDetail (
-    id INT PRIMARY KEY,
+    id INT IDENTITY(1,1) PRIMARY KEY,
     orderId INT NULL FOREIGN KEY REFERENCES [Order](id),
     productId INT NULL FOREIGN KEY REFERENCES Product(id),
     quantity INT,
