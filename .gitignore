@@ -1,7 +1,42 @@
+# Build output
 bin/
 obj/
+
+# Visual Studio
 .vs/
 *.user
 *.suo
+
+# VS Code
 .vscode/
+
+# User secrets and local settings
 appsettings.Development.json
+appsettings.Local.json
+
+# Project-level config
+/ClipNchic.Api/appsettings.json
+
+# Ignore all build output for all target frameworks
+**/bin/
+**/obj/
+
+# Ignore temp files
+*.tmp
+*.cache
+*.log
+
+# Ignore NuGet packages
+*.nupkg
+packages/
+.nuget/
+
+# Ignore Rider IDE files
+.idea/
+
+# Ignore test results
+TestResults/
+*.trx
+
+# Ignore publish output
+publish/

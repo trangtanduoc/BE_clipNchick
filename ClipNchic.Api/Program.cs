@@ -78,6 +78,8 @@ builder.Services.AddScoped<UserRepo>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ClipNchic.DataAccess.Repositories.CartRepo>();
 builder.Services.AddScoped<ClipNchic.Business.Services.CartService>();
+builder.Services.AddScoped<ShipRepo>();
+builder.Services.AddScoped<ShipService>();
 
 var app = builder.Build();
 
