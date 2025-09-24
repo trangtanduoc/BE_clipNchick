@@ -5,3 +5,4 @@ obj/
 *.suo
 .vscode/
 appsettings.Development.json
+/ClipNchic.Api/appsettings.json
