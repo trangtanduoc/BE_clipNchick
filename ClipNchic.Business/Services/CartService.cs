@@ -17,11 +17,11 @@ namespace ClipNchic.Business.Services
         public async Task<Order> CreateCartAsync(int userId)
             => await _cartRepo.CreateCartAsync(userId);
 
-        public async Task AddOrUpdateCartItemAsync(int cartId, int designId, int quantity, decimal price)
-            => await _cartRepo.AddOrUpdateCartItemAsync(cartId, designId, quantity, price);
+        public async Task AddOrUpdateCartItemAsync(int cartId, int productId, int quantity, decimal price)
+            => await _cartRepo.AddOrUpdateCartItemAsync(cartId, productId, quantity, price);
 
-        public async Task RemoveCartItemAsync(int cartId, int designId)
-            => await _cartRepo.RemoveCartItemAsync(cartId, designId);
+        public async Task RemoveCartItemAsync(int cartId, int productId)
+            => await _cartRepo.RemoveCartItemAsync(cartId, productId);
 
         public async Task CheckoutAsync(int cartId, decimal totalAmount)
             => await _cartRepo.CheckoutAsync(cartId, totalAmount);

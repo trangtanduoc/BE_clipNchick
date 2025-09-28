@@ -41,7 +41,7 @@ namespace ClipNchic.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] Order order)
         {
-            if (id != order.OrderId) return BadRequest(new { message = "Order ID mismatch" });
+            if (id != order.id) return BadRequest(new { message = "Order ID mismatch" });
 
             var result = await _service.UpdateOrderAsync(order);
             if (result > 0) return Ok(new { message = "Order updated successfully" });

@@ -1,106 +1,179 @@
-CREATE DATABASE clipNchic;
+-- Create Database
+CREATE DATABASE ClipNChic;
 GO
 
-USE clipNchic;
+USE ClipNChic;
 GO
 
--- Roles
-CREATE TABLE Roles (
-    RoleId INT PRIMARY KEY IDENTITY(1,1),
-    RoleName NVARCHAR(50) NOT NULL
+-- ========================
+-- Table: User
+-- ========================
+CREATE TABLE [User] (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    email NVARCHAR(255),
+    password NVARCHAR(255),
+    phone NVARCHAR(50),
+    birthday DATE,
+    name NVARCHAR(255),
+    address NVARCHAR(500),
+    image NVARCHAR(255),
+    createDate DATETIME2,
+    status NVARCHAR(50)
 );
 
--- Users
-CREATE TABLE Users (
-    UserId INT PRIMARY KEY IDENTITY(1,1),
-    FullName NVARCHAR(100),
-    Email NVARCHAR(100) UNIQUE NOT NULL,
-    PasswordHash NVARCHAR(255) NOT NULL,
-    RoleId INT FOREIGN KEY REFERENCES Roles(RoleId),
-    CreatedAt DATETIME DEFAULT GETDATE()
+-- ========================
+-- Table: Collection
+-- ========================
+CREATE TABLE Collection (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name NVARCHAR(255),
+    descript NVARCHAR(500)
 );
 
--- ProductModels (File 3D)
-CREATE TABLE ProductModels (
-    Model3DId INT PRIMARY KEY IDENTITY(1,1),
-    FileName NVARCHAR(255),
-    FilePath NVARCHAR(500),
-    FileType NVARCHAR(50) -- glb, gltf
+-- ========================
+-- Table: Model
+-- ========================
+CREATE TABLE Model (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name NVARCHAR(255),
+    address NVARCHAR(255)
 );
 
--- Products
-CREATE TABLE Products (
-    ProductId INT PRIMARY KEY IDENTITY(1,1),
-    ProductName NVARCHAR(100) NOT NULL,
-    Description NVARCHAR(MAX), -- mô tả sản phẩm
-    Price DECIMAL(18,2) NOT NULL,
-    PreviewImage NVARCHAR(500), -- ảnh preview sản phẩm
-    Model3DId INT FOREIGN KEY REFERENCES ProductModels(Model3DId),
-    CreatedAt DATETIME DEFAULT GETDATE()
+-- ========================
+-- Table: Image
+-- ========================
+CREATE TABLE Image (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name NVARCHAR(255),
+    address NVARCHAR(255)
 );
 
--- Materials (Màu sắc / Chất liệu)
-CREATE TABLE Materials (
-    MaterialId INT PRIMARY KEY IDENTITY(1,1),
-    MaterialName NVARCHAR(100),
-    Description NVARCHAR(MAX), -- mô tả chất liệu
-    ColorCode NVARCHAR(20) -- mã HEX (#FFFFFF)
+-- ========================
+-- Table: Base
+-- ========================
+CREATE TABLE Base (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name NVARCHAR(255),
+    color NVARCHAR(100),
+    price DECIMAL(10,2),
+    imageId INT NULL FOREIGN KEY REFERENCES Image(id),
+    modelId INT NULL FOREIGN KEY REFERENCES Model(id)
 );
 
--- Textures (Hoạ tiết)
-CREATE TABLE Textures (
-    TextureId INT PRIMARY KEY IDENTITY(1,1),
-    TextureName NVARCHAR(100),
-    Description NVARCHAR(MAX), -- mô tả họa tiết
-    TexturePath NVARCHAR(500) -- đường dẫn ảnh texture
+-- ========================
+-- Table: Charm
+-- ========================
+CREATE TABLE Charm (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name NVARCHAR(255),
+    price DECIMAL(10,2),
+    imageId INT NULL FOREIGN KEY REFERENCES Image(id),
+    modelId INT NULL FOREIGN KEY REFERENCES Model(id)
 );
 
--- Accessories (Phụ kiện đính kèm)
-CREATE TABLE Accessories (
-    AccessoryId INT PRIMARY KEY IDENTITY(1,1),
-    AccessoryName NVARCHAR(100),
-    Description NVARCHAR(MAX), -- mô tả phụ kiện
-    AccessoryImage NVARCHAR(500), -- ảnh preview phụ kiện
-    Price DECIMAL(18,2) DEFAULT 0
+-- ========================
+-- Table: Product
+-- ========================
+CREATE TABLE Product (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    collectId INT NULL FOREIGN KEY REFERENCES Collection(id),
+    title NVARCHAR(255),
+    descript NVARCHAR(500),
+    baseId INT NULL FOREIGN KEY REFERENCES Base(id),
+    price DECIMAL(10,2),
+    userId INT NULL FOREIGN KEY REFERENCES [User](id),
+    stock INT,
+    modelId INT NULL FOREIGN KEY REFERENCES Model(id),
+    createDate DATETIME2,
+    status NVARCHAR(50)
 );
 
--- CustomDesigns (Thiết kế của khách)
-CREATE TABLE CustomDesigns (
-    DesignId INT PRIMARY KEY IDENTITY(1,1),
-    UserId INT FOREIGN KEY REFERENCES Users(UserId),
-    BaseProductId INT FOREIGN KEY REFERENCES Products(ProductId),
-    MaterialId INT FOREIGN KEY REFERENCES Materials(MaterialId),
-    TextureId INT FOREIGN KEY REFERENCES Textures(TextureId),
-    Model3DId INT FOREIGN KEY REFERENCES ProductModels(Model3DId), -- model riêng cho custom
-    PreviewImage NVARCHAR(500), -- ảnh preview custom
-    Description NVARCHAR(MAX), -- mô tả thiết kế
-    IsPublic BIT DEFAULT 0, -- 1 = public, 0 = private
-    CreatedAt DATETIME DEFAULT GETDATE()
+-- ========================
+-- Table: CharmProduct (Many-to-Many for Product & Charm)
+-- ========================
+CREATE TABLE CharmProduct (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    productId INT NULL FOREIGN KEY REFERENCES Product(id),
+    charmId INT NULL FOREIGN KEY REFERENCES Charm(id)
 );
 
--- CustomDesignAccessories (nhiều Accessories cho 1 thiết kế, có số lượng)
-CREATE TABLE CustomDesignAccessories (
-    DesignId INT FOREIGN KEY REFERENCES CustomDesigns(DesignId),
-    AccessoryId INT FOREIGN KEY REFERENCES Accessories(AccessoryId),
-    Quantity INT NOT NULL DEFAULT 1,
-    PRIMARY KEY (DesignId, AccessoryId)
+-- ========================
+-- Table: ProductPic
+-- ========================
+CREATE TABLE ProductPic (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    productId INT NULL FOREIGN KEY REFERENCES Product(id),
+    imageId INT NULL FOREIGN KEY REFERENCES Image(id)
 );
 
--- Orders
-CREATE TABLE Orders (
-    OrderId INT PRIMARY KEY IDENTITY(1,1),
-    UserId INT FOREIGN KEY REFERENCES Users(UserId),
-    OrderDate DATETIME DEFAULT GETDATE(),
-    TotalAmount DECIMAL(18,2) NOT NULL,
-    Status NVARCHAR(50) DEFAULT 'Pending'
+-- ========================
+-- Table: BlindBox
+-- ========================
+CREATE TABLE BlindBox (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    collectId INT NULL FOREIGN KEY REFERENCES Collection(id),
+    name NVARCHAR(255),
+    descript NVARCHAR(500),
+    price DECIMAL(10,2),
+    stock INT,
+    status NVARCHAR(50)
 );
 
--- OrderDetails
-CREATE TABLE OrderDetails (
-    OrderDetailId INT PRIMARY KEY IDENTITY(1,1),
-    OrderId INT FOREIGN KEY REFERENCES Orders(OrderId),
-    ProductId INT NULL FOREIGN KEY REFERENCES Products(ProductId),
-    DesignId INT NULL FOREIGN KEY REFERENCES CustomDesigns(DesignId),
-    Quantity INT NOT NULL,
-    Price DECIMAL(18,2) NOT NULL
+-- ========================
+-- Table: BlindPic
+-- ========================
+CREATE TABLE BlindPic (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    blindId INT NULL FOREIGN KEY REFERENCES BlindBox(id),
+    imageId INT NULL FOREIGN KEY REFERENCES Image(id)
+);
+
+-- ========================
+-- Table: Ship
+-- ========================
+CREATE TABLE Ship (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name NVARCHAR(255),
+    price DECIMAL(10,2)
+);
+
+-- ========================
+-- Table: Voucher
+-- ========================
+CREATE TABLE Voucher (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name NVARCHAR(255),
+    discount DECIMAL(10,2),
+    stock INT,
+    start DATETIME2,
+    [end] DATETIME2
+);
+
+-- ========================
+-- Table: Order
+-- ======================id = table.Column<int>(type: "int", nullable: false)
+    .Annotation("SqlServer:Identity", "1, 1"),  // ✅ Auto-increment enabled
+CREATE TABLE [Order] (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    userId INT NULL FOREIGN KEY REFERENCES [User](id),
+    phone NVARCHAR(50),
+    address NVARCHAR(500),
+    name NVARCHAR(255),
+    createDate DATETIME2,
+    totalPrice DECIMAL(10,2),
+    shipPrice DECIMAL(10,2),
+    payPrice DECIMAL(10,2),
+    status NVARCHAR(50),
+    payMethod NVARCHAR(100)
+);
+
+-- ========================
+-- Table: OrderDetail
+-- ========================
+CREATE TABLE OrderDetail (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    orderId INT NULL FOREIGN KEY REFERENCES [Order](id),
+    productId INT NULL FOREIGN KEY REFERENCES Product(id),
+    quantity INT,
+    price DECIMAL(10,2)
 );

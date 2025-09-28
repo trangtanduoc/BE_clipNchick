@@ -32,9 +32,9 @@ public class AuthController : ControllerBase
         {
             var user = new User
             {
-                FullName = request.FullName,
-                PasswordHash = request.Password,
-                Email = request.Email
+                name = request.FullName,
+                password = request.Password,
+                email = request.Email
             };
             var userId = await _userService.RegisterUserAsync(user);
             return Ok(new { message = "Registration successful", userId });

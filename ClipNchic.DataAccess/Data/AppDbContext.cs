@@ -9,15 +9,19 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Role> Roles => Set<Role>();
     public DbSet<User> Users => Set<User>();
-    public DbSet<ProductModel> ProductModels => Set<ProductModel>();
+    public DbSet<Collection> Collections => Set<Collection>();
+    public DbSet<Model> Models => Set<Model>();
+    public DbSet<Image> Images => Set<Image>();
+    public DbSet<Base> Bases => Set<Base>();
+    public DbSet<Charm> Charms => Set<Charm>();
     public DbSet<Product> Products => Set<Product>();
-    public DbSet<Material> Materials => Set<Material>();
-    public DbSet<Texture> Textures => Set<Texture>();
-    public DbSet<Accessory> Accessories => Set<Accessory>();
-    public DbSet<CustomDesign> CustomDesigns => Set<CustomDesign>();
-    public DbSet<CustomDesignAccessory> CustomDesignAccessories => Set<CustomDesignAccessory>();
+    public DbSet<CharmProduct> CharmProducts => Set<CharmProduct>();
+    public DbSet<ProductPic> ProductPics => Set<ProductPic>();
+    public DbSet<BlindBox> BlindBoxes => Set<BlindBox>();
+    public DbSet<BlindPic> BlindPics => Set<BlindPic>();
+    public DbSet<Ship> Ships => Set<Ship>();
+    public DbSet<Voucher> Vouchers => Set<Voucher>();
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderDetail> OrderDetails => Set<OrderDetail>();
 
@@ -25,85 +29,121 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<User>()
-            .HasOne(u => u.Role)
-            .WithMany(r => r.Users)
-            .HasForeignKey(u => u.RoleId)
-            .OnDelete(DeleteBehavior.NoAction);
-
+        // User relationships
         modelBuilder.Entity<Product>()
-            .HasOne(p => p.Model3D)
-            .WithMany(m => m.Products)
-            .HasForeignKey(p => p.Model3DId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        modelBuilder.Entity<CustomDesign>()
-            .HasOne(cd => cd.User)
-            .WithMany(u => u.CustomDesigns)
-            .HasForeignKey(cd => cd.UserId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        modelBuilder.Entity<CustomDesign>()
-            .HasOne(cd => cd.BaseProduct)
-            .WithMany(p => p.CustomDesigns)
-            .HasForeignKey(cd => cd.BaseProductId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        modelBuilder.Entity<CustomDesign>()
-            .HasOne(cd => cd.Material)
-            .WithMany(m => m.CustomDesigns)
-            .HasForeignKey(cd => cd.MaterialId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        modelBuilder.Entity<CustomDesign>()
-            .HasOne(cd => cd.Texture)
-            .WithMany(t => t.CustomDesigns)
-            .HasForeignKey(cd => cd.TextureId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        modelBuilder.Entity<CustomDesign>()
-            .HasOne(cd => cd.Model3D)
-            .WithMany(m => m.CustomDesigns)
-            .HasForeignKey(cd => cd.Model3DId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        modelBuilder.Entity<CustomDesignAccessory>()
-            .HasKey(cda => new { cda.DesignId, cda.AccessoryId });
-
-        modelBuilder.Entity<CustomDesignAccessory>()
-            .HasOne(cda => cda.Design)
-            .WithMany(cd => cd.CustomDesignAccessories)
-            .HasForeignKey(cda => cda.DesignId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<CustomDesignAccessory>()
-            .HasOne(cda => cda.Accessory)
-            .WithMany(a => a.CustomDesignAccessories)
-            .HasForeignKey(cda => cda.AccessoryId)
+            .HasOne(p => p.User)
+            .WithMany(u => u.Products)
+            .HasForeignKey(p => p.userId)
             .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Order>()
             .HasOne(o => o.User)
             .WithMany(u => u.Orders)
-            .HasForeignKey(o => o.UserId)
+            .HasForeignKey(o => o.userId)
             .OnDelete(DeleteBehavior.NoAction);
 
+        // Collection relationships
+        modelBuilder.Entity<Product>()
+            .HasOne(p => p.Collection)
+            .WithMany(c => c.Products)
+            .HasForeignKey(p => p.collectId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<BlindBox>()
+            .HasOne(bb => bb.Collection)
+            .WithMany(c => c.BlindBoxes)
+            .HasForeignKey(bb => bb.collectId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // Model relationships
+        modelBuilder.Entity<Base>()
+            .HasOne(b => b.Model)
+            .WithMany(m => m.Bases)
+            .HasForeignKey(b => b.modelId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Charm>()
+            .HasOne(c => c.Model)
+            .WithMany(m => m.Charms)
+            .HasForeignKey(c => c.modelId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Product>()
+            .HasOne(p => p.Model)
+            .WithMany(m => m.Products)
+            .HasForeignKey(p => p.modelId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // Image relationships
+        modelBuilder.Entity<Base>()
+            .HasOne(b => b.Image)
+            .WithMany(i => i.Bases)
+            .HasForeignKey(b => b.imageId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Charm>()
+            .HasOne(c => c.Image)
+            .WithMany(i => i.Charms)
+            .HasForeignKey(c => c.imageId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<ProductPic>()
+            .HasOne(pp => pp.Image)
+            .WithMany(i => i.ProductPics)
+            .HasForeignKey(pp => pp.imageId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<BlindPic>()
+            .HasOne(bp => bp.Image)
+            .WithMany(i => i.BlindPics)
+            .HasForeignKey(bp => bp.imageId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // Base relationships
+        modelBuilder.Entity<Product>()
+            .HasOne(p => p.Base)
+            .WithMany(b => b.Products)
+            .HasForeignKey(p => p.baseId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // CharmProduct relationships
+        modelBuilder.Entity<CharmProduct>()
+            .HasOne(cp => cp.Product)
+            .WithMany(p => p.CharmProducts)
+            .HasForeignKey(cp => cp.productId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<CharmProduct>()
+            .HasOne(cp => cp.Charm)
+            .WithMany(c => c.CharmProducts)
+            .HasForeignKey(cp => cp.charmId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // ProductPic relationships
+        modelBuilder.Entity<ProductPic>()
+            .HasOne(pp => pp.Product)
+            .WithMany(p => p.ProductPics)
+            .HasForeignKey(pp => pp.productId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // BlindPic relationships
+        modelBuilder.Entity<BlindPic>()
+            .HasOne(bp => bp.BlindBox)
+            .WithMany(bb => bb.BlindPics)
+            .HasForeignKey(bp => bp.blindId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // OrderDetail relationships
         modelBuilder.Entity<OrderDetail>()
             .HasOne(od => od.Order)
             .WithMany(o => o.OrderDetails)
-            .HasForeignKey(od => od.OrderId)
+            .HasForeignKey(od => od.orderId)
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<OrderDetail>()
             .HasOne(od => od.Product)
             .WithMany(p => p.OrderDetails)
-            .HasForeignKey(od => od.ProductId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        modelBuilder.Entity<OrderDetail>()
-            .HasOne(od => od.Design)
-            .WithMany(cd => cd.OrderDetails)
-            .HasForeignKey(od => od.DesignId)
+            .HasForeignKey(od => od.productId)
             .OnDelete(DeleteBehavior.NoAction);
     }
 }
