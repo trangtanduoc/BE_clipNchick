@@ -1,5 +1,6 @@
 using ClipNchic.DataAccess.Data;
 using ClipNchic.DataAccess.Models;
+using ClipNchic.DataAccess.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClipNchic.DataAccess.Repositories

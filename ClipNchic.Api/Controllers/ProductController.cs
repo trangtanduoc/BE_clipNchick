@@ -1,5 +1,6 @@
 ﻿using ClipNchic.Business.Services;
 using ClipNchic.DataAccess.Models;
+using ClipNchic.DataAccess.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClipNchic.Api.Controllers;
@@ -33,7 +34,7 @@ public class ProductController : ControllerBase
 
     // POST api/products/create
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] Product product)
+    public async Task<IActionResult> Create([FromBody] ProductDto product)
     {
         var result = await _service.CreateProductAsync(product);
         if (result > 0) return Ok(new { message = "Product created successfully" });

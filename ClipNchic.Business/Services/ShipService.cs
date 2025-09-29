@@ -1,4 +1,5 @@
 using ClipNchic.DataAccess.Models;
+using ClipNchic.DataAccess.Models.DTO;
 using ClipNchic.DataAccess.Repositories;
 
 namespace ClipNchic.Business.Services
