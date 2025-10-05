@@ -1,4 +1,4 @@
-﻿﻿using ClipNchic.DataAccess.Data;
+using ClipNchic.DataAccess.Data;
 using ClipNchic.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,48 +7,110 @@ namespace ClipNchic.DataAccess.Repositories
     public class OrderRepo
     {
         private readonly AppDbContext _context;
-
         public OrderRepo(AppDbContext context)
         {
             _context = context;
         }
-
-        public async Task<IEnumerable<Order>> GetAllAsync()
+        public async Task<Order?> GetPendingOrderByUserIdAsync(int userId)
         {
             return await _context.Orders
-                .Include(o => o.User)              // load User đi kèm
-                .Include(o => o.OrderDetails)      // load chi tiết đơn hàng
-                .ThenInclude(od => od.Product)     // load luôn Product của chi tiết
-                .ToListAsync();
-        }
-
-        public async Task<Order?> GetByIdAsync(int id)
-        {
-            return await _context.Orders
-                .Include(o => o.User)
                 .Include(o => o.OrderDetails)
-                .ThenInclude(od => od.Product)
-                .FirstOrDefaultAsync(o => o.id == id);
+                .FirstOrDefaultAsync(o => o.userId == userId && o.status == "pending");
         }
 
-        public async Task<int> CreateAsync(Order order)
+        public async Task<Order> CreatePendingOrderAsync(Order order)
         {
             _context.Orders.Add(order);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return order;
         }
 
-        public async Task<int> UpdateAsync(Order order)
+        public async Task AddOrderDetailAsync(OrderDetail detail)
+        {
+            _context.OrderDetails.Add(detail);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateOrderAsync(Order order)
         {
             _context.Orders.Update(order);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<int> DeleteAsync(int id)
+        public async Task<OrderDetail?> GetOrderDetailByIdAsync(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null) return 0;
-            _context.Orders.Remove(order);
-            return await _context.SaveChangesAsync();
+            return await _context.OrderDetails.FindAsync(id);
         }
+
+        public async Task DeleteOrderDetailAsync(OrderDetail detail)
+        {
+            _context.OrderDetails.Remove(detail);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Order?> GetOrderByIdAsync(int orderId)
+        {
+            return await _context.Orders.FindAsync(orderId);
+        }
+
+        //public async Task<Order?> GetCartByUserIdAsync(int userId)
+        //{
+        //    return await _context.Orders
+        //        .Include(o => o.OrderDetails)
+        //        .ThenInclude(od => od.Product)
+        //        .FirstOrDefaultAsync(o => o.userId == userId && o.status == "Cart");
+        //}
+
+        //public async Task<Order> CreateCartAsync(int userId)
+        //{
+        //    var cart = new Order
+        //    {
+        //        userId = userId,
+        //        status = "Cart",
+        //        createDate = DateTime.UtcNow,
+        //        totalPrice = 0
+        //    };
+        //    _context.Orders.Add(cart);
+        //    await _context.SaveChangesAsync();
+        //    return cart;
+        //}
+
+        //public async Task AddOrUpdateCartItemAsync(int cartId, int productId, int quantity, decimal price)
+        //{
+        //    var detail = await _context.OrderDetails.FirstOrDefaultAsync(od => od.orderId == cartId && od.productId == productId);
+        //    if (detail == null)
+        //    {
+        //        detail = new OrderDetail { orderId = cartId, productId = productId, quantity = quantity, price = price };
+        //        _context.OrderDetails.Add(detail);
+        //    }
+        //    else
+        //    {
+        //        detail.quantity = quantity;
+        //        detail.price = price;
+        //    }
+        //    await _context.SaveChangesAsync();
+        //}
+
+        //public async Task RemoveCartItemAsync(int cartId, int productId)
+        //{
+        //    var detail = await _context.OrderDetails.FirstOrDefaultAsync(od => od.orderId == cartId && od.productId == productId);
+        //    if (detail != null)
+        //    {
+        //        _context.OrderDetails.Remove(detail);
+        //        await _context.SaveChangesAsync();
+        //    }
+        //}
+
+        //public async Task CheckoutAsync(int cartId, decimal totalPrice)
+        //{
+        //    var cart = await _context.Orders.FindAsync(cartId);
+        //    if (cart != null && cart.status == "Cart")
+        //    {
+        //        cart.status = "Completed";
+        //        cart.totalPrice = totalPrice;
+        //        cart.createDate = DateTime.UtcNow;
+        //        await _context.SaveChangesAsync();
+        //    }
+        //}
     }
 }

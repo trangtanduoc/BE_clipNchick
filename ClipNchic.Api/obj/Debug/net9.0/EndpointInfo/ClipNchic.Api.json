@@ -5,10 +5,220 @@
     "version": "v1"
   },
   "paths": {
-    "/Cart/GetCart/{userId}": {
+    "/BlindBox/GetAll": {
       "get": {
         "tags": [
-          "Cart"
+          "BlindBox"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/BlindBox/GetById/{id}": {
+      "get": {
+        "tags": [
+          "BlindBox"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/BlindPic/GetAll": {
+      "get": {
+        "tags": [
+          "BlindPic"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/BlindPic/GetById/{id}": {
+      "get": {
+        "tags": [
+          "BlindPic"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Charm/GetAll": {
+      "get": {
+        "tags": [
+          "Charm"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Charm/GetById/{id}": {
+      "get": {
+        "tags": [
+          "Charm"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/CharmProduct/GetAll": {
+      "get": {
+        "tags": [
+          "CharmProduct"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/CharmProduct/GetById/{id}": {
+      "get": {
+        "tags": [
+          "CharmProduct"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Collection/GetAll": {
+      "get": {
+        "tags": [
+          "Collection"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Collection/GetById/{id}": {
+      "get": {
+        "tags": [
+          "Collection"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Image/GetAll": {
+      "get": {
+        "tags": [
+          "Image"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Image/GetById/{id}": {
+      "get": {
+        "tags": [
+          "Image"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Order/pending/{userId}": {
+      "get": {
+        "tags": [
+          "Order"
         ],
         "parameters": [
           {
@@ -19,147 +229,26 @@
               "type": "integer",
               "format": "int32"
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/Order": {
-      "get": {
-        "tags": [
-          "Order"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Order"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Order"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Order"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Order"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/Order/{id}": {
-      "get": {
-        "tags": [
-          "Order"
-        ],
-        "parameters": [
+          },
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
+            "name": "phone",
+            "in": "query",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Order"
-        ],
-        "parameters": [
+          },
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
+            "name": "address",
+            "in": "query",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Order"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Order"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Order"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Order"
-        ],
-        "parameters": [
+          },
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
+            "name": "name",
+            "in": "query",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -205,6 +294,287 @@
         }
       }
     },
+    "/Ship/GetAll": {
+      "get": {
+        "tags": [
+          "Ship"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Ship/GetById/{id}": {
+      "get": {
+        "tags": [
+          "Ship"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/BlindBox/Update": {
+      "put": {
+        "tags": [
+          "BlindBox"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlindBox"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlindBox"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlindBox"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/BlindPic/Update": {
+      "put": {
+        "tags": [
+          "BlindPic"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlindPic"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlindPic"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlindPic"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Charm/Update": {
+      "put": {
+        "tags": [
+          "Charm"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Charm"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Charm"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Charm"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/CharmProduct/Update": {
+      "put": {
+        "tags": [
+          "CharmProduct"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CharmProduct"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CharmProduct"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CharmProduct"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Collection/Update": {
+      "put": {
+        "tags": [
+          "Collection"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Collection"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Collection"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Collection"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Image/Update": {
+      "put": {
+        "tags": [
+          "Image"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Image"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Image"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Image"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Order/update-status/{orderId}": {
+      "put": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Order/update-paymethod/{orderId}": {
+      "put": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/Product/Update/{id}": {
       "put": {
         "tags": [
@@ -236,6 +606,37 @@
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Ship/Update": {
+      "put": {
+        "tags": [
+          "Ship"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ship"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ship"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ship"
               }
             }
           }
@@ -309,77 +710,26 @@
         }
       }
     },
-    "/Cart/CreateCart/{userId}": {
+    "/BlindBox/Create": {
       "post": {
         "tags": [
-          "Cart"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/Cart/AddOrUpdateCartItem/{cartId}": {
-      "post": {
-        "tags": [
-          "Cart"
-        ],
-        "parameters": [
-          {
-            "name": "cartId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
+          "BlindBox"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CartItemDto"
+                "$ref": "#/components/schemas/BlindBoxCreateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CartItemDto"
+                "$ref": "#/components/schemas/BlindBoxCreateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CartItemDto"
+                "$ref": "#/components/schemas/BlindBoxCreateDto"
               }
             }
           }
@@ -391,37 +741,181 @@
         }
       }
     },
-    "/Cart/Checkout/{cartId}": {
+    "/BlindPic/Create": {
       "post": {
         "tags": [
-          "Cart"
-        ],
-        "parameters": [
-          {
-            "name": "cartId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
+          "BlindPic"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CheckoutDto"
+                "$ref": "#/components/schemas/BlindPicCreateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CheckoutDto"
+                "$ref": "#/components/schemas/BlindPicCreateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CheckoutDto"
+                "$ref": "#/components/schemas/BlindPicCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Charm/Create": {
+      "post": {
+        "tags": [
+          "Charm"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CharmCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CharmCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CharmCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/CharmProduct/Create": {
+      "post": {
+        "tags": [
+          "CharmProduct"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CharmProductCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CharmProductCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CharmProductCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Collection/Create": {
+      "post": {
+        "tags": [
+          "Collection"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CollectionCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CollectionCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CollectionCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Image/Create": {
+      "post": {
+        "tags": [
+          "Image"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImageCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImageCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImageCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Order/add-detail": {
+      "post": {
+        "tags": [
+          "Order"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderDetailRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderDetailRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderDetailRequest"
               }
             }
           }
@@ -442,17 +936,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Product"
+                "$ref": "#/components/schemas/ProductDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Product"
+                "$ref": "#/components/schemas/ProductDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Product"
+                "$ref": "#/components/schemas/ProductDto"
               }
             }
           }
@@ -464,14 +958,183 @@
         }
       }
     },
-    "/Cart/{cartId}/item/{designId}": {
+    "/Ship/Create": {
+      "post": {
+        "tags": [
+          "Ship"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShipCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShipCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShipCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/BlindBox/Delete/{id}": {
       "delete": {
         "tags": [
-          "Cart"
+          "BlindBox"
         ],
         "parameters": [
           {
-            "name": "cartId",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/BlindPic/Delete/{id}": {
+      "delete": {
+        "tags": [
+          "BlindPic"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Charm/Delete/{id}": {
+      "delete": {
+        "tags": [
+          "Charm"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/CharmProduct/Delete/{id}": {
+      "delete": {
+        "tags": [
+          "CharmProduct"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Collection/Delete/{id}": {
+      "delete": {
+        "tags": [
+          "Collection"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Image/Delete/{id}": {
+      "delete": {
+        "tags": [
+          "Image"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Order/delete-detail/{userId}/{orderDetailId}": {
+      "delete": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
             "in": "path",
             "required": true,
             "schema": {
@@ -480,7 +1143,7 @@
             }
           },
           {
-            "name": "designId",
+            "name": "orderDetailId",
             "in": "path",
             "required": true,
             "schema": {
@@ -518,173 +1181,422 @@
           }
         }
       }
+    },
+    "/Ship/Delete/{id}": {
+      "delete": {
+        "tags": [
+          "Ship"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "Accessory": {
+      "Base": {
         "type": "object",
         "properties": {
-          "accessoryId": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
-          "accessoryName": {
+          "name": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
+          },
+          "color": {
             "maxLength": 100,
             "type": "string",
             "nullable": true
           },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "accessoryImage": {
-            "maxLength": 500,
-            "type": "string",
-            "nullable": true
-          },
           "price": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
-          "customDesignAccessories": {
+          "imageId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "image": {
+            "$ref": "#/components/schemas/Image"
+          },
+          "modelId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "model": {
+            "$ref": "#/components/schemas/Model"
+          },
+          "products": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CustomDesignAccessory"
+              "$ref": "#/components/schemas/Product"
             },
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "CartItemDto": {
+      "BlindBox": {
         "type": "object",
         "properties": {
-          "designId": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
-          "quantity": {
+          "collectId": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
+          },
+          "collection": {
+            "$ref": "#/components/schemas/Collection"
+          },
+          "name": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
+          },
+          "descript": {
+            "maxLength": 500,
+            "type": "string",
+            "nullable": true
           },
           "price": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "status": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "blindPics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BlindPic"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "CheckoutDto": {
+      "BlindBoxCreateDto": {
         "type": "object",
         "properties": {
-          "totalAmount": {
+          "collectId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "descript": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "CustomDesign": {
+      "BlindPic": {
         "type": "object",
         "properties": {
-          "designId": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
-          "userId": {
+          "blindId": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "user": {
-            "$ref": "#/components/schemas/User"
+          "blindBox": {
+            "$ref": "#/components/schemas/BlindBox"
           },
-          "baseProductId": {
+          "imageId": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "baseProduct": {
+          "image": {
+            "$ref": "#/components/schemas/Image"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BlindPicCreateDto": {
+        "type": "object",
+        "properties": {
+          "blindId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "imageId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Charm": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "imageId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "image": {
+            "$ref": "#/components/schemas/Image"
+          },
+          "modelId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "model": {
+            "$ref": "#/components/schemas/Model"
+          },
+          "charmProducts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CharmProduct"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CharmCreateDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "imageId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "modelId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CharmProduct": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "product": {
             "$ref": "#/components/schemas/Product"
           },
-          "materialId": {
+          "charmId": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "material": {
-            "$ref": "#/components/schemas/Material"
-          },
-          "textureId": {
+          "charm": {
+            "$ref": "#/components/schemas/Charm"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CharmProductCreateDto": {
+        "type": "object",
+        "properties": {
+          "productId": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "texture": {
-            "$ref": "#/components/schemas/Texture"
-          },
-          "model3DId": {
+          "charmId": {
             "type": "integer",
             "format": "int32",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Collection": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
           },
-          "model3D": {
-            "$ref": "#/components/schemas/ProductModel"
+          "name": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
           },
-          "previewImage": {
+          "descript": {
             "maxLength": 500,
             "type": "string",
             "nullable": true
           },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "isPublic": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "customDesignAccessories": {
+          "products": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CustomDesignAccessory"
+              "$ref": "#/components/schemas/Product"
             },
             "nullable": true
           },
-          "orderDetails": {
+          "blindBoxes": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/OrderDetail"
+              "$ref": "#/components/schemas/BlindBox"
             },
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "CustomDesignAccessory": {
+      "CollectionCreateDto": {
         "type": "object",
         "properties": {
-          "designId": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "descript": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Image": {
+        "type": "object",
+        "properties": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
-          "design": {
-            "$ref": "#/components/schemas/CustomDesign"
+          "name": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
           },
-          "accessoryId": {
-            "type": "integer",
-            "format": "int32"
+          "address": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
           },
-          "accessory": {
-            "$ref": "#/components/schemas/Accessory"
+          "bases": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Base"
+            },
+            "nullable": true
           },
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
+          "charms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Charm"
+            },
+            "nullable": true
+          },
+          "productPics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductPic"
+            },
+            "nullable": true
+          },
+          "blindPics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BlindPic"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ImageCreateDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -703,31 +1615,41 @@
         },
         "additionalProperties": false
       },
-      "Material": {
+      "Model": {
         "type": "object",
         "properties": {
-          "materialId": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
-          "materialName": {
-            "maxLength": 100,
+          "name": {
+            "maxLength": 255,
             "type": "string",
             "nullable": true
           },
-          "description": {
+          "address": {
+            "maxLength": 255,
             "type": "string",
             "nullable": true
           },
-          "colorCode": {
-            "maxLength": 20,
-            "type": "string",
-            "nullable": true
-          },
-          "customDesigns": {
+          "bases": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CustomDesign"
+              "$ref": "#/components/schemas/Base"
+            },
+            "nullable": true
+          },
+          "charms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Charm"
+            },
+            "nullable": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
             },
             "nullable": true
           }
@@ -737,7 +1659,7 @@
       "Order": {
         "type": "object",
         "properties": {
-          "orderId": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
@@ -749,16 +1671,48 @@
           "user": {
             "$ref": "#/components/schemas/User"
           },
-          "orderDate": {
+          "phone": {
+            "maxLength": 50,
             "type": "string",
-            "format": "date-time"
+            "nullable": true
           },
-          "totalAmount": {
+          "address": {
+            "maxLength": 500,
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
+          },
+          "createDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "totalPrice": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
+          },
+          "shipPrice": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "payPrice": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
           },
           "status": {
             "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "payMethod": {
+            "maxLength": 100,
             "type": "string",
             "nullable": true
           },
@@ -775,7 +1729,7 @@
       "OrderDetail": {
         "type": "object",
         "properties": {
-          "orderDetailId": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
@@ -795,13 +1749,41 @@
           "product": {
             "$ref": "#/components/schemas/Product"
           },
-          "designId": {
+          "quantity": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "design": {
-            "$ref": "#/components/schemas/CustomDesign"
+          "price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderDetailRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int32"
           },
           "quantity": {
             "type": "integer",
@@ -815,44 +1797,87 @@
         "additionalProperties": false
       },
       "Product": {
-        "required": [
-          "productName"
-        ],
         "type": "object",
         "properties": {
-          "productId": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
-          "productName": {
-            "maxLength": 100,
-            "minLength": 1,
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "previewImage": {
-            "maxLength": 500,
-            "type": "string",
-            "nullable": true
-          },
-          "model3DId": {
+          "collectId": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "model3D": {
-            "$ref": "#/components/schemas/ProductModel"
+          "collection": {
+            "$ref": "#/components/schemas/Collection"
           },
-          "createdAt": {
+          "title": {
+            "maxLength": 255,
             "type": "string",
-            "format": "date-time"
+            "nullable": true
+          },
+          "descript": {
+            "maxLength": 500,
+            "type": "string",
+            "nullable": true
+          },
+          "baseId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "base": {
+            "$ref": "#/components/schemas/Base"
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "modelId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "model": {
+            "$ref": "#/components/schemas/Model"
+          },
+          "createDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "charmProducts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CharmProduct"
+            },
+            "nullable": true
+          },
+          "productPics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductPic"
+            },
+            "nullable": true
           },
           "orderDetails": {
             "type": "array",
@@ -860,52 +1885,65 @@
               "$ref": "#/components/schemas/OrderDetail"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
           },
-          "customDesigns": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CustomDesign"
-            },
+          "descript": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "createDate": {
+            "type": "string",
+            "format": "date-time",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "ProductModel": {
+      "ProductPic": {
         "type": "object",
         "properties": {
-          "model3DId": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
-          "fileName": {
-            "maxLength": 255,
-            "type": "string",
+          "productId": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
-          "filePath": {
-            "maxLength": 500,
-            "type": "string",
+          "product": {
+            "$ref": "#/components/schemas/Product"
+          },
+          "imageId": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
-          "fileType": {
-            "maxLength": 50,
-            "type": "string",
-            "nullable": true
-          },
-          "products": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Product"
-            },
-            "nullable": true
-          },
-          "customDesigns": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CustomDesign"
-            },
-            "nullable": true
+          "image": {
+            "$ref": "#/components/schemas/Image"
           }
         },
         "additionalProperties": false
@@ -928,111 +1966,104 @@
         },
         "additionalProperties": false
       },
-      "Role": {
-        "required": [
-          "roleName"
-        ],
+      "Ship": {
         "type": "object",
         "properties": {
-          "roleId": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
-          "roleName": {
-            "maxLength": 50,
-            "minLength": 1,
-            "type": "string"
+          "name": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
           },
-          "users": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/User"
-            },
+          "price": {
+            "type": "number",
+            "format": "double",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "Texture": {
+      "ShipCreateDto": {
         "type": "object",
         "properties": {
-          "textureId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "textureName": {
-            "maxLength": 100,
+          "name": {
             "type": "string",
             "nullable": true
           },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "texturePath": {
-            "maxLength": 500,
-            "type": "string",
-            "nullable": true
-          },
-          "customDesigns": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CustomDesign"
-            },
+          "price": {
+            "type": "number",
+            "format": "double",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
       "User": {
-        "required": [
-          "email",
-          "passwordHash"
-        ],
         "type": "object",
         "properties": {
-          "userId": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
-          "fullName": {
-            "maxLength": 100,
-            "type": "string",
-            "nullable": true
-          },
           "email": {
-            "maxLength": 100,
-            "minLength": 1,
-            "type": "string"
-          },
-          "passwordHash": {
             "maxLength": 255,
-            "minLength": 1,
-            "type": "string"
-          },
-          "roleId": {
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
             "nullable": true
           },
-          "role": {
-            "$ref": "#/components/schemas/Role"
-          },
-          "createdAt": {
+          "password": {
+            "maxLength": 255,
             "type": "string",
-            "format": "date-time"
+            "nullable": true
+          },
+          "phone": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "name": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "maxLength": 500,
+            "type": "string",
+            "nullable": true
+          },
+          "image": {
+            "maxLength": 255,
+            "type": "string",
+            "nullable": true
+          },
+          "createDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "nullable": true
           },
           "orders": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Order"
-            },
-            "nullable": true
-          },
-          "customDesigns": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CustomDesign"
             },
             "nullable": true
           }
