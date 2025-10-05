@@ -11,7 +11,7 @@
         "projectName": "ClipNchic.Api",
         "projectPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.csproj",
         "packagesPath": "C:\\Users\\cungt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cungt\\Source\\Repos\\BE_clipNchick\\ClipNchic.Api\\obj\\",
+        "outputPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -57,6 +57,10 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[9.0.7, )"
@@ -106,7 +110,7 @@
         "projectName": "ClipNchic.Business",
         "projectPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\ClipNchic.Business.csproj",
         "packagesPath": "C:\\Users\\cungt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cungt\\Source\\Repos\\BE_clipNchick\\ClipNchic.Business\\obj\\",
+        "outputPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -181,7 +185,7 @@
         "projectName": "ClipNchic.DataAccess",
         "projectPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj",
         "packagesPath": "C:\\Users\\cungt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cungt\\Source\\Repos\\BE_clipNchick\\ClipNchic.DataAccess\\obj\\",
+        "outputPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
