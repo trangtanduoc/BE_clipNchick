@@ -18,6 +18,22 @@ builder.Services.AddControllers().AddJsonOptions(options => {
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:3000") 
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
+});
+
+builder.Services.AddControllers();
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -103,6 +119,7 @@ builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
+app.UseCors("AllowReactApp");
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>

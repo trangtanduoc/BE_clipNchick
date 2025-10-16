@@ -40,9 +40,19 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "req",
-        "Type": "ClipNchic.Api.Controllers.OrderDetailRequest",
-        "IsRequired": true
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "quantity",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "price",
+        "Type": "System.Decimal",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -56,13 +66,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userId",
+        "Name": "orderDetailId",
         "Type": "System.Int32",
         "IsRequired": true
       },
       {
-        "Name": "orderDetailId",
-        "Type": "System.Int32",
+        "Name": "userId",
+        "Type": "",
         "IsRequired": true
       }
     ],
@@ -78,23 +88,8 @@
     "Parameters": [
       {
         "Name": "userId",
-        "Type": "System.Int32",
+        "Type": "",
         "IsRequired": true
-      },
-      {
-        "Name": "phone",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "address",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "name",
-        "Type": "System.String",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []

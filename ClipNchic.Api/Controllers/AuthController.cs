@@ -22,7 +22,7 @@ public class AuthController : ControllerBase
         {
             return Unauthorized(new { message = "Invalid username or password" });
         }
-        return Ok(new { message = "Login successful", token });
+        return Ok(new { message = "true", token });
     }
 
     [HttpPost("register")]
