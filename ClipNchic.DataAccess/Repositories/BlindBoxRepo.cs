@@ -3,6 +3,7 @@ using ClipNchic.DataAccess.Models;
 using ClipNchic.DataAccess.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace ClipNchic.DataAccess.Repositories
 {
     public class BlindBoxRepo
@@ -10,11 +11,48 @@ namespace ClipNchic.DataAccess.Repositories
         private readonly AppDbContext _context;
         public BlindBoxRepo(AppDbContext context) => _context = context;
 
-        public async Task<BlindBox?> GetByIdAsync(int id) =>
-            await _context.BlindBoxes.FirstOrDefaultAsync(b => b.id == id);
+        public async Task<ResponseBlindBoxDTO?> GetByIdAsync(int id)
+        {
+            var box = await _context.BlindBoxes.FirstOrDefaultAsync(b => b.id == id);
+            if (box == null) return null;
+            var images = await _context.Images.Where(i => i.blindBoxId == box.id).ToListAsync();
+            var collection = await _context.Collections.FirstOrDefaultAsync(c => c.id == box.collectId);
 
-        public async Task<IEnumerable<BlindBox>> GetAllAsync() =>
-            await _context.BlindBoxes.ToListAsync();
+            return new ResponseBlindBoxDTO
+            {
+                id = box.id,
+                collectId = box.collectId,
+                Collection = collection,
+                name = box.name,
+                descript = box.descript,
+                price = box.price,
+                stock = box.stock,
+                status = box.status,
+                Images = images
+            };
+        }
+
+        public async Task<IEnumerable<ResponseBlindBoxDTO>> GetAllAsync()
+        {
+            var boxes = await _context.BlindBoxes.ToListAsync();
+            var result = new List<ResponseBlindBoxDTO>();
+            foreach (var box in boxes)
+            {
+                var collection = await _context.Collections.FirstOrDefaultAsync(c => c.id == box.collectId);
+                result.Add(new ResponseBlindBoxDTO
+                {
+                    id = box.id,
+                    collectId = box.collectId,
+                    Collection = collection,
+                    name = box.name,
+                    descript = box.descript,
+                    price = box.price,
+                    stock = box.stock,
+                    status = box.status
+                });
+            }
+            return result;
+        }
 
         public async Task<int> AddAsync(BlindBoxCreateDto dto)
         {

@@ -1,5 +1,5 @@
-﻿using ClipNchic.Business.Services;
-using ClipNchic.DataAccess.Models;
+using ClipNchic.Business.Services;
+using ClipNchic.DataAccess.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClipNchic.Api.Controllers;
@@ -9,53 +9,39 @@ namespace ClipNchic.Api.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly ProductService _service;
-    public ProductController(ProductService service)
-    {
-        _service = service;
-    }
+    public ProductController(ProductService service) => _service = service;
 
-    // GET api/products
     [HttpGet("GetAll")]
-    public async Task<IActionResult> GetAll()
-    {
-        var products = await _service.GetProductsAsync();
-        return Ok(products);
-    }
+    public async Task<IActionResult> GetAll() => Ok(await _service.GetAllAsync());
 
-    // GET api/products/get/{id}
     [HttpGet("GetById/{id}")]
     public async Task<IActionResult> Get(int id)
     {
-        var product = await _service.GetProductAsync(id);
-        if (product == null) return NotFound(new { message = "Product not found" });
-        return Ok(product);
+        var entity = await _service.GetByIdAsync(id);
+        if (entity == null) return NotFound(new { message = "Product not found" });
+        return Ok(entity);
     }
 
-    // POST api/products/create
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] Product product)
+    public async Task<IActionResult> Create([FromBody] ProductCreateDto dto)
     {
-        var result = await _service.CreateProductAsync(product);
+        var result = await _service.AddAsync(dto);
         if (result > 0) return Ok(new { message = "Product created successfully" });
-        return BadRequest(new { message = "Failed to create product" });
+        return BadRequest(new { message = "Failed to create Product" });
     }
 
-    // PUT api/products/update/{id}
-    [HttpPut("Update/{id}")]
-    public async Task<IActionResult> Update(int id, [FromBody] Product product)
+    [HttpPut("Update")]
+    public async Task<IActionResult> Update([FromBody] ProductUpdateDto dto)
     {
-        if (id != product.id) return BadRequest(new { message = "Product ID mismatch" });
-
-        var result = await _service.UpdateProductAsync(product);
+        var result = await _service.UpdateAsync(dto);
         if (result > 0) return Ok(new { message = "Product updated successfully" });
-        return BadRequest(new { message = "Failed to update product" });
+        return BadRequest(new { message = "Failed to update Product" });
     }
 
-    // DELETE api/products/delete/{id}
     [HttpDelete("Delete/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var result = await _service.DeleteProductAsync(id);
+        var result = await _service.DeleteAsync(id);
         if (result > 0) return Ok(new { message = "Product deleted successfully" });
         return NotFound(new { message = "Product not found" });
     }

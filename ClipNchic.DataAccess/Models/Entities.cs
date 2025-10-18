@@ -83,10 +83,15 @@ public class Image
     [MaxLength(255)]
     public string? address { get; set; }
 
-    public ICollection<Base> Bases { get; set; } = new List<Base>();
-    public ICollection<Charm> Charms { get; set; } = new List<Charm>();
-    public ICollection<ProductPic> ProductPics { get; set; } = new List<ProductPic>();
-    public ICollection<BlindPic> BlindPics { get; set; } = new List<BlindPic>();
+    public int? baseId { get; set; }
+
+    public int? charmId { get; set; }
+
+    public int? productId { get; set; }
+
+    public int? blindBoxId { get; set; }
+    
+
 }
 
 [Table("Base")]
@@ -104,7 +109,6 @@ public class Base
     [Column(TypeName = "decimal(10,2)")]
     public decimal? price { get; set; }
 
-    public int? imageId { get; set; }
     public Image? Image { get; set; }
 
     public int? modelId { get; set; }
@@ -124,9 +128,6 @@ public class Charm
 
     [Column(TypeName = "decimal(10,2)")]
     public decimal? price { get; set; }
-
-    public int? imageId { get; set; }
-    public Image? Image { get; set; }
 
     public int? modelId { get; set; }
     public Model? Model { get; set; }
@@ -169,7 +170,6 @@ public class Product
     public string? status { get; set; }
 
     public ICollection<CharmProduct> CharmProducts { get; set; } = new List<CharmProduct>();
-    public ICollection<ProductPic> ProductPics { get; set; } = new List<ProductPic>();
     public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }
 
@@ -186,18 +186,6 @@ public class CharmProduct
     public Charm? Charm { get; set; }
 }
 
-[Table("ProductPic")]
-public class ProductPic
-{
-    [Key]
-    public int id { get; set; }
-
-    public int? productId { get; set; }
-    public Product? Product { get; set; }
-
-    public int? imageId { get; set; }
-    public Image? Image { get; set; }
-}
 
 [Table("BlindBox")]
 public class BlindBox
@@ -222,20 +210,6 @@ public class BlindBox
     [MaxLength(50)]
     public string? status { get; set; }
 
-    public ICollection<BlindPic> BlindPics { get; set; } = new List<BlindPic>();
-}
-
-[Table("BlindPic")]
-public class BlindPic
-{
-    [Key]
-    public int id { get; set; }
-
-    public int? blindId { get; set; }
-    public BlindBox? BlindBox { get; set; }
-
-    public int? imageId { get; set; }
-    public Image? Image { get; set; }
 }
 
 [Table("Ship")]
