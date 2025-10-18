@@ -34,9 +34,6 @@ namespace ClipNchic.DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("imageId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("modelId")
                         .HasColumnType("int");
 
@@ -48,8 +45,6 @@ namespace ClipNchic.DataAccess.Migrations
                         .HasColumnType("decimal(10,2)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("imageId");
 
                     b.HasIndex("modelId");
 
@@ -92,29 +87,6 @@ namespace ClipNchic.DataAccess.Migrations
                     b.ToTable("BlindBox");
                 });
 
-            modelBuilder.Entity("ClipNchic.DataAccess.Models.BlindPic", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int?>("blindId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("imageId")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("blindId");
-
-                    b.HasIndex("imageId");
-
-                    b.ToTable("BlindPic");
-                });
-
             modelBuilder.Entity("ClipNchic.DataAccess.Models.Charm", b =>
                 {
                     b.Property<int>("id")
@@ -122,9 +94,6 @@ namespace ClipNchic.DataAccess.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int?>("imageId")
-                        .HasColumnType("int");
 
                     b.Property<int?>("modelId")
                         .HasColumnType("int");
@@ -137,8 +106,6 @@ namespace ClipNchic.DataAccess.Migrations
                         .HasColumnType("decimal(10,2)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("imageId");
 
                     b.HasIndex("modelId");
 
@@ -201,11 +168,27 @@ namespace ClipNchic.DataAccess.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int?>("baseId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("blindBoxId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("charmId")
+                        .HasColumnType("int");
+
                     b.Property<string>("name")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int?>("productId")
+                        .HasColumnType("int");
+
                     b.HasKey("id");
+
+                    b.HasIndex("baseId")
+                        .IsUnique()
+                        .HasFilter("[baseId] IS NOT NULL");
 
                     b.ToTable("Image");
                 });
@@ -364,29 +347,6 @@ namespace ClipNchic.DataAccess.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("ClipNchic.DataAccess.Models.ProductPic", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int?>("imageId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("productId")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("imageId");
-
-                    b.HasIndex("productId");
-
-                    b.ToTable("ProductPic");
-                });
-
             modelBuilder.Entity("ClipNchic.DataAccess.Models.Ship", b =>
                 {
                     b.Property<int>("id")
@@ -485,17 +445,10 @@ namespace ClipNchic.DataAccess.Migrations
 
             modelBuilder.Entity("ClipNchic.DataAccess.Models.Base", b =>
                 {
-                    b.HasOne("ClipNchic.DataAccess.Models.Image", "Image")
-                        .WithMany("Bases")
-                        .HasForeignKey("imageId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("ClipNchic.DataAccess.Models.Model", "Model")
                         .WithMany("Bases")
                         .HasForeignKey("modelId")
                         .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Image");
 
                     b.Navigation("Model");
                 });
@@ -510,36 +463,12 @@ namespace ClipNchic.DataAccess.Migrations
                     b.Navigation("Collection");
                 });
 
-            modelBuilder.Entity("ClipNchic.DataAccess.Models.BlindPic", b =>
-                {
-                    b.HasOne("ClipNchic.DataAccess.Models.BlindBox", "BlindBox")
-                        .WithMany("BlindPics")
-                        .HasForeignKey("blindId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("ClipNchic.DataAccess.Models.Image", "Image")
-                        .WithMany("BlindPics")
-                        .HasForeignKey("imageId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("BlindBox");
-
-                    b.Navigation("Image");
-                });
-
             modelBuilder.Entity("ClipNchic.DataAccess.Models.Charm", b =>
                 {
-                    b.HasOne("ClipNchic.DataAccess.Models.Image", "Image")
-                        .WithMany("Charms")
-                        .HasForeignKey("imageId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("ClipNchic.DataAccess.Models.Model", "Model")
                         .WithMany("Charms")
                         .HasForeignKey("modelId")
                         .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Image");
 
                     b.Navigation("Model");
                 });
@@ -559,6 +488,13 @@ namespace ClipNchic.DataAccess.Migrations
                     b.Navigation("Charm");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ClipNchic.DataAccess.Models.Image", b =>
+                {
+                    b.HasOne("ClipNchic.DataAccess.Models.Base", null)
+                        .WithOne("Image")
+                        .HasForeignKey("ClipNchic.DataAccess.Models.Image", "baseId");
                 });
 
             modelBuilder.Entity("ClipNchic.DataAccess.Models.Order", b =>
@@ -619,31 +555,11 @@ namespace ClipNchic.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ClipNchic.DataAccess.Models.ProductPic", b =>
-                {
-                    b.HasOne("ClipNchic.DataAccess.Models.Image", "Image")
-                        .WithMany("ProductPics")
-                        .HasForeignKey("imageId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("ClipNchic.DataAccess.Models.Product", "Product")
-                        .WithMany("ProductPics")
-                        .HasForeignKey("productId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Image");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("ClipNchic.DataAccess.Models.Base", b =>
                 {
-                    b.Navigation("Products");
-                });
+                    b.Navigation("Image");
 
-            modelBuilder.Entity("ClipNchic.DataAccess.Models.BlindBox", b =>
-                {
-                    b.Navigation("BlindPics");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("ClipNchic.DataAccess.Models.Charm", b =>
@@ -656,17 +572,6 @@ namespace ClipNchic.DataAccess.Migrations
                     b.Navigation("BlindBoxes");
 
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("ClipNchic.DataAccess.Models.Image", b =>
-                {
-                    b.Navigation("Bases");
-
-                    b.Navigation("BlindPics");
-
-                    b.Navigation("Charms");
-
-                    b.Navigation("ProductPics");
                 });
 
             modelBuilder.Entity("ClipNchic.DataAccess.Models.Model", b =>
@@ -688,8 +593,6 @@ namespace ClipNchic.DataAccess.Migrations
                     b.Navigation("CharmProducts");
 
                     b.Navigation("OrderDetails");
-
-                    b.Navigation("ProductPics");
                 });
 
             modelBuilder.Entity("ClipNchic.DataAccess.Models.User", b =>
