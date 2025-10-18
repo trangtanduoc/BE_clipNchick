@@ -13,7 +13,7 @@ namespace ClipNchic.Business.Services
         public async Task<IEnumerable<ResponseProductDTO>> GetAllAsync() => await _repo.GetAllAsync();
         public async Task<int> AddAsync(ProductCreateDto dto) => await _repo.AddAsync(dto);
         public async Task<int> UpdateAsync(ProductUpdateDto dto) => await _repo.UpdateAsync(dto);
-        public async Task<int> DeleteAsync(int id) => await _repo.DeleteAsync(id);
+        public async Task<int> DeleteAsync(int id) => await _repo.DeleteProductAsync(id);
 
     }
 }
