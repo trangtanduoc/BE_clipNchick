@@ -38,6 +38,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("me")]
+    [Consumes("multipart/form-data")]
     public async Task<IActionResult> UpdateCurrentUser([FromBody] UpdateUserRequest request)
     {
         if (request == null)
@@ -67,6 +68,31 @@ public class UsersController : ControllerBase
         return Ok(UserProfileDto.FromEntity(user));
     }
 
+    [HttpGet("me/delete_picture")]
+    public async Task<IActionResult> DeleteProfilePicture()
+    {
+        var userId = GetUserIdFromClaims();
+        if (userId == null)
+        {
+            return Unauthorized(new { message = "User identifier is not present in the token." });
+        }
+
+        var user = await _userService.GetUserByIdAsync(userId.Value);
+        if (user == null)
+        {
+            return NotFound(new { message = "User not found." });
+        }
+        await _userService.UpdateUserProfileAsync(
+            user.id,
+            user.name,
+            user.phone,
+            user.birthday,
+            user.address,
+            null);
+
+        return NoContent();
+    }
+
     private int? GetUserIdFromClaims()
     {
         var idClaim = User.FindFirst(ClaimTypes.NameIdentifier) ?? User.FindFirst(JwtRegisteredClaimNames.Sub);
@@ -80,5 +106,5 @@ public class UpdateUserRequest
     public string? Phone { get; set; }
     public DateTime? Birthday { get; set; }
     public string? Address { get; set; }
-    public string? Image { get; set; }
+    public IFormFile? Image { get; set; }
 }
