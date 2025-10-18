@@ -41,6 +41,8 @@ namespace ClipNchic.DataAccess.Repositories
                 Totalprice = finalPrice,
                 collectId = product.collectId,
                 Collection = collection,
+                createDate = product.createDate,
+                status = product.status,
                 baseId = product.baseId,
                 Base = baseEntity,
                 CharmProducts = charmProducts,
@@ -84,6 +86,8 @@ namespace ClipNchic.DataAccess.Repositories
                     collectId = product.collectId,
                     Collection = collection,
                     baseId = product.baseId,
+                    createDate = product.createDate,
+                    status = product.status,
                     Base = baseEntity,
                     CharmProducts = charmProducts,
                     Images = images

@@ -13,6 +13,8 @@ namespace ClipNchic.DataAccess.Models.DTO
         public string? descript { get; set; }
         public int? stock { get; set; }
         public decimal? Totalprice { get; set; } // calculated
+        public DateTime? createDate { get; set; }
+        public string? status { get; set; }
         public int? collectId { get; set; }
         public Collection? Collection { get; set; }
         public int? baseId { get; set; }

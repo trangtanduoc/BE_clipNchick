@@ -5,7 +5,6 @@ using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 using System.Net;
-using System.IO;
 
 namespace ClipNchic.Business.Services
 {

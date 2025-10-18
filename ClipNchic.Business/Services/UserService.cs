@@ -6,6 +6,10 @@ using ClipNchic.DataAccess.Repositories;
 using Google.Apis.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Http;
+using System.Net;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 namespace ClipNchic.Business.Services;
 
@@ -15,13 +19,15 @@ public class UserService
     private readonly string? _jwtKey;
     private readonly string? _jwtIssuer;
     private readonly string? _googleClientId;
+    private readonly Cloudinary _cloudinary;
 
-    public UserService(UserRepo userRepo, IConfiguration configuration)
+    public UserService(UserRepo userRepo, IConfiguration configuration, Cloudinary cloudinary)
     {
         _userRepo = userRepo;
         _jwtKey = configuration["Jwt:Key"];
         _jwtIssuer = configuration["Jwt:Issuer"];
         _googleClientId = configuration["Google:ClientId"];
+        _cloudinary = cloudinary;
     }
 
     public async Task<int> RegisterUserAsync(User user)
@@ -132,12 +138,12 @@ public class UserService
     }
 
     public async Task<User?> UpdateUserProfileAsync(
-        int userId,
-        string? name,
-        string? phone,
-        DateTime? birthday,
-        string? address,
-        string? image)
+    int userId,
+    string? name,
+    string? phone,
+    DateTime? birthday,
+    string? address,
+    IFormFile? image)
     {
         var user = await _userRepo.GetUserByIdAsync(userId);
         if (user == null)
@@ -145,30 +151,13 @@ public class UserService
             return null;
         }
 
-        if (name is not null)
-        {
-            user.name = name;
-        }
+        user.name = name ?? string.Empty;
+        user.phone = phone ?? string.Empty;
+        user.birthday = birthday ?? DateTime.MinValue;
+        user.address = address ?? string.Empty;
 
-        if (phone is not null)
-        {
-            user.phone = phone;
-        }
-
-        if (birthday.HasValue)
-        {
-            user.birthday = birthday.Value;
-        }
-
-        if (address is not null)
-        {
-            user.address = address;
-        }
-
-        if (image is not null)
-        {
-            user.image = image;
-        }
+        var imageUrl = await UploadImageAsync(image);
+        user.image = imageUrl ?? string.Empty;
 
         await _userRepo.UpdateUserAsync(user);
         return user;
@@ -186,6 +175,9 @@ public class UserService
             new(JwtRegisteredClaimNames.Sub, user.id.ToString()),
             new(JwtRegisteredClaimNames.Email, user.email ?? string.Empty),
             new(ClaimTypes.NameIdentifier, user.id.ToString()),
+            new(ClaimTypes.DateOfBirth, user.birthday?.ToString("yyyy-MM-dd") ?? string.Empty),
+            new(ClaimTypes.StreetAddress, user.address ?? string.Empty),
+            new(ClaimTypes.MobilePhone, user.phone ?? string.Empty),
             new(ClaimTypes.Role, "User")
         };
 
@@ -205,5 +197,38 @@ public class UserService
             signingCredentials: creds);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+    public async Task<string?> UploadImageAsync(IFormFile? file)
+    {
+        if (file == null || file.Length == 0) return null;
+
+        var tempPath = Path.GetTempFileName();
+        await using (var stream = System.IO.File.Create(tempPath))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        try
+        {
+            var uploadParams = new ImageUploadParams()
+            {
+                File = new FileDescription(tempPath)
+            };
+
+            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+            if (uploadResult.StatusCode == HttpStatusCode.OK)
+            {
+                return uploadResult.SecureUrl.ToString();
+            }
+
+            return null;
+        }
+        finally
+        {
+            if (System.IO.File.Exists(tempPath))
+            {
+                System.IO.File.Delete(tempPath);
+            }
+        }
     }
 }
