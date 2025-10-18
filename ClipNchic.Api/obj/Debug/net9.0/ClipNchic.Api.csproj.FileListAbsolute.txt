@@ -887,3 +887,4 @@ C:\Users\minec\Source\Repos\BE_clipNchick\ClipNchic.Api\obj\Debug\net9.0\ClipNch
 C:\Users\minec\Source\Repos\BE_clipNchick\ClipNchic.Api\obj\Debug\net9.0\ClipNchic.Api.pdb
 C:\Users\minec\Source\Repos\BE_clipNchick\ClipNchic.Api\obj\Debug\net9.0\ClipNchic.Api.genruntimeconfig.cache
 C:\Users\minec\Source\Repos\BE_clipNchick\ClipNchic.Api\obj\Debug\net9.0\ref\ClipNchic.Api.dll
+D:\exe_team\BE_clipNchick\ClipNchic.Api\bin\Debug\net9.0\CloudinaryDotNet.dll
