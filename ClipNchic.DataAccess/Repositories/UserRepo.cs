@@ -1,32 +1,43 @@
-﻿﻿using ClipNchic.DataAccess.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ClipNchic.DataAccess.Data;
 using ClipNchic.DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace ClipNchic.DataAccess.Repositories
+namespace ClipNchic.DataAccess.Repositories;
+
+public class UserRepo
 {
-    public class UserRepo
+    private readonly AppDbContext _context;
+
+    public UserRepo(AppDbContext context)
     {
-        private readonly AppDbContext _context;
-        public UserRepo(AppDbContext context)
-        {
-            _context = context;
-        }
-        public async Task<int> AddUserAsync(User user)
-        {
-            _context.Users.Add(user);
-            return await _context.SaveChangesAsync();
-        }
-        public async Task<User?> GetUserByEmailAsync(string email)
-        {
-            return await Task.FromResult(_context.Users.FirstOrDefault(u => u.email == email));
-        }
-        public async Task<User?> LoginAsync(string email, string password)
-        {
-            return await Task.FromResult(_context.Users.FirstOrDefault(u => u.email == email && u.password == password));
-        }
+        _context = context;
+    }
+
+    public async Task<int> AddUserAsync(User user)
+    {
+        _context.Users.Add(user);
+        return await _context.SaveChangesAsync();
+    }
+
+    public async Task<User?> GetUserByEmailAsync(string email)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.email == email);
+    }
+
+    public async Task<User?> LoginAsync(string email, string password)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.email == email && u.password == password);
+    }
+
+    public async Task<User?> GetUserByIdAsync(int userId)
+    {
+        return await _context.Users.FindAsync(userId);
+    }
+
+    public async Task<User> UpdateUserAsync(User user)
+    {
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+        return user;
     }
 }

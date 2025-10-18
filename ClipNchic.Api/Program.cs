@@ -9,13 +9,35 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
+using CloudinaryDotNet;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure Cloudinary
+var cloudinarySettings = builder.Configuration.GetSection("Cloudinary");
+var cloudinary = new Cloudinary(new Account(
+    cloudinarySettings["CloudName"],
+    cloudinarySettings["ApiKey"],
+    cloudinarySettings["ApiSecret"]
+));
+builder.Services.AddSingleton(cloudinary);
 
 // Configure JSON serialization to handle circular references
 builder.Services.AddControllers().AddJsonOptions(options => {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
 });
 
 builder.Services.AddEndpointsApiExplorer();
@@ -102,8 +124,32 @@ if (!string.IsNullOrEmpty(key))
 builder.Services.AddAuthorization();
 
 
-var app = builder.Build();
+// DataAccess Repositories
+builder.Services.AddScoped<ImageRepo>();
+builder.Services.AddScoped<BlindBoxRepo>();
+builder.Services.AddScoped<CharmProductRepo>();
+builder.Services.AddScoped<CharmRepo>();
+builder.Services.AddScoped<CollectionRepo>();
+builder.Services.AddScoped<ShipRepo>();
+builder.Services.AddScoped<ProductRepo>();
+builder.Services.AddScoped<OrderRepo>();
+builder.Services.AddScoped<ModelRepo>();
+builder.Services.AddScoped<BaseRepo>();
 
+// Business Services
+builder.Services.AddScoped<ImageService>();
+builder.Services.AddScoped<BlindBoxService>();
+builder.Services.AddScoped<CharmProductService>();
+builder.Services.AddScoped<CharmService>();
+builder.Services.AddScoped<CollectionService>();
+builder.Services.AddScoped<ShipService>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<ModelService>();
+builder.Services.AddScoped<BaseService>();
+
+var app = builder.Build();
+app.UseCors("AllowAll");
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {

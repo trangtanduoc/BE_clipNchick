@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ClipNchic.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,20 +23,6 @@ namespace ClipNchic.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Collection", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Image",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Image", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -137,17 +123,11 @@ namespace ClipNchic.DataAccess.Migrations
                     name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     color = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     price = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
-                    imageId = table.Column<int>(type: "int", nullable: true),
                     modelId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Base", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Base_Image_imageId",
-                        column: x => x.imageId,
-                        principalTable: "Image",
-                        principalColumn: "id");
                     table.ForeignKey(
                         name: "FK_Base_Model_modelId",
                         column: x => x.modelId,
@@ -163,17 +143,11 @@ namespace ClipNchic.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     price = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
-                    imageId = table.Column<int>(type: "int", nullable: true),
                     modelId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Charm", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Charm_Image_imageId",
-                        column: x => x.imageId,
-                        principalTable: "Image",
-                        principalColumn: "id");
                     table.ForeignKey(
                         name: "FK_Charm_Model_modelId",
                         column: x => x.modelId,
@@ -209,27 +183,18 @@ namespace ClipNchic.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BlindPic",
+                name: "Image",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    blindId = table.Column<int>(type: "int", nullable: true),
-                    imageId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BlindPic", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_BlindPic_BlindBox_blindId",
-                        column: x => x.blindId,
-                        principalTable: "BlindBox",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "FK_BlindPic_Image_imageId",
-                        column: x => x.imageId,
-                        principalTable: "Image",
-                        principalColumn: "id");
+                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    baseId = table.Column<int>(type: "int", nullable: true),
+                    charmId = table.Column<int>(type: "int", nullable: true),
+                    productId = table.Column<int>(type: "int", nullable: true),
+                    blindBoxId = table.Column<int>(type: "int", nullable: true)
+
                 });
 
             migrationBuilder.CreateTable(
@@ -325,35 +290,6 @@ namespace ClipNchic.DataAccess.Migrations
                         principalColumn: "id");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "ProductPic",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    productId = table.Column<int>(type: "int", nullable: true),
-                    imageId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductPic", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_ProductPic_Image_imageId",
-                        column: x => x.imageId,
-                        principalTable: "Image",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "FK_ProductPic_Product_productId",
-                        column: x => x.productId,
-                        principalTable: "Product",
-                        principalColumn: "id");
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Base_imageId",
-                table: "Base",
-                column: "imageId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_Base_modelId",
                 table: "Base",
@@ -363,21 +299,6 @@ namespace ClipNchic.DataAccess.Migrations
                 name: "IX_BlindBox_collectId",
                 table: "BlindBox",
                 column: "collectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BlindPic_blindId",
-                table: "BlindPic",
-                column: "blindId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BlindPic_imageId",
-                table: "BlindPic",
-                column: "imageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Charm_imageId",
-                table: "Charm",
-                column: "imageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Charm_modelId",
@@ -393,6 +314,13 @@ namespace ClipNchic.DataAccess.Migrations
                 name: "IX_CharmProduct_productId",
                 table: "CharmProduct",
                 column: "productId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Image_baseId",
+                table: "Image",
+                column: "baseId",
+                unique: true,
+                filter: "[baseId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_userId",
@@ -428,41 +356,28 @@ namespace ClipNchic.DataAccess.Migrations
                 name: "IX_Product_userId",
                 table: "Product",
                 column: "userId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductPic_imageId",
-                table: "ProductPic",
-                column: "imageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductPic_productId",
-                table: "ProductPic",
-                column: "productId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BlindPic");
+                name: "BlindBox");
 
             migrationBuilder.DropTable(
                 name: "CharmProduct");
 
             migrationBuilder.DropTable(
-                name: "OrderDetail");
+                name: "Image");
 
             migrationBuilder.DropTable(
-                name: "ProductPic");
+                name: "OrderDetail");
 
             migrationBuilder.DropTable(
                 name: "Ship");
 
             migrationBuilder.DropTable(
                 name: "Voucher");
-
-            migrationBuilder.DropTable(
-                name: "BlindBox");
 
             migrationBuilder.DropTable(
                 name: "Charm");
@@ -481,9 +396,6 @@ namespace ClipNchic.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "User");
-
-            migrationBuilder.DropTable(
-                name: "Image");
 
             migrationBuilder.DropTable(
                 name: "Model");
