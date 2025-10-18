@@ -16,12 +16,11 @@ namespace ClipNchic.DataAccess.Repositories
             var box = await _context.BlindBoxes.FirstOrDefaultAsync(b => b.id == id);
             if (box == null) return null;
             var images = await _context.Images.Where(i => i.blindBoxId == box.id).ToListAsync();
-            var collection = await _context.Collections.FirstOrDefaultAsync(c => c.id == box.collectId);
+
             return new ResponseBlindBoxDTO
             {
                 id = box.id,
                 collectId = box.collectId,
-                Collection = collection,
                 name = box.name,
                 descript = box.descript,
                 price = box.price,
@@ -36,13 +35,11 @@ namespace ClipNchic.DataAccess.Repositories
             var boxes = await _context.BlindBoxes.ToListAsync();
             var result = new List<ResponseBlindBoxDTO>();
             foreach (var box in boxes)
-            {
-                var collection = await _context.Collections.FirstOrDefaultAsync(c => c.id == box.collectId);
+            {              
                 result.Add(new ResponseBlindBoxDTO
                 {
                     id = box.id,
                     collectId = box.collectId,
-                    Collection = collection,
                     name = box.name,
                     descript = box.descript,
                     price = box.price,
