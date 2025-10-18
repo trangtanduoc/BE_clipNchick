@@ -13,8 +13,7 @@ namespace ClipNchic.DataAccess.Models.DTO
         public int id { get; set; }
 
         public int? collectId { get; set; }
-        public Collection? Collection { get; set; }
-
+        public CollectionDTO? Collection { get; set; }
         public string? name { get; set; }
 
         public string? descript { get; set; }

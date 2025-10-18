@@ -16,7 +16,7 @@ namespace ClipNchic.DataAccess.Models.DTO
         public DateTime? createDate { get; set; }
         public string? status { get; set; }
         public int? collectId { get; set; }
-        public Collection? Collection { get; set; }
+        public CollectionDTO? Collection { get; set; }
         public int? baseId { get; set; }
         public Base? Base { get; set; }
         public List<CharmProduct>? CharmProducts { get; set; } = new();

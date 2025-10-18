@@ -15,11 +15,18 @@ namespace ClipNchic.DataAccess.Repositories
             var product = await _context.Products.FirstOrDefaultAsync(p => p.id == id);
             if (product == null) return null;
 
-            var collection = await _context.Collections.FirstOrDefaultAsync(c => c.id == product.collectId);
             var baseEntity = await _context.Bases.FirstOrDefaultAsync(b => b.id == product.baseId);
-            var charmProducts = await _context.CharmProducts.Where(cp => cp.productId == product.id).ToListAsync();      
-                var images = await _context.Images.Where(i => i.productId == product.id).ToListAsync();
-            
+            var charmProducts = await _context.CharmProducts.Where(cp => cp.productId == product.id).ToListAsync();
+            var images = await _context.Images.Where(i => i.productId == product.id).ToListAsync();
+            var collection = await _context.Collections
+                    .Where(c => c.id == product.collectId)
+                    .Select(c => new CollectionDTO
+                    {
+                        id = c.id,
+                        name = c.name,
+                        descript = c.descript
+                    })
+                    .FirstOrDefaultAsync();
 
             decimal total = baseEntity?.price ?? 0;
             foreach (var cp in charmProducts)
@@ -41,11 +48,11 @@ namespace ClipNchic.DataAccess.Repositories
                 Totalprice = finalPrice,
                 collectId = product.collectId,
                 Collection = collection,
-                createDate = product.createDate,
-                status = product.status,
                 baseId = product.baseId,
                 Base = baseEntity,
                 CharmProducts = charmProducts,
+                createDate = product.createDate,
+                status = product.status,
                 Images = images
             };
         }
@@ -57,12 +64,19 @@ namespace ClipNchic.DataAccess.Repositories
 
             foreach (var product in products)
             {
-                var collection = await _context.Collections.FirstOrDefaultAsync(c => c.id == product.collectId);
                 var baseEntity = await _context.Bases.FirstOrDefaultAsync(b => b.id == product.baseId);
                 var charmProducts = await _context.CharmProducts.Where(cp => cp.productId == product.id).ToListAsync();
- 
+                var collection = await _context.Collections
+                    .Where(c => c.id == product.collectId)
+                    .Select(c => new CollectionDTO
+                    {
+                        id = c.id,
+                        name = c.name,
+                        descript = c.descript
+                    })
+                    .FirstOrDefaultAsync();
 
-                    var images = await _context.Images.Where(i => i.productId == product.id).ToListAsync();
+                var images = await _context.Images.Where(i => i.productId == product.id).ToListAsync();
 
 
                 decimal total = baseEntity?.price ?? 0;
@@ -86,10 +100,10 @@ namespace ClipNchic.DataAccess.Repositories
                     collectId = product.collectId,
                     Collection = collection,
                     baseId = product.baseId,
-                    createDate = product.createDate,
-                    status = product.status,
                     Base = baseEntity,
                     CharmProducts = charmProducts,
+                    createDate = product.createDate,
+                    status = product.status,
                     Images = images
                 });
             }
