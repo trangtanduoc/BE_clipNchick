@@ -17,9 +17,7 @@ public class AppDbContext : DbContext
     public DbSet<Charm> Charms => Set<Charm>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<CharmProduct> CharmProducts => Set<CharmProduct>();
-    public DbSet<ProductPic> ProductPics => Set<ProductPic>();
     public DbSet<BlindBox> BlindBoxes => Set<BlindBox>();
-    public DbSet<BlindPic> BlindPics => Set<BlindPic>();
     public DbSet<Ship> Ships => Set<Ship>();
     public DbSet<Voucher> Vouchers => Set<Voucher>();
     public DbSet<Order> Orders => Set<Order>();
@@ -72,32 +70,7 @@ public class AppDbContext : DbContext
             .HasOne(p => p.Model)
             .WithMany(m => m.Products)
             .HasForeignKey(p => p.modelId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        // Image relationships
-        modelBuilder.Entity<Base>()
-            .HasOne(b => b.Image)
-            .WithMany(i => i.Bases)
-            .HasForeignKey(b => b.imageId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        modelBuilder.Entity<Charm>()
-            .HasOne(c => c.Image)
-            .WithMany(i => i.Charms)
-            .HasForeignKey(c => c.imageId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        modelBuilder.Entity<ProductPic>()
-            .HasOne(pp => pp.Image)
-            .WithMany(i => i.ProductPics)
-            .HasForeignKey(pp => pp.imageId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        modelBuilder.Entity<BlindPic>()
-            .HasOne(bp => bp.Image)
-            .WithMany(i => i.BlindPics)
-            .HasForeignKey(bp => bp.imageId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.NoAction);     
 
         // Base relationships
         modelBuilder.Entity<Product>()
@@ -117,22 +90,7 @@ public class AppDbContext : DbContext
             .HasOne(cp => cp.Charm)
             .WithMany(c => c.CharmProducts)
             .HasForeignKey(cp => cp.charmId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        // ProductPic relationships
-        modelBuilder.Entity<ProductPic>()
-            .HasOne(pp => pp.Product)
-            .WithMany(p => p.ProductPics)
-            .HasForeignKey(pp => pp.productId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        // BlindPic relationships
-        modelBuilder.Entity<BlindPic>()
-            .HasOne(bp => bp.BlindBox)
-            .WithMany(bb => bb.BlindPics)
-            .HasForeignKey(bp => bp.blindId)
-            .OnDelete(DeleteBehavior.NoAction);
-
+            .OnDelete(DeleteBehavior.NoAction);   
         // OrderDetail relationships
         modelBuilder.Entity<OrderDetail>()
             .HasOne(od => od.Order)
