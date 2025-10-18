@@ -1,4 +1,5 @@
 using ClipNchic.Business.Services;
+using ClipNchic.DataAccess.Models;
 using ClipNchic.DataAccess.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 

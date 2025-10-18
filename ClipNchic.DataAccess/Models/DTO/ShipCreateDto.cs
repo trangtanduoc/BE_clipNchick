@@ -1,4 +1,4 @@
-namespace ClipNchic.DataAccess.Models
+namespace ClipNchic.DataAccess.Models.DTO
 {
     public class ShipCreateDto
     {

@@ -1,10 +1,13 @@
 ﻿using ClipNchic.Business.Services;
 using ClipNchic.DataAccess.Data;
 using ClipNchic.DataAccess.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Text;
 using System.Text.Json.Serialization;
 using CloudinaryDotNet;
 
@@ -86,8 +89,28 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<UserRepo>();
 builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<ClipNchic.DataAccess.Repositories.CartRepo>();
-builder.Services.AddScoped<ClipNchic.Business.Services.CartService>();
+builder.Services.AddScoped<OrderRepo>();
+builder.Services.AddScoped<OrderService>();
+
+var key = builder.Configuration["Jwt:Key"]; // 🔐 bạn cần thêm "Jwt:Key" trong appsettings.json
+if (!string.IsNullOrEmpty(key))
+{
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+            };
+        });
+}
+
+builder.Services.AddAuthorization();
+
 
 // DataAccess Repositories
 builder.Services.AddScoped<ImageRepo>();
@@ -123,6 +146,9 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

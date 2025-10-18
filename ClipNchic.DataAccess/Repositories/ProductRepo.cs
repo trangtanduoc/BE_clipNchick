@@ -125,19 +125,20 @@ namespace ClipNchic.DataAccess.Repositories
             existing.modelId = dto.modelId;
             existing.createDate = dto.createDate;
             existing.status = dto.status;
+
             _context.Products.Update(existing);
             return await _context.SaveChangesAsync();
         }
-
-        public async Task<int> DeleteAsync(int id)
+        public async Task<int> DeleteProductAsync(int id)
         {
-            var entity = await _context.Products.FindAsync(id);
-            if (entity != null)
+            var product = await _context.Products.FindAsync(id);
+            if (product != null)
             {
-                _context.Products.Remove(entity);
+                _context.Products.Remove(product);
                 return await _context.SaveChangesAsync();
             }
             return 0;
         }
+
     }
 }
