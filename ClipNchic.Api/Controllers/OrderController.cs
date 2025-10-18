@@ -1,4 +1,4 @@
-﻿using ClipNchic.Business.Services;
+using ClipNchic.Business.Services;
 using ClipNchic.DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -14,7 +14,14 @@ namespace ClipNchic.Api.Controllers
         {
             _service = service;
         }
-        // Lấy thông tin user từ token
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var orders = await _service.GetAllOrdersAsync();
+            return Ok(orders);
+        }
+        // L?y th�ng tin user t? token
         private (int userId, string? name, string? phone, string? address) GetUserInfo()
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
@@ -25,7 +32,7 @@ namespace ClipNchic.Api.Controllers
         }
 
 
-        // Lấy hoặc tạo order pending
+        // L?y ho?c t?o order pending
         [HttpGet("pending/{userId}")]
         public async Task<IActionResult> GetPendingOrder()
         {
@@ -34,7 +41,7 @@ namespace ClipNchic.Api.Controllers
             return Ok(order);
         }
 
-        // Thêm orderdetail
+        // Th�m orderdetail
         [HttpPost("add-detail")]
         public async Task<IActionResult> AddOrderDetail(int productId, int quantity, decimal price)
         {
@@ -43,7 +50,7 @@ namespace ClipNchic.Api.Controllers
             return Ok(order);
         }
 
-        // Xóa orderdetail
+        // X�a orderdetail
         [HttpDelete("delete-detail/{userId}/{orderDetailId}")]
         public async Task<IActionResult> DeleteOrderDetail(int orderDetailId)
         {
@@ -52,7 +59,7 @@ namespace ClipNchic.Api.Controllers
             return order == null ? NotFound() : Ok(order);
         }
 
-        // Cập nhật status
+        // C?p nh?t status
         [HttpPut("update-status/{orderId}")]
         public async Task<IActionResult> UpdateStatus(int orderId, [FromQuery] string status)
         {
@@ -60,16 +67,17 @@ namespace ClipNchic.Api.Controllers
             return result ? Ok("Updated") : NotFound();
         }
 
-        // Cập nhật payMethod
+        // C?p nh?t payMethod
         [HttpPut("update-paymethod/{orderId}")]
         public async Task<IActionResult> UpdatePayMethod(int orderId, [FromQuery] string method)
         {
             var result = await _service.UpdatePayMethodAsync(orderId, method);
             return result ? Ok("Updated") : NotFound();
         }
+
     }
 
-    // DTO cho request thêm orderdetail
+    // DTO cho request th�m orderdetail
     public class OrderDetailRequest
     {
         public int userId { get; set; }

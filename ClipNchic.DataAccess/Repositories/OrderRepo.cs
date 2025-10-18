@@ -11,6 +11,17 @@ namespace ClipNchic.DataAccess.Repositories
         {
             _context = context;
         }
+
+        public async Task<List<Order>> GetAllOrdersAsync()
+        {
+            return await _context.Orders
+                .Include(o => o.User)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                .OrderByDescending(o => o.createDate)
+                .ToListAsync();
+        }
+
         public async Task<Order?> GetPendingOrderByUserIdAsync(int userId)
         {
             return await _context.Orders

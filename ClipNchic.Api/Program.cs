@@ -28,6 +28,18 @@ builder.Services.AddControllers().AddJsonOptions(options => {
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -137,7 +149,7 @@ builder.Services.AddScoped<ModelService>();
 builder.Services.AddScoped<BaseService>();
 
 var app = builder.Build();
-
+app.UseCors("AllowAll");
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {

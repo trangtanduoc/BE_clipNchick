@@ -92,7 +92,7 @@ namespace ClipNchic.DataAccess.Repositories
             return result;
         }
 
-        public async Task<int> AddAsync(ProductCreateDto dto)
+        public async Task<Product> AddAsync(ProductCreateDto dto)
         {
             var entity = new Product
             {
@@ -108,7 +108,8 @@ namespace ClipNchic.DataAccess.Repositories
                 status = dto.status
             };
             _context.Products.Add(entity);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<int> UpdateAsync(ProductUpdateDto dto)
