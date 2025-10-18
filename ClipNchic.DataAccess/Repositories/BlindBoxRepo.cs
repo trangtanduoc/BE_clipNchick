@@ -17,7 +17,6 @@ namespace ClipNchic.DataAccess.Repositories
             if (box == null) return null;
             var images = await _context.Images.Where(i => i.blindBoxId == box.id).ToListAsync();
             var collection = await _context.Collections.FirstOrDefaultAsync(c => c.id == box.collectId);
-
             return new ResponseBlindBoxDTO
             {
                 id = box.id,
