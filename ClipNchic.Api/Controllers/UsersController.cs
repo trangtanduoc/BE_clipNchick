@@ -68,7 +68,7 @@ public class UsersController : ControllerBase
         return Ok(UserProfileDto.FromEntity(user));
     }
 
-    [HttpGet("me/delete_picture")]
+    [HttpDelete("me/delete_picture")]
     public async Task<IActionResult> DeleteProfilePicture()
     {
         var userId = GetUserIdFromClaims();
@@ -82,15 +82,18 @@ public class UsersController : ControllerBase
         {
             return NotFound(new { message = "User not found." });
         }
-        await _userService.UpdateUserProfileAsync(
+        var result = await _userService.UpdateUserProfileAsync(
             user.id,
             user.name,
             user.phone,
             user.birthday,
             user.address,
             null);
-
-        return NoContent();
+        if (result == null)
+        {
+            return NotFound(new { message = "User not found." });
+        }
+        return Ok(UserProfileDto.FromEntity(result));
     }
 
     private int? GetUserIdFromClaims()
