@@ -16,13 +16,11 @@ namespace ClipNchic.DataAccess.Repositories
             var box = await _context.BlindBoxes.FirstOrDefaultAsync(b => b.id == id);
             if (box == null) return null;
             var images = await _context.Images.Where(i => i.blindBoxId == box.id).ToListAsync();
-            var collection = await _context.Collections.FirstOrDefaultAsync(c => c.id == box.collectId);
 
             return new ResponseBlindBoxDTO
             {
                 id = box.id,
                 collectId = box.collectId,
-                Collection = collection,
                 name = box.name,
                 descript = box.descript,
                 price = box.price,
@@ -38,7 +36,17 @@ namespace ClipNchic.DataAccess.Repositories
             var result = new List<ResponseBlindBoxDTO>();
             foreach (var box in boxes)
             {
-                var collection = await _context.Collections.FirstOrDefaultAsync(c => c.id == box.collectId);
+                var images = await _context.Images.Where(i => i.blindBoxId == box.id).ToListAsync();
+                var collection = await _context.Collections
+                     .Where(c => c.id == box.collectId)
+                    .Select(c => new CollectionDTO
+                    {
+                        id = c.id,
+                        name = c.name,
+                        descript = c.descript
+                    })
+                    .FirstOrDefaultAsync();
+
                 result.Add(new ResponseBlindBoxDTO
                 {
                     id = box.id,
@@ -48,13 +56,14 @@ namespace ClipNchic.DataAccess.Repositories
                     descript = box.descript,
                     price = box.price,
                     stock = box.stock,
-                    status = box.status
+                    status = box.status,
+                    Images = images
                 });
             }
             return result;
         }
 
-        public async Task<int> AddAsync(BlindBoxCreateDto dto)
+        public async Task<BlindBox> AddAsync(BlindBoxCreateDto dto)
         {
             var entity = new BlindBox
             {
@@ -66,7 +75,8 @@ namespace ClipNchic.DataAccess.Repositories
                 status = dto.status
             };
             _context.BlindBoxes.Add(entity);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<int> UpdateAsync(BlindBox box)

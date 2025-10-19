@@ -1,7 +1,7 @@
 using ClipNchic.Business.Services;
-using ClipNchic.DataAccess.Models;
 using ClipNchic.DataAccess.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace ClipNchic.Api.Controllers;
 
@@ -24,10 +24,25 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] ProductCreateDto dto)
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
     {
-        var result = await _service.AddAsync(dto);
-        if (result > 0) return Ok(new { message = "Product created successfully" });
+        var dto = new ProductCreateDto
+        {
+            collectId = request.collectId,
+            title = request.title,
+            descript = request.descript,
+            baseId = request.baseId,
+            price = request.price,
+            userId = request.userId,
+            stock = request.stock,
+            modelId = request.modelId,
+            createDate = request.createDate,
+            status = request.status
+        };
+
+        var result = await _service.AddAsync(dto, request.Images);
+        if (result != null) return Ok(result);
         return BadRequest(new { message = "Failed to create Product" });
     }
 
@@ -46,4 +61,19 @@ public class ProductController : ControllerBase
         if (result > 0) return Ok(new { message = "Product deleted successfully" });
         return NotFound(new { message = "Product not found" });
     }
+}
+
+public class ProductCreateRequest
+{
+    public int? collectId { get; set; }
+    public string? title { get; set; }
+    public string? descript { get; set; }
+    public int? baseId { get; set; }
+    public decimal? price { get; set; }
+    public int? userId { get; set; }
+    public int? stock { get; set; }
+    public int? modelId { get; set; }
+    public DateTime? createDate { get; set; }
+    public string? status { get; set; }
+    public List<IFormFile>? Images { get; set; }
 }

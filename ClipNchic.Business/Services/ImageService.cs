@@ -3,6 +3,8 @@ using ClipNchic.DataAccess.Models.DTO;
 using ClipNchic.DataAccess.Repositories;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http;
+using System.Net;
 
 namespace ClipNchic.Business.Services
 {
@@ -69,6 +71,87 @@ namespace ClipNchic.Business.Services
                 return image.address;
             }
             return null;
+        }
+
+        public async Task<string?> UploadProductImageAsync(int productId, IFormFile file)
+        {
+            if (file == null || file.Length == 0) return null;
+
+            var tempPath = Path.GetTempFileName();
+            await using (var stream = System.IO.File.Create(tempPath))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            try
+            {
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(tempPath)
+                };
+
+                var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+                if (uploadResult.StatusCode == HttpStatusCode.OK)
+                {
+                    var dto = new ImageCreateDto
+                    {
+                        name = Path.GetFileName(file.FileName),
+                        address = uploadResult.SecureUrl.ToString(),
+                        productId = productId
+                    };
+                    await _repo.AddAsync(dto);
+                    return dto.address;
+                }
+
+                return null;
+            }
+            finally
+            {
+                if (System.IO.File.Exists(tempPath))
+                {
+                    System.IO.File.Delete(tempPath);
+                }
+            }
+        }
+        public async Task<string?> UploadBlindBoxImageAsync(int blindBoxId, IFormFile file)
+        {
+            if (file == null || file.Length == 0) return null;
+
+            var tempPath = Path.GetTempFileName();
+            await using (var stream = System.IO.File.Create(tempPath))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            try
+            {
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(tempPath)
+                };
+
+                var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+                if (uploadResult.StatusCode == HttpStatusCode.OK)
+                {
+                    var dto = new ImageCreateDto
+                    {
+                        name = Path.GetFileName(file.FileName),
+                        address = uploadResult.SecureUrl.ToString(),
+                        blindBoxId = blindBoxId
+                    };
+                    await _repo.AddAsync(dto);
+                    return dto.address;
+                }
+
+                return null;
+            }
+            finally
+            {
+                if (System.IO.File.Exists(tempPath))
+                {
+                    System.IO.File.Delete(tempPath);
+                }
+            }
         }
 
         

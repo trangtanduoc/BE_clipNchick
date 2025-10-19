@@ -1,4 +1,4 @@
-﻿using ClipNchic.Business.Services;
+using ClipNchic.Business.Services;
 using ClipNchic.DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -14,13 +14,20 @@ namespace ClipNchic.Api.Controllers
         {
             _service = service;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var orders = await _service.GetAllOrdersAsync();
+            return Ok(orders);
+        }
         // Lấy thông tin user từ token
         private (int userId, string? name, string? phone, string? address) GetUserInfo()
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
             var name = User.FindFirst(ClaimTypes.Name)?.Value;
-            var phone = User.FindFirst("Phone")?.Value;
-            var address = User.FindFirst("Address")?.Value;
+            var phone = User.FindFirst(ClaimTypes.MobilePhone)?.Value;
+            var address = User.FindFirst(ClaimTypes.StreetAddress)?.Value;
             return (userId, name, phone, address);
         }
 
@@ -67,6 +74,7 @@ namespace ClipNchic.Api.Controllers
             var result = await _service.UpdatePayMethodAsync(orderId, method);
             return result ? Ok("Updated") : NotFound();
         }
+
     }
 
     // DTO cho request thêm orderdetail

@@ -10,7 +10,12 @@ namespace ClipNchic.Business.Services
         {
             _orderRepo = orderRepo;
         }
-        // 1️⃣ Lấy tất cả OrderDetail theo OrderId của order pending
+
+        public Task<List<Order>> GetAllOrdersAsync()
+        {
+            return _orderRepo.GetAllOrdersAsync();
+        }
+        // Lấy tất cả OrderDetail theo OrderId của order pending
         public async Task<Order> GetOrCreatePendingOrderAsync(int userId, string? phone, string? address, string? name)
         {
             var order = await _orderRepo.GetPendingOrderByUserIdAsync(userId);
@@ -33,7 +38,7 @@ namespace ClipNchic.Business.Services
             return order;
         }
 
-        // 2️⃣ Thêm OrderDetail
+        // Thêm OrderDetail
         public async Task<Order> AddOrderDetailAsync(int userId, string? phone, string? address, string? name, int productId, int quantity, decimal price)
         {
             var order = await _orderRepo.GetPendingOrderByUserIdAsync(userId)
@@ -58,7 +63,7 @@ namespace ClipNchic.Business.Services
             return order;
         }
 
-        // 3️⃣ Xóa OrderDetail
+        // Xóa OrderDetail
         public async Task<Order?> DeleteOrderDetailAsync(int userId, int orderDetailId)
         {
             var order = await _orderRepo.GetPendingOrderByUserIdAsync(userId);
@@ -82,7 +87,7 @@ namespace ClipNchic.Business.Services
             return order;
         }
 
-        // 4️⃣ Cập nhật status
+        // Cập nhật status
         public async Task<bool> UpdateStatusAsync(int orderId, string newStatus)
         {
             var order = await _orderRepo.GetOrderByIdAsync(orderId);
@@ -93,7 +98,7 @@ namespace ClipNchic.Business.Services
             return true;
         }
 
-        // 5️⃣ Cập nhật payMethod
+        // Cập nhật payMethod
         public async Task<bool> UpdatePayMethodAsync(int orderId, string method)
         {
             var order = await _orderRepo.GetOrderByIdAsync(orderId);
