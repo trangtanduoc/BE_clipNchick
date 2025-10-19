@@ -3,6 +3,7 @@ using System.Security.Claims;
 using ClipNchic.Api.Models;
 using ClipNchic.Business.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClipNchic.Api.Controllers;
@@ -39,7 +40,7 @@ public class UsersController : ControllerBase
 
     [HttpPut("me")]
     [Consumes("multipart/form-data")]
-    public async Task<IActionResult> UpdateCurrentUser([FromBody] UpdateUserRequest request)
+    public async Task<IActionResult> UpdateCurrentUser([FromForm] UpdateUserRequest request)
     {
         if (request == null)
         {
@@ -58,7 +59,8 @@ public class UsersController : ControllerBase
             request.Phone,
             request.Birthday,
             request.Address,
-            request.Image);
+            request.ImageUrl,
+            request.ImageFile);
 
         if (user == null)
         {
@@ -88,7 +90,9 @@ public class UsersController : ControllerBase
             user.phone,
             user.birthday,
             user.address,
-            null);
+            null,
+            null,
+            removeImage: true);
         if (result == null)
         {
             return NotFound(new { message = "User not found." });
@@ -109,5 +113,8 @@ public class UpdateUserRequest
     public string? Phone { get; set; }
     public DateTime? Birthday { get; set; }
     public string? Address { get; set; }
-    public IFormFile? Image { get; set; }
+    [FromForm(Name = "imageUrl")]
+    public string? ImageUrl { get; set; }
+    [FromForm(Name = "image")]
+    public IFormFile? ImageFile { get; set; }
 }
