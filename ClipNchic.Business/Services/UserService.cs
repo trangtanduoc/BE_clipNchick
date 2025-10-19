@@ -138,12 +138,14 @@ public class UserService
     }
 
     public async Task<User?> UpdateUserProfileAsync(
-    int userId,
-    string? name,
-    string? phone,
-    DateTime? birthday,
-    string? address,
-    IFormFile? image)
+        int userId,
+        string? name,
+        string? phone,
+        DateTime? birthday,
+        string? address,
+        string? imageUrl,
+        IFormFile? imageFile = null,
+        bool removeImage = false)
     {
         var user = await _userRepo.GetUserByIdAsync(userId);
         if (user == null)
@@ -151,13 +153,45 @@ public class UserService
             return null;
         }
 
-        user.name = name ?? string.Empty;
-        user.phone = phone ?? string.Empty;
-        user.birthday = birthday ?? DateTime.MinValue;
-        user.address = address ?? string.Empty;
+        if (name is not null)
+        {
+            user.name = name;
+        }
 
-        var imageUrl = await UploadImageAsync(image);
-        user.image = imageUrl ?? string.Empty;
+        if (phone is not null)
+        {
+            user.phone = phone;
+        }
+
+        if (birthday.HasValue)
+        {
+            user.birthday = birthday.Value;
+        }
+
+        if (address is not null)
+        {
+            user.address = address;
+        }
+
+        if (removeImage)
+        {
+            user.image = null;
+        }
+        else
+        {
+            if (imageUrl is not null)
+            {
+                user.image = imageUrl;
+            }
+            else if (imageFile is not null && imageFile.Length > 0)
+            {
+                var uploadedUrl = await UploadImageAsync(imageFile);
+                if (!string.IsNullOrWhiteSpace(uploadedUrl))
+                {
+                    user.image = uploadedUrl;
+                }
+            }
+        }
 
         await _userRepo.UpdateUserAsync(user);
         return user;
