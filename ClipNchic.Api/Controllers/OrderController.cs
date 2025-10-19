@@ -31,6 +31,14 @@ namespace ClipNchic.Api.Controllers
             return (userId, name, phone, address);
         }
 
+        // Lấy tất cả order của user
+        [HttpGet("user-orders/{userId}")]
+        public async Task<IActionResult> GetUserOrders()
+        {
+            var (userId, _, _, _) = GetUserInfo();
+            var orders = await _service.GetOrdersByUserIdAsync(userId);
+            return Ok(orders);
+        }
 
         // Lấy hoặc tạo order pending
         [HttpGet("pending/{userId}")]

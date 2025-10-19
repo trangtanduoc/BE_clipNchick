@@ -35,7 +35,19 @@ namespace ClipNchic.Business.Services
                 };
                 await _orderRepo.CreatePendingOrderAsync(order);
             }
+            if(order != null)
+            {
+                foreach (var detail in order.OrderDetails)
+                {
+                    var product = detail.Product;
+                    var firstImage = product?.Images?.FirstOrDefault();
+                }
+            }
             return order;
+        }
+        public Task<List<Order>> GetOrdersByUserIdAsync(int userId)
+        {
+            return _orderRepo.GetOrdersByUserIdAsync(userId);
         }
 
         // Thêm OrderDetail

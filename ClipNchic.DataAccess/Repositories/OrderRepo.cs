@@ -18,6 +18,7 @@ namespace ClipNchic.DataAccess.Repositories
                 .Include(o => o.User)
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Product)
+                        .ThenInclude(p => p.Images)
                 .OrderByDescending(o => o.createDate)
                 .ToListAsync();
         }
@@ -26,7 +27,19 @@ namespace ClipNchic.DataAccess.Repositories
         {
             return await _context.Orders
                 .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                        .ThenInclude(p => p.Images)
                 .FirstOrDefaultAsync(o => o.userId == userId && o.status == "pending");
+        }
+        public async Task<List<Order>> GetOrdersByUserIdAsync(int userId)
+        {
+            return await _context.Orders
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                        .ThenInclude(p => p.Images)
+                .Where(o => o.userId == userId && o.status != "pending")
+                .OrderByDescending(o => o.createDate)
+                .ToListAsync();
         }
 
         public async Task<Order> CreatePendingOrderAsync(Order order)
