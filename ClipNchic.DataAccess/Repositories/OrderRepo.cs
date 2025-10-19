@@ -55,6 +55,14 @@ namespace ClipNchic.DataAccess.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<OrderDetail?> GetOrderDetailByOrderAndProductAsync(int orderId, int productId)
+        {
+            return await _context.OrderDetails
+                .FirstOrDefaultAsync(d => d.orderId == orderId && d.productId == productId);
+        }
+
+        
+
         public async Task UpdateOrderAsync(Order order)
         {
             _context.Orders.Update(order);
@@ -66,6 +74,11 @@ namespace ClipNchic.DataAccess.Repositories
             return await _context.OrderDetails.FindAsync(id);
         }
 
+        public async Task UpdateOrderDetailAsync(OrderDetail detail)
+        {
+            _context.OrderDetails.Update(detail);
+            await _context.SaveChangesAsync();
+        }
         public async Task DeleteOrderDetailAsync(OrderDetail detail)
         {
             _context.OrderDetails.Remove(detail);

@@ -7452,9 +7452,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\cungt\\Source\\Repos\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.csproj",
+      "projectUniqueName": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.csproj",
       "projectName": "ClipNchic.Api",
-      "projectPath": "C:\\Users\\cungt\\Source\\Repos\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.csproj",
+      "projectPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.csproj",
       "packagesPath": "C:\\Users\\cungt\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\cungt\\Source\\Repos\\BE_clipNchick\\ClipNchic.Api\\obj\\",
       "projectStyle": "PackageReference",
@@ -7477,11 +7477,11 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\cungt\\Source\\Repos\\BE_clipNchick\\ClipNchic.Business\\ClipNchic.Business.csproj": {
-              "projectPath": "C:\\Users\\cungt\\Source\\Repos\\BE_clipNchick\\ClipNchic.Business\\ClipNchic.Business.csproj"
+            "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\ClipNchic.Business.csproj": {
+              "projectPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\ClipNchic.Business.csproj"
             },
-            "C:\\Users\\cungt\\Source\\Repos\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj": {
-              "projectPath": "C:\\Users\\cungt\\Source\\Repos\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj"
+            "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj": {
+              "projectPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj"
             }
           }
         }

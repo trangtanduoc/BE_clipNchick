@@ -56,15 +56,27 @@ namespace ClipNchic.Business.Services
             var order = await _orderRepo.GetPendingOrderByUserIdAsync(userId)
                         ?? await GetOrCreatePendingOrderAsync(userId, phone, address, name);
 
-            var detail = new OrderDetail
-            {
-                orderId = order.id,
-                productId = productId,
-                quantity = quantity,
-                price = price
-            };
+            var existingDetail = await _orderRepo.GetOrderDetailByOrderAndProductAsync(order.id, productId);
 
-            await _orderRepo.AddOrderDetailAsync(detail);
+            if (existingDetail != null)
+            {
+                // Nếu đã có thì cộng thêm số lượng mới
+                existingDetail.quantity += quantity;
+                await _orderRepo.UpdateOrderDetailAsync(existingDetail);
+            }
+            else
+            {
+                // Nếu chưa có thì tạo mới
+                var detail = new OrderDetail
+                {
+                    orderId = order.id,
+                    productId = productId,
+                    quantity = quantity,
+                    price = price
+                };
+
+                await _orderRepo.AddOrderDetailAsync(detail);
+            }
 
             // cập nhật giá
             order.totalPrice = (order.totalPrice ?? 0) + quantity * price;
