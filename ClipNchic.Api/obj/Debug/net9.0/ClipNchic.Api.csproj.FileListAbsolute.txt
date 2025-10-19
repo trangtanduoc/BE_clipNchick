@@ -734,3 +734,12 @@ C:\Users\minec\Source\Repos\BE_clipNchick\ClipNchic.Api\obj\Debug\net9.0\ClipNch
 C:\Users\minec\Source\Repos\BE_clipNchick\ClipNchic.Api\obj\Debug\net9.0\ClipNchic.Api.pdb
 C:\Users\minec\Source\Repos\BE_clipNchick\ClipNchic.Api\obj\Debug\net9.0\ClipNchic.Api.genruntimeconfig.cache
 C:\Users\minec\Source\Repos\BE_clipNchick\ClipNchic.Api\obj\Debug\net9.0\ref\ClipNchic.Api.dll
+C:\Users\cungt\Source\Repos\BE_clipNchick\ClipNchic.Api\bin\Debug\net9.0\appsettings.json
+C:\Users\cungt\Source\Repos\BE_clipNchick\ClipNchic.Api\bin\Debug\net9.0\CloudinaryDotNet.dll
+C:\Users\cungt\Source\Repos\BE_clipNchick\ClipNchic.Api\bin\Debug\net9.0\Google.Apis.dll
+C:\Users\cungt\Source\Repos\BE_clipNchick\ClipNchic.Api\bin\Debug\net9.0\Google.Apis.Auth.dll
+C:\Users\cungt\Source\Repos\BE_clipNchick\ClipNchic.Api\bin\Debug\net9.0\Google.Apis.Core.dll
+C:\Users\cungt\Source\Repos\BE_clipNchick\ClipNchic.Api\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\cungt\Source\Repos\BE_clipNchick\ClipNchic.Api\bin\Debug\net9.0\Newtonsoft.Json.dll
+C:\Users\cungt\Source\Repos\BE_clipNchick\ClipNchic.Api\bin\Debug\net9.0\System.Management.dll
+C:\Users\cungt\Source\Repos\BE_clipNchick\ClipNchic.Api\bin\Debug\net9.0\runtimes\win\lib\net7.0\System.Management.dll
