@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.csproj": {}
+    "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.csproj": {}
   },
   "projects": {
-    "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.csproj": {
+    "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.csproj",
+        "projectUniqueName": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.csproj",
         "projectName": "ClipNchic.Api",
-        "projectPath": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Api\\obj\\",
+        "projectPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\ClipNchic.Api.csproj",
+        "packagesPath": "C:\\Users\\cungt\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\cungt\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -32,11 +32,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "D:\\exe_team\\BE_clipNchick\\ClipNchic.Business\\ClipNchic.Business.csproj": {
-                "projectPath": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Business\\ClipNchic.Business.csproj"
+              "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\ClipNchic.Business.csproj": {
+                "projectPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\ClipNchic.Business.csproj"
               },
-              "D:\\exe_team\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj": {
-                "projectPath": "D:\\exe_team\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj"
+              "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj": {
+                "projectPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj"
               }
             }
           }
@@ -103,24 +103,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\exe_team\\BE_clipNchick\\ClipNchic.Business\\ClipNchic.Business.csproj": {
+    "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\ClipNchic.Business.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Business\\ClipNchic.Business.csproj",
+        "projectUniqueName": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\ClipNchic.Business.csproj",
         "projectName": "ClipNchic.Business",
-        "projectPath": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Business\\ClipNchic.Business.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\exe_team\\BE_clipNchick\\ClipNchic.Business\\obj\\",
+        "projectPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\ClipNchic.Business.csproj",
+        "packagesPath": "C:\\Users\\cungt\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\cungt\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -135,8 +135,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\exe_team\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj": {
-                "projectPath": "D:\\exe_team\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj"
+              "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj": {
+                "projectPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj"
               }
             }
           }
@@ -189,24 +189,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\exe_team\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj": {
+    "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\exe_team\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj",
+        "projectUniqueName": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj",
         "projectName": "ClipNchic.DataAccess",
-        "projectPath": "D:\\exe_team\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\exe_team\\BE_clipNchick\\ClipNchic.DataAccess\\obj\\",
+        "projectPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj",
+        "packagesPath": "C:\\Users\\cungt\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cungt\\Source\\Repos\\BE_clipNchick\\ClipNchic.DataAccess\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\cungt\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -270,7 +270,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

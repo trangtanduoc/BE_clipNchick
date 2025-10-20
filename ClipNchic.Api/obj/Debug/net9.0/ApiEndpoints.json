@@ -49,6 +49,32 @@
   },
   {
     "ContainingType": "ClipNchic.Api.Controllers.OrderController",
+    "Method": "GetAllOrders",
+    "RelativePath": "api/Order",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.OrderController",
+    "Method": "GetOrderById",
+    "RelativePath": "api/Order/{orderId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.OrderController",
     "Method": "AddOrderDetail",
     "RelativePath": "api/Order/add-detail",
     "HttpMethod": "POST",
@@ -96,6 +122,22 @@
   },
   {
     "ContainingType": "ClipNchic.Api.Controllers.OrderController",
+    "Method": "GetOrderDetailById",
+    "RelativePath": "api/Order/detail/{orderDetailId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderDetailId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.OrderController",
     "Method": "GetPendingOrder",
     "RelativePath": "api/Order/pending/{userId}",
     "HttpMethod": "GET",
@@ -105,6 +147,48 @@
       {
         "Name": "userId",
         "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.OrderController",
+    "Method": "UpdateOrderDetail",
+    "RelativePath": "api/Order/update-detail/{orderDetailId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderDetailId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ClipNchic.DataAccess.Models.DTO.OrderDetailDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.OrderController",
+    "Method": "UpdateOrder",
+    "RelativePath": "api/Order/update-order/{orderId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ClipNchic.DataAccess.Models.DTO.OrderDTO",
         "IsRequired": true
       }
     ],
@@ -153,6 +237,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ClipNchic.Api.Controllers.OrderController",
+    "Method": "GetUserOrders",
+    "RelativePath": "api/Order/user-orders/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ClipNchic.Api.Controllers.UsersController",
     "Method": "GetCurrentUser",
     "RelativePath": "api/Users/me",
@@ -171,8 +271,117 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "request",
-        "Type": "ClipNchic.Api.Controllers.UpdateUserRequest",
+        "Name": "Name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Phone",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Birthday",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Address",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "imageUrl",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "image",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.UsersController",
+    "Method": "DeleteProfilePicture",
+    "RelativePath": "api/Users/me/delete_picture",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.BaseController",
+    "Method": "Create",
+    "RelativePath": "Base/Create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "ClipNchic.DataAccess.Models.DTO.BaseCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.BaseController",
+    "Method": "Delete",
+    "RelativePath": "Base/Delete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.BaseController",
+    "Method": "GetAll",
+    "RelativePath": "Base/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.BaseController",
+    "Method": "Get",
+    "RelativePath": "Base/GetById/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.BaseController",
+    "Method": "Update",
+    "RelativePath": "Base/Update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "ClipNchic.DataAccess.Models.DTO.BaseUpdateDto",
         "IsRequired": true
       }
     ],
@@ -187,9 +396,39 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "dto",
-        "Type": "ClipNchic.DataAccess.Models.DTO.BlindBoxCreateDto",
-        "IsRequired": true
+        "Name": "collectId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "descript",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "price",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      },
+      {
+        "Name": "stock",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Images",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60]]",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -247,80 +486,6 @@
       {
         "Name": "box",
         "Type": "ClipNchic.DataAccess.Models.BlindBox",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ClipNchic.Api.Controllers.BlindPicController",
-    "Method": "Create",
-    "RelativePath": "BlindPic/Create",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "ClipNchic.DataAccess.Models.DTO.BlindPicCreateDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ClipNchic.Api.Controllers.BlindPicController",
-    "Method": "Delete",
-    "RelativePath": "BlindPic/Delete/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ClipNchic.Api.Controllers.BlindPicController",
-    "Method": "GetAll",
-    "RelativePath": "BlindPic/GetAll",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ClipNchic.Api.Controllers.BlindPicController",
-    "Method": "Get",
-    "RelativePath": "BlindPic/GetById/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "ClipNchic.Api.Controllers.BlindPicController",
-    "Method": "Update",
-    "RelativePath": "BlindPic/Update",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "pic",
-        "Type": "ClipNchic.DataAccess.Models.BlindPic",
         "IsRequired": true
       }
     ],
@@ -587,7 +752,28 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "baseId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "charmId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "blindBoxId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "productId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -623,6 +809,101 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ClipNchic.Api.Controllers.ImageController",
+    "Method": "UpdateWithCloudinary",
+    "RelativePath": "Image/UpdateWithCloudinary",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.ModelController",
+    "Method": "Create",
+    "RelativePath": "Model/Create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "ClipNchic.DataAccess.Models.DTO.ModelCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.ModelController",
+    "Method": "Delete",
+    "RelativePath": "Model/Delete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.ModelController",
+    "Method": "GetAll",
+    "RelativePath": "Model/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.ModelController",
+    "Method": "Get",
+    "RelativePath": "Model/GetById/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.ModelController",
+    "Method": "Update",
+    "RelativePath": "Model/Update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "ClipNchic.DataAccess.Models.DTO.ModelUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ClipNchic.Api.Controllers.ProductController",
     "Method": "Create",
     "RelativePath": "Product/Create",
@@ -631,9 +912,59 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "product",
-        "Type": "ClipNchic.DataAccess.Models.DTO.ProductDto",
-        "IsRequired": true
+        "Name": "collectId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "descript",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "baseId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "price",
+        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "userId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "stock",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "modelId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "createDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Images",
+        "Type": "System.Collections.Generic.List\u00601[[Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60]]",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -683,19 +1014,14 @@
   {
     "ContainingType": "ClipNchic.Api.Controllers.ProductController",
     "Method": "Update",
-    "RelativePath": "Product/Update/{id}",
+    "RelativePath": "Product/Update",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "product",
-        "Type": "ClipNchic.DataAccess.Models.Product",
+        "Name": "dto",
+        "Type": "ClipNchic.DataAccess.Models.DTO.ProductUpdateDto",
         "IsRequired": true
       }
     ],

@@ -1,18 +1,38 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\",
+  "WorkspaceRootPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1D5F3871-CC7A-4C03-B929-03C7D88D3C49}|ClipNchic.Business\\ClipNchic.Business.csproj|c:\\users\\minec\\source\\repos\\be_clipnchick\\clipnchic.business\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D5F3871-CC7A-4C03-B929-03C7D88D3C49}|ClipNchic.Business\\ClipNchic.Business.csproj|solutionrelative:clipnchic.business\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|c:\\users\\cungt\\source\\repos\\be_clipnchick\\clipnchic.api\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|c:\\users\\minec\\source\\repos\\be_clipnchick\\clipnchic.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{1D5F3871-CC7A-4C03-B929-03C7D88D3C49}|ClipNchic.Business\\ClipNchic.Business.csproj|c:\\users\\cungt\\source\\repos\\be_clipnchick\\clipnchic.business\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D5F3871-CC7A-4C03-B929-03C7D88D3C49}|ClipNchic.Business\\ClipNchic.Business.csproj|solutionrelative:clipnchic.business\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|c:\\users\\minec\\source\\repos\\be_clipnchick\\clipnchic.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1CF92AD8-ADDC-462B-A37A-DF0CDC0A4C1F}|ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj|c:\\users\\cungt\\source\\repos\\be_clipnchick\\clipnchic.dataaccess\\repositories\\orderrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1CF92AD8-ADDC-462B-A37A-DF0CDC0A4C1F}|ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj|solutionrelative:clipnchic.dataaccess\\repositories\\orderrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CF92AD8-ADDC-462B-A37A-DF0CDC0A4C1F}|ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj|c:\\users\\cungt\\source\\repos\\be_clipnchick\\clipnchic.dataaccess\\models\\dto\\orderdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1CF92AD8-ADDC-462B-A37A-DF0CDC0A4C1F}|ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj|solutionrelative:clipnchic.dataaccess\\models\\dto\\orderdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CF92AD8-ADDC-462B-A37A-DF0CDC0A4C1F}|ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj|c:\\users\\cungt\\source\\repos\\be_clipnchick\\clipnchic.dataaccess\\models\\entities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1CF92AD8-ADDC-462B-A37A-DF0CDC0A4C1F}|ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj|solutionrelative:clipnchic.dataaccess\\models\\entities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1CF92AD8-ADDC-462B-A37A-DF0CDC0A4C1F}|ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj|c:\\users\\cungt\\source\\repos\\be_clipnchick\\clipnchic.dataaccess\\repositories\\charmrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1CF92AD8-ADDC-462B-A37A-DF0CDC0A4C1F}|ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj|solutionrelative:clipnchic.dataaccess\\repositories\\charmrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|c:\\users\\cungt\\source\\repos\\be_clipnchick\\clipnchic.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|c:\\users\\cungt\\source\\repos\\be_clipnchick\\clipnchic.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -61,46 +81,107 @@
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UserService.cs",
-              "DocumentMoniker": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\Services\\UserService.cs",
-              "RelativeDocumentMoniker": "ClipNchic.Business\\Services\\UserService.cs",
-              "ToolTip": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\Services\\UserService.cs",
-              "RelativeToolTip": "ClipNchic.Business\\Services\\UserService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "OrderDetailDTO.cs",
+              "DocumentMoniker": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\Models\\DTO\\OrderDetailDTO.cs",
+              "RelativeDocumentMoniker": "ClipNchic.DataAccess\\Models\\DTO\\OrderDetailDTO.cs",
+              "ToolTip": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\Models\\DTO\\OrderDetailDTO.cs",
+              "RelativeToolTip": "ClipNchic.DataAccess\\Models\\DTO\\OrderDetailDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-17T17:59:56.909Z",
+              "WhenOpened": "2025-10-20T04:48:10.625Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\Program.cs",
-              "RelativeDocumentMoniker": "ClipNchic.Api\\Program.cs",
-              "ToolTip": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\Program.cs",
-              "RelativeToolTip": "ClipNchic.Api\\Program.cs",
-              "ViewState": "AgIAAF0AAAAAAAAAAAAAAHUAAAAYAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\Controllers\\OrderController.cs",
+              "RelativeDocumentMoniker": "ClipNchic.Api\\Controllers\\OrderController.cs",
+              "ToolTip": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\Controllers\\OrderController.cs",
+              "RelativeToolTip": "ClipNchic.Api\\Controllers\\OrderController.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAIwD4AAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-17T16:04:09.098Z",
+              "WhenOpened": "2025-10-19T15:22:02.946Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "appsettings.Development.json",
-              "DocumentMoniker": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\appsettings.Development.json",
-              "RelativeDocumentMoniker": "ClipNchic.Api\\appsettings.Development.json",
-              "ToolTip": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\appsettings.Development.json",
-              "RelativeToolTip": "ClipNchic.Api\\appsettings.Development.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Title": "OrderService.cs",
+              "DocumentMoniker": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\Services\\OrderService.cs",
+              "RelativeDocumentMoniker": "ClipNchic.Business\\Services\\OrderService.cs",
+              "ToolTip": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\Services\\OrderService.cs",
+              "RelativeToolTip": "ClipNchic.Business\\Services\\OrderService.cs",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAYwKAAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T15:22:01.287Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OrderRepo.cs",
+              "DocumentMoniker": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\Repositories\\OrderRepo.cs",
+              "RelativeDocumentMoniker": "ClipNchic.DataAccess\\Repositories\\OrderRepo.cs",
+              "ToolTip": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\Repositories\\OrderRepo.cs",
+              "RelativeToolTip": "ClipNchic.DataAccess\\Repositories\\OrderRepo.cs",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAYwFcAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T15:50:11.07Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CharmRepo.cs",
+              "DocumentMoniker": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\Repositories\\CharmRepo.cs",
+              "RelativeDocumentMoniker": "ClipNchic.DataAccess\\Repositories\\CharmRepo.cs",
+              "ToolTip": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\Repositories\\CharmRepo.cs",
+              "RelativeToolTip": "ClipNchic.DataAccess\\Repositories\\CharmRepo.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAiwBEAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-20T03:38:46.583Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Entities.cs",
+              "DocumentMoniker": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\Models\\Entities.cs",
+              "RelativeDocumentMoniker": "ClipNchic.DataAccess\\Models\\Entities.cs",
+              "ToolTip": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\Models\\Entities.cs",
+              "RelativeToolTip": "ClipNchic.DataAccess\\Models\\Entities.cs",
+              "ViewState": "AgIAABgBAAAAAAAAAAA0wCYBAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-20T02:58:50.484Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\appsettings.json",
+              "RelativeDocumentMoniker": "ClipNchic.Api\\appsettings.json",
+              "ToolTip": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\appsettings.json",
+              "RelativeToolTip": "ClipNchic.Api\\appsettings.json",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABQAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-17T15:49:47.192Z",
+              "WhenOpened": "2025-10-19T15:59:02.586Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\Program.cs",
+              "RelativeDocumentMoniker": "ClipNchic.Api\\Program.cs",
+              "ToolTip": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\Program.cs",
+              "RelativeToolTip": "ClipNchic.Api\\Program.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAADwv6EAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T15:20:48.869Z",
               "EditorCaption": ""
             }
           ]

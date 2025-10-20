@@ -18,6 +18,7 @@ namespace ClipNchic.DataAccess.Repositories
                 .Include(o => o.User)
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Product)
+                        .ThenInclude(p => p.Images)
                 .OrderByDescending(o => o.createDate)
                 .ToListAsync();
         }
@@ -30,6 +31,16 @@ namespace ClipNchic.DataAccess.Repositories
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.BlindBox)
                 .FirstOrDefaultAsync(o => o.userId == userId && o.status == "pending");
+        }
+        public async Task<List<Order>> GetOrdersByUserIdAsync(int userId)
+        {
+            return await _context.Orders
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                        .ThenInclude(p => p.Images)
+                .Where(o => o.userId == userId && o.status != "pending")
+                .OrderByDescending(o => o.createDate)
+                .ToListAsync();
         }
 
         public async Task<Order> CreatePendingOrderAsync(Order order)
@@ -45,6 +56,14 @@ namespace ClipNchic.DataAccess.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<OrderDetail?> GetOrderDetailByOrderAndProductAsync(int orderId, int productId)
+        {
+            return await _context.OrderDetails
+                .FirstOrDefaultAsync(d => d.orderId == orderId && d.productId == productId);
+        }
+
+        
+
         public async Task UpdateOrderAsync(Order order)
         {
             _context.Orders.Update(order);
@@ -56,6 +75,11 @@ namespace ClipNchic.DataAccess.Repositories
             return await _context.OrderDetails.FindAsync(id);
         }
 
+        public async Task UpdateOrderDetailAsync(OrderDetail detail)
+        {
+            _context.OrderDetails.Update(detail);
+            await _context.SaveChangesAsync();
+        }
         public async Task DeleteOrderDetailAsync(OrderDetail detail)
         {
             _context.OrderDetails.Remove(detail);
@@ -64,7 +88,21 @@ namespace ClipNchic.DataAccess.Repositories
 
         public async Task<Order?> GetOrderByIdAsync(int orderId)
         {
-            return await _context.Orders.FindAsync(orderId);
+            return await _context.Orders
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                        .ThenInclude(p => p.Images)
+                .OrderByDescending(o => o.createDate)
+                .FirstOrDefaultAsync(o => o.id == orderId);
+        }
+
+        public async Task<List<OrderDetail>> GetOrderDetailsByOrderIdAsync(int orderId)
+        {
+            return await _context.OrderDetails
+                .Include(od => od.Product)
+                    .ThenInclude(p => p.Images)
+                .Where(od => od.orderId == orderId)
+                .ToListAsync();
         }
 
         //public async Task<Order?> GetCartByUserIdAsync(int userId)

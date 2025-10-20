@@ -1,4 +1,5 @@
 ﻿using ClipNchic.DataAccess.Models;
+using ClipNchic.DataAccess.Models.DTO;
 using ClipNchic.DataAccess.Repositories;
 
 namespace ClipNchic.Business.Services
@@ -35,7 +36,19 @@ namespace ClipNchic.Business.Services
                 };
                 await _orderRepo.CreatePendingOrderAsync(order);
             }
+            if(order != null)
+            {
+                foreach (var detail in order.OrderDetails)
+                {
+                    var product = detail.Product;
+                    var firstImage = product?.Images?.FirstOrDefault();
+                }
+            }
             return order;
+        }
+        public Task<List<Order>> GetOrdersByUserIdAsync(int userId)
+        {
+            return _orderRepo.GetOrdersByUserIdAsync(userId);
         }
 
         // Thêm OrderDetail
@@ -44,15 +57,27 @@ namespace ClipNchic.Business.Services
             var order = await _orderRepo.GetPendingOrderByUserIdAsync(userId)
                         ?? await GetOrCreatePendingOrderAsync(userId, phone, address, name);
 
-            var detail = new OrderDetail
-            {
-                orderId = order.id,
-                productId = productId,
-                quantity = quantity,
-                price = price
-            };
+            var existingDetail = await _orderRepo.GetOrderDetailByOrderAndProductAsync(order.id, productId);
 
-            await _orderRepo.AddOrderDetailAsync(detail);
+            if (existingDetail != null)
+            {
+                // Nếu đã có thì cộng thêm số lượng mới
+                existingDetail.quantity += quantity;
+                await _orderRepo.UpdateOrderDetailAsync(existingDetail);
+            }
+            else
+            {
+                // Nếu chưa có thì tạo mới
+                var detail = new OrderDetail
+                {
+                    orderId = order.id,
+                    productId = productId,
+                    quantity = quantity,
+                    price = price
+                };
+
+                await _orderRepo.AddOrderDetailAsync(detail);
+            }
 
             // cập nhật giá
             order.totalPrice = (order.totalPrice ?? 0) + quantity * price;
@@ -108,6 +133,56 @@ namespace ClipNchic.Business.Services
 
             await _orderRepo.UpdateOrderAsync(order);
             return order;
+        }
+        public async Task<Order?> GetOrderByIdAsync(int orderId)
+        {
+            return await _orderRepo.GetOrderByIdAsync(orderId);
+        }
+
+        public async Task<List<OrderDetail>> GetOrderDetailsByOrderIdAsync(int orderId)
+        {
+            var orderDetails = await _orderRepo.GetOrderDetailsByOrderIdAsync(orderId);
+            foreach (var detail in orderDetails)
+            {
+                var product = detail.Product;
+                var firstImage = product?.Images?.FirstOrDefault();
+            }
+            return orderDetails;
+        }
+
+        public async Task<bool> UpdateOrderAsync(int orderId, OrderDTO dto)
+        {
+            var existingOrder = await _orderRepo.GetOrderByIdAsync(orderId);
+            if (existingOrder == null)
+                return false;
+
+            // Cập nhật các trường cho phép thay đổi
+            existingOrder.phone = dto.Phone;
+            existingOrder.address = dto.Address;
+            existingOrder.name = dto.Name;
+            existingOrder.status = dto.Status;
+            existingOrder.payMethod = dto.PayMethod;
+            existingOrder.totalPrice = dto.TotalPrice;
+            existingOrder.shipPrice = dto.ShipPrice;
+            existingOrder.payPrice = dto.PayPrice;
+
+            await _orderRepo.UpdateOrderAsync(existingOrder);
+            return true;
+        }
+
+        public async Task<bool> UpdateOrderDetailAsync(int orderDetailId, OrderDetailDTO dto)
+        {
+            var existingDetail = await _orderRepo.GetOrderDetailByIdAsync(orderDetailId);
+            if (existingDetail == null)
+                return false;
+
+            // Cập nhật các trường cho phép thay đổi
+            existingDetail.productId = dto.ProductId;
+            existingDetail.quantity = dto.Quantity;
+            existingDetail.price = dto.Price;
+
+            await _orderRepo.UpdateOrderDetailAsync(existingDetail);
+            return true;
         }
 
         // Cập nhật status
