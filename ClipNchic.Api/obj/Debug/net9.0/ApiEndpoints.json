@@ -59,6 +59,22 @@
   },
   {
     "ContainingType": "ClipNchic.Api.Controllers.OrderController",
+    "Method": "GetOrderById",
+    "RelativePath": "api/Order/{orderId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.OrderController",
     "Method": "AddOrderDetail",
     "RelativePath": "api/Order/add-detail",
     "HttpMethod": "POST",
@@ -106,6 +122,22 @@
   },
   {
     "ContainingType": "ClipNchic.Api.Controllers.OrderController",
+    "Method": "GetOrderDetailById",
+    "RelativePath": "api/Order/detail/{orderDetailId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderDetailId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.OrderController",
     "Method": "GetPendingOrder",
     "RelativePath": "api/Order/pending/{userId}",
     "HttpMethod": "GET",
@@ -115,6 +147,48 @@
       {
         "Name": "userId",
         "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.OrderController",
+    "Method": "UpdateOrderDetail",
+    "RelativePath": "api/Order/update-detail/{orderDetailId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderDetailId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ClipNchic.DataAccess.Models.DTO.OrderDetailDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ClipNchic.Api.Controllers.OrderController",
+    "Method": "UpdateOrder",
+    "RelativePath": "api/Order/update-order/{orderId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "ClipNchic.DataAccess.Models.DTO.OrderDTO",
         "IsRequired": true
       }
     ],
@@ -197,9 +271,34 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "request",
-        "Type": "ClipNchic.Api.Controllers.UpdateUserRequest",
-        "IsRequired": true
+        "Name": "Name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Phone",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Birthday",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Address",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "imageUrl",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "image",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
