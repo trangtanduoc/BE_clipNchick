@@ -87,7 +87,21 @@ namespace ClipNchic.DataAccess.Repositories
 
         public async Task<Order?> GetOrderByIdAsync(int orderId)
         {
-            return await _context.Orders.FindAsync(orderId);
+            return await _context.Orders
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                        .ThenInclude(p => p.Images)
+                .OrderByDescending(o => o.createDate)
+                .FirstOrDefaultAsync(o => o.id == orderId);
+        }
+
+        public async Task<List<OrderDetail>> GetOrderDetailsByOrderIdAsync(int orderId)
+        {
+            return await _context.OrderDetails
+                .Include(od => od.Product)
+                    .ThenInclude(p => p.Images)
+                .Where(od => od.orderId == orderId)
+                .ToListAsync();
         }
 
         //public async Task<Order?> GetCartByUserIdAsync(int userId)
