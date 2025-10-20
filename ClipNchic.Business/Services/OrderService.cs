@@ -62,7 +62,8 @@ namespace ClipNchic.Business.Services
             if (existingDetail != null)
             {
                 // Nếu đã có thì cộng thêm số lượng mới
-                existingDetail.quantity += quantity;
+                existingDetail.quantity = (existingDetail.quantity ?? 0) + quantity;
+                existingDetail.price = price;
                 await _orderRepo.UpdateOrderDetailAsync(existingDetail);
             }
             else
@@ -80,6 +81,40 @@ namespace ClipNchic.Business.Services
             }
 
             // cập nhật giá
+            order.totalPrice = (order.totalPrice ?? 0) + quantity * price;
+            order.shipPrice = 30000;
+            order.payPrice = order.totalPrice + order.shipPrice;
+
+            await _orderRepo.UpdateOrderAsync(order);
+            return order;
+        }
+
+        public async Task<Order> AddBlindBoxDetailAsync(int userId, string? phone, string? address, string? name, int blindBoxId, int quantity, decimal price)
+        {
+            var order = await _orderRepo.GetPendingOrderByUserIdAsync(userId)
+                        ?? await GetOrCreatePendingOrderAsync(userId, phone, address, name);
+
+            var existingDetail = await _orderRepo.GetOrderDetailByOrderAndBlindBoxAsync(order.id, blindBoxId);
+
+            if (existingDetail != null)
+            {
+                existingDetail.quantity = (existingDetail.quantity ?? 0) + quantity;
+                existingDetail.price = price;
+                await _orderRepo.UpdateOrderDetailAsync(existingDetail);
+            }
+            else
+            {
+                var detail = new OrderDetail
+                {
+                    orderId = order.id,
+                    blindBoxId = blindBoxId,
+                    quantity = quantity,
+                    price = price
+                };
+
+                await _orderRepo.AddOrderDetailAsync(detail);
+            }
+
             order.totalPrice = (order.totalPrice ?? 0) + quantity * price;
             order.shipPrice = 30000;
             order.payPrice = order.totalPrice + order.shipPrice;
@@ -157,6 +192,7 @@ namespace ClipNchic.Business.Services
             existingDetail.productId = dto.ProductId;
             existingDetail.quantity = dto.Quantity;
             existingDetail.price = dto.Price;
+            existingDetail.blindBoxId = dto.BlindBoxId;
 
             await _orderRepo.UpdateOrderDetailAsync(existingDetail);
             return true;

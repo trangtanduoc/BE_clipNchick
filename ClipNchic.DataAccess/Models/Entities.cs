@@ -211,6 +211,7 @@ public class BlindBox
     [MaxLength(50)]
     public string? status { get; set; }
 
+    public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }
 
 [Table("Ship")]
@@ -294,6 +295,9 @@ public class OrderDetail
 
     public int? productId { get; set; }
     public Product? Product { get; set; }
+
+    public int? blindBoxId { get; set; }
+    public BlindBox? BlindBox { get; set; }
 
     public int? quantity { get; set; }
 
