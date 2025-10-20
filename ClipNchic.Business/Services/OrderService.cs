@@ -63,6 +63,29 @@ namespace ClipNchic.Business.Services
             return order;
         }
 
+        public async Task<Order> AddBlindBoxDetailAsync(int userId, string? phone, string? address, string? name, int blindBoxId, int quantity, decimal price)
+        {
+            var order = await _orderRepo.GetPendingOrderByUserIdAsync(userId)
+                        ?? await GetOrCreatePendingOrderAsync(userId, phone, address, name);
+
+            var detail = new OrderDetail
+            {
+                orderId = order.id,
+                blindBoxId = blindBoxId,
+                quantity = quantity,
+                price = price
+            };
+
+            await _orderRepo.AddOrderDetailAsync(detail);
+
+            order.totalPrice = (order.totalPrice ?? 0) + quantity * price;
+            order.shipPrice = 30000;
+            order.payPrice = order.totalPrice + order.shipPrice;
+
+            await _orderRepo.UpdateOrderAsync(order);
+            return order;
+        }
+
         // Xóa OrderDetail
         public async Task<Order?> DeleteOrderDetailAsync(int userId, int orderDetailId)
         {

@@ -50,6 +50,14 @@ namespace ClipNchic.Api.Controllers
             return Ok(order);
         }
 
+        [HttpPost("add-blindbox-detail")]
+        public async Task<IActionResult> AddBlindBoxDetail(int blindBoxId, int quantity, decimal price)
+        {
+            var (userId, name, phone, address) = GetUserInfo();
+            var order = await _service.AddBlindBoxDetailAsync(userId, name, phone, address, blindBoxId, quantity, price);
+            return Ok(order);
+        }
+
         // Xóa orderdetail
         [HttpDelete("delete-detail/{userId}/{orderDetailId}")]
         public async Task<IActionResult> DeleteOrderDetail(int orderDetailId)

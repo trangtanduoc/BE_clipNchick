@@ -103,6 +103,12 @@ public class AppDbContext : DbContext
             .WithMany(p => p.OrderDetails)
             .HasForeignKey(od => od.productId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<OrderDetail>()
+            .HasOne(od => od.BlindBox)
+            .WithMany(bb => bb.OrderDetails)
+            .HasForeignKey(od => od.blindBoxId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }
 
