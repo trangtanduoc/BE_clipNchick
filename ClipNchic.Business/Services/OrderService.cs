@@ -62,7 +62,8 @@ namespace ClipNchic.Business.Services
             if (existingDetail != null)
             {
                 // Nếu đã có thì cộng thêm số lượng mới
-                existingDetail.quantity += quantity;
+                existingDetail.quantity = (existingDetail.quantity ?? 0) + quantity;
+                existingDetail.price = price;
                 await _orderRepo.UpdateOrderDetailAsync(existingDetail);
             }
             else
@@ -93,15 +94,26 @@ namespace ClipNchic.Business.Services
             var order = await _orderRepo.GetPendingOrderByUserIdAsync(userId)
                         ?? await GetOrCreatePendingOrderAsync(userId, phone, address, name);
 
-            var detail = new OrderDetail
-            {
-                orderId = order.id,
-                blindBoxId = blindBoxId,
-                quantity = quantity,
-                price = price
-            };
+            var existingDetail = await _orderRepo.GetOrderDetailByOrderAndBlindBoxAsync(order.id, blindBoxId);
 
-            await _orderRepo.AddOrderDetailAsync(detail);
+            if (existingDetail != null)
+            {
+                existingDetail.quantity = (existingDetail.quantity ?? 0) + quantity;
+                existingDetail.price = price;
+                await _orderRepo.UpdateOrderDetailAsync(existingDetail);
+            }
+            else
+            {
+                var detail = new OrderDetail
+                {
+                    orderId = order.id,
+                    blindBoxId = blindBoxId,
+                    quantity = quantity,
+                    price = price
+                };
+
+                await _orderRepo.AddOrderDetailAsync(detail);
+            }
 
             order.totalPrice = (order.totalPrice ?? 0) + quantity * price;
             order.shipPrice = 30000;
@@ -180,6 +192,7 @@ namespace ClipNchic.Business.Services
             existingDetail.productId = dto.ProductId;
             existingDetail.quantity = dto.Quantity;
             existingDetail.price = dto.Price;
+            existingDetail.blindBoxId = dto.BlindBoxId;
 
             await _orderRepo.UpdateOrderDetailAsync(existingDetail);
             return true;

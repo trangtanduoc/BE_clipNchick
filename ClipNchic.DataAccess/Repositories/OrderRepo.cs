@@ -62,6 +62,12 @@ namespace ClipNchic.DataAccess.Repositories
                 .FirstOrDefaultAsync(d => d.orderId == orderId && d.productId == productId);
         }
 
+        public async Task<OrderDetail?> GetOrderDetailByOrderAndBlindBoxAsync(int orderId, int blindBoxId)
+        {
+            return await _context.OrderDetails
+                .FirstOrDefaultAsync(d => d.orderId == orderId && d.blindBoxId == blindBoxId);
+        }
+
         
 
         public async Task UpdateOrderAsync(Order order)
@@ -101,6 +107,7 @@ namespace ClipNchic.DataAccess.Repositories
             return await _context.OrderDetails
                 .Include(od => od.Product)
                     .ThenInclude(p => p.Images)
+                .Include(od => od.BlindBox)
                 .Where(od => od.orderId == orderId)
                 .ToListAsync();
         }
