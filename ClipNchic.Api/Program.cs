@@ -101,6 +101,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<UserRepo>();
+builder.Services.AddScoped<EmailVerificationTokenRepo>();
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<OrderRepo>();
 builder.Services.AddScoped<OrderService>();
