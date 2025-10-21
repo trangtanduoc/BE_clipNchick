@@ -10,6 +10,7 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<User> Users => Set<User>();
+    public DbSet<EmailVerificationToken> EmailVerificationTokens => Set<EmailVerificationToken>();
     public DbSet<Collection> Collections => Set<Collection>();
     public DbSet<Model> Models => Set<Model>();
     public DbSet<Image> Images => Set<Image>();
@@ -26,6 +27,13 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        // EmailVerificationToken relationships
+        modelBuilder.Entity<EmailVerificationToken>()
+            .HasOne(evt => evt.User)
+            .WithMany(u => u.EmailVerificationTokens)
+            .HasForeignKey(evt => evt.userId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         // User relationships
         modelBuilder.Entity<Product>()

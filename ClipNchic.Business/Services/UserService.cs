@@ -16,14 +16,19 @@ namespace ClipNchic.Business.Services;
 public class UserService
 {
     private readonly UserRepo _userRepo;
+    private readonly EmailVerificationTokenRepo _emailTokenRepo;
+    private readonly EmailService _emailService;
     private readonly string? _jwtKey;
     private readonly string? _jwtIssuer;
     private readonly string? _googleClientId;
     private readonly Cloudinary _cloudinary;
 
-    public UserService(UserRepo userRepo, IConfiguration configuration, Cloudinary cloudinary)
+    public UserService(UserRepo userRepo, EmailVerificationTokenRepo emailTokenRepo, 
+        EmailService emailService, IConfiguration configuration, Cloudinary cloudinary)
     {
         _userRepo = userRepo;
+        _emailTokenRepo = emailTokenRepo;
+        _emailService = emailService;
         _jwtKey = configuration["Jwt:Key"];
         _jwtIssuer = configuration["Jwt:Issuer"];
         _googleClientId = configuration["Google:ClientId"];
@@ -45,18 +50,119 @@ public class UserService
 
         user.createDate = DateTime.UtcNow;
         user.status ??= "Active";
+        user.isEmailVerified = false;
         return await _userRepo.AddUserAsync(user);
     }
 
-    public async Task<string?> LoginAndGenerateTokenAsync(string email, string password)
+    public async Task<bool> SendVerificationEmailAsync(int userId)
+    {
+        var user = await _userRepo.GetUserByIdAsync(userId);
+        if (user == null)
+        {
+            throw new InvalidOperationException("User not found.");
+        }
+
+        if (string.IsNullOrWhiteSpace(user.email))
+        {
+            throw new InvalidOperationException("User email is not set.");
+        }
+
+        if (user.isEmailVerified)
+        {
+            throw new InvalidOperationException("Email is already verified.");
+        }
+
+        var verificationToken = GenerateVerificationToken();
+        var token = new EmailVerificationToken
+        {
+            userId = userId,
+            token = verificationToken,
+            expiryDate = DateTime.UtcNow.AddHours(24),
+            createdDate = DateTime.UtcNow,
+            isUsed = false
+        };
+
+        await _emailTokenRepo.AddTokenAsync(token);
+
+        var emailSent = await _emailService.SendVerificationEmailAsync(
+            user.email,
+            verificationToken,
+            user.name ?? ""
+        );
+
+        return emailSent;
+    }
+
+    public async Task<bool> VerifyEmailAsync(string token)
+    {
+        var verificationToken = await _emailTokenRepo.GetTokenByTokenStringAsync(token);
+        if (verificationToken == null)
+        {
+            throw new InvalidOperationException("Invalid or expired verification token.");
+        }
+
+        if (verificationToken.isUsed)
+        {
+            throw new InvalidOperationException("Token has already been used.");
+        }
+
+        if (verificationToken.expiryDate < DateTime.UtcNow)
+        {
+            throw new InvalidOperationException("Verification token has expired.");
+        }
+
+        var user = await _userRepo.GetUserByIdAsync(verificationToken.userId);
+        if (user == null)
+        {
+            throw new InvalidOperationException("User not found.");
+        }
+
+        user.isEmailVerified = true;
+        await _userRepo.UpdateUserAsync(user);
+
+        verificationToken.isUsed = true;
+        await _emailTokenRepo.UpdateTokenAsync(verificationToken);
+
+        return true;
+    }
+
+    public async Task<bool> ResendVerificationEmailAsync(string email)
+    {
+        var user = await _userRepo.GetUserByEmailAsync(email);
+        if (user == null)
+        {
+            throw new InvalidOperationException("User not found.");
+        }
+
+        if (user.isEmailVerified)
+        {
+            throw new InvalidOperationException("Email is already verified.");
+        }
+
+        await _emailTokenRepo.DeleteExpiredTokensAsync(user.id);
+        return await SendVerificationEmailAsync(user.id);
+    }
+
+    private string GenerateVerificationToken()
+    {
+        return Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("+", "").Replace("/", "");
+    }
+
+    public async Task<(string? Token, string? Error)> LoginAndGenerateTokenAsync(string email, string password)
     {
         var user = await _userRepo.LoginAsync(email, password);
         if (user == null)
         {
-            return null;
+            return (null, "Invalid email or password.");
         }
 
-        return GenerateJwtToken(user);
+        if (!user.isEmailVerified)
+        {
+            return (null, "Please verify your email before logging in. Check your inbox for the verification link.");
+        }
+
+        var token = GenerateJwtToken(user);
+        return (token, null);
     }
 
     public async Task<(string Token, User User)?> LoginWithGoogleAsync(string idToken)

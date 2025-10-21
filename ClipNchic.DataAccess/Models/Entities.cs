@@ -34,8 +34,30 @@ public class User
     [MaxLength(50)]
     public string? status { get; set; }
 
+    public bool isEmailVerified { get; set; } = false;
+
     public ICollection<Product> Products { get; set; } = new List<Product>();
     public ICollection<Order> Orders { get; set; } = new List<Order>();
+    public ICollection<EmailVerificationToken> EmailVerificationTokens { get; set; } = new List<EmailVerificationToken>();
+}
+
+[Table("EmailVerificationToken")]
+public class EmailVerificationToken
+{
+    [Key]
+    public int id { get; set; }
+
+    public int userId { get; set; }
+    public User? User { get; set; }
+
+    [MaxLength(255)]
+    public string token { get; set; } = string.Empty;
+
+    public DateTime expiryDate { get; set; }
+
+    public bool isUsed { get; set; } = false;
+
+    public DateTime createdDate { get; set; }
 }
 
 [Table("Collection")]
