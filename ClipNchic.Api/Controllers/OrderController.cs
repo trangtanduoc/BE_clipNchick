@@ -54,14 +54,14 @@ namespace ClipNchic.Api.Controllers
         public async Task<IActionResult> GetOrderById(int orderId)
         {
             var order = await _service.GetOrderByIdAsync(orderId);
-            return order == null ? NotFound() : Ok(order);
+            return order == null ? NotFound(new { message = "Not found" }) : Ok(order);
         }
 
         [HttpGet("detail/{orderDetailId}")]
         public async Task<IActionResult> GetOrderDetailById(int orderDetailId)
         {
             var detail = await _service.GetOrderDetailsByOrderIdAsync(orderDetailId);
-            return detail == null ? NotFound() : Ok(detail);
+            return detail == null ? NotFound(new { message = "Not found" }) : Ok(detail);
         }
 
         // Thêm orderdetail
@@ -85,14 +85,14 @@ namespace ClipNchic.Api.Controllers
         public async Task<IActionResult> UpdateOrder(int orderId, [FromBody] OrderDTO dto)
         {
             var result = await _service.UpdateOrderAsync(orderId, dto);
-            return result ? Ok(new {message = "Updated" }) : NotFound();
+            return result ? Ok(new {message = "Updated" }) : NotFound(new { message = "Failed to update" });
         }
 
-        [HttpPut("update-detail/{orderDetailId}")]
+        [HttpPut("update-quantity-detail/{orderDetailId}")]
         public async Task<IActionResult> UpdateOrderDetail(int orderDetailId, int quantity)
         {
             var result = await _service.UpdateOrderDetailAsync(orderDetailId, quantity);
-            return result ? Ok(new { message = "Updated" }) : NotFound();
+            return result ? Ok(new { message = "Updated" }) : NotFound(new { message = "Failed to update" });
         }
 
 
@@ -102,7 +102,7 @@ namespace ClipNchic.Api.Controllers
         {
             var (userId, _, _, _) = GetUserInfo();
             var order = await _service.DeleteOrderDetailAsync(userId, orderDetailId);
-            return order == null ? NotFound() : Ok(order);
+            return order == null ? NotFound(new { message = "Failed to delete" }) : Ok(order);
         }
 
         // Cập nhật status
@@ -110,7 +110,7 @@ namespace ClipNchic.Api.Controllers
         public async Task<IActionResult> UpdateStatus(int orderId, [FromQuery] string status)
         {
             var result = await _service.UpdateStatusAsync(orderId, status);
-            return result ? Ok(new { message = "Updated" }) : NotFound();
+            return result ? Ok(new { message = "Updated" }) : NotFound(new { message = "Failed to update" });
         }
 
         // Cập nhật payMethod
@@ -118,7 +118,7 @@ namespace ClipNchic.Api.Controllers
         public async Task<IActionResult> UpdatePayMethod(int orderId, [FromQuery] string method)
         {
             var result = await _service.UpdatePayMethodAsync(orderId, method);
-            return result ? Ok(new { message = "Updated" }) : NotFound();
+            return result ? Ok(new { message = "Updated" }) : NotFound(new { message = "Failed to update" });
         }
 
     }
