@@ -19,6 +19,9 @@ namespace ClipNchic.DataAccess.Repositories
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Product)
                         .ThenInclude(p => p.Images)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.BlindBox)
+                        .ThenInclude(bb => bb.Images)
                 .OrderByDescending(o => o.createDate)
                 .ToListAsync();
         }
@@ -31,6 +34,7 @@ namespace ClipNchic.DataAccess.Repositories
                       .ThenInclude(p => p.Images)
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.BlindBox)
+                        .ThenInclude(bb => bb.Images)
                 .FirstOrDefaultAsync(o => o.userId == userId && o.status == "pending");
         }
         public async Task<List<Order>> GetOrdersByUserIdAsync(int userId)
@@ -39,6 +43,9 @@ namespace ClipNchic.DataAccess.Repositories
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Product)
                         .ThenInclude(p => p.Images)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.BlindBox)
+                        .ThenInclude(bb => bb.Images)
                 .Where(o => o.userId == userId && o.status != "pending")
                 .OrderByDescending(o => o.createDate)
                 .ToListAsync();
@@ -99,6 +106,9 @@ namespace ClipNchic.DataAccess.Repositories
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Product)
                         .ThenInclude(p => p.Images)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.BlindBox)
+                        .ThenInclude(bb => bb.Images)
                 .OrderByDescending(o => o.createDate)
                 .FirstOrDefaultAsync(o => o.id == orderId);
         }
@@ -109,6 +119,7 @@ namespace ClipNchic.DataAccess.Repositories
                 .Include(od => od.Product)
                     .ThenInclude(p => p.Images)
                 .Include(od => od.BlindBox)
+                    .ThenInclude(bb => bb.Images)
                 .Where(od => od.orderId == orderId)
                 .ToListAsync();
         }
