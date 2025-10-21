@@ -7,9 +7,13 @@ namespace ClipNchic.Business.Services
     public class OrderService
     {
         private readonly OrderRepo _orderRepo;
-        public OrderService(OrderRepo orderRepo)
+        private readonly ProductRepo _productRepo;
+        private readonly BlindBoxRepo _blindBoxRepo;
+        public OrderService(OrderRepo orderRepo, ProductRepo productRepo, BlindBoxRepo blindBoxRepo)
         {
             _orderRepo = orderRepo;
+            _productRepo = productRepo;
+            _blindBoxRepo = blindBoxRepo;
         }
 
         public Task<List<Order>> GetAllOrdersAsync()
@@ -58,12 +62,13 @@ namespace ClipNchic.Business.Services
                         ?? await GetOrCreatePendingOrderAsync(userId, phone, address, name);
 
             var existingDetail = await _orderRepo.GetOrderDetailByOrderAndProductAsync(order.id, productId);
+            var product = await _productRepo.GetByIdAsync(productId);
 
             if (existingDetail != null)
             {
                 // Nếu đã có thì cộng thêm số lượng mới
                 existingDetail.quantity = (existingDetail.quantity ?? 0) + quantity;
-                existingDetail.price = price;
+                existingDetail.price = product.Totalprice * existingDetail.quantity;
                 await _orderRepo.UpdateOrderDetailAsync(existingDetail);
             }
             else
@@ -74,14 +79,14 @@ namespace ClipNchic.Business.Services
                     orderId = order.id,
                     productId = productId,
                     quantity = quantity,
-                    price = price
+                    price = product.Totalprice * quantity
                 };
 
                 await _orderRepo.AddOrderDetailAsync(detail);
             }
 
             // cập nhật giá
-            order.totalPrice = (order.totalPrice ?? 0) + quantity * price;
+            order.totalPrice = (order.totalPrice ?? 0) + price;
             order.shipPrice = 30000;
             order.payPrice = order.totalPrice + order.shipPrice;
 
@@ -95,11 +100,12 @@ namespace ClipNchic.Business.Services
                         ?? await GetOrCreatePendingOrderAsync(userId, phone, address, name);
 
             var existingDetail = await _orderRepo.GetOrderDetailByOrderAndBlindBoxAsync(order.id, blindBoxId);
+            var blindBox = await _blindBoxRepo.GetByIdAsync(blindBoxId);
 
             if (existingDetail != null)
             {
                 existingDetail.quantity = (existingDetail.quantity ?? 0) + quantity;
-                existingDetail.price = price;
+                existingDetail.price = blindBox.price * existingDetail.quantity;
                 await _orderRepo.UpdateOrderDetailAsync(existingDetail);
             }
             else
@@ -109,13 +115,13 @@ namespace ClipNchic.Business.Services
                     orderId = order.id,
                     blindBoxId = blindBoxId,
                     quantity = quantity,
-                    price = price
+                    price = blindBox.price * quantity
                 };
 
                 await _orderRepo.AddOrderDetailAsync(detail);
             }
 
-            order.totalPrice = (order.totalPrice ?? 0) + quantity * price;
+            order.totalPrice = (order.totalPrice ?? 0) + price;
             order.shipPrice = 30000;
             order.payPrice = order.totalPrice + order.shipPrice;
 
@@ -182,18 +188,20 @@ namespace ClipNchic.Business.Services
             return true;
         }
 
-        public async Task<bool> UpdateOrderDetailAsync(int orderDetailId, OrderDetailDTO dto)
+        public async Task<bool> UpdateOrderDetailAsync(int orderDetailId, int quantity)
         {
             var existingDetail = await _orderRepo.GetOrderDetailByIdAsync(orderDetailId);
+            var product = await _productRepo.GetByIdAsync(existingDetail?.productId ?? 0);
+            var order = await _orderRepo.GetOrderByIdAsync(existingDetail?.orderId ?? 0);
             if (existingDetail == null)
                 return false;
 
-            // Cập nhật các trường cho phép thay đổi
-            existingDetail.productId = dto.ProductId;
-            existingDetail.quantity = dto.Quantity;
-            existingDetail.price = dto.Price;
-            existingDetail.blindBoxId = dto.BlindBoxId;
+            existingDetail.quantity = quantity;
+            order.totalPrice = order.totalPrice - existingDetail.price + (product.Totalprice * quantity);
+            existingDetail.price = product.Totalprice * quantity;
+            order.payPrice = order.totalPrice + order.shipPrice;
 
+            await _orderRepo.UpdateOrderAsync(order);
             await _orderRepo.UpdateOrderDetailAsync(existingDetail);
             return true;
         }
