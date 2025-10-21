@@ -28,7 +28,9 @@ namespace ClipNchic.DataAccess.Repositories
             return await _context.Orders
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Product)
-                        .ThenInclude(p => p.Images)
+                      .ThenInclude(p => p.Images)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.BlindBox)
                 .FirstOrDefaultAsync(o => o.userId == userId && o.status == "pending");
         }
         public async Task<List<Order>> GetOrdersByUserIdAsync(int userId)
@@ -59,6 +61,12 @@ namespace ClipNchic.DataAccess.Repositories
         {
             return await _context.OrderDetails
                 .FirstOrDefaultAsync(d => d.orderId == orderId && d.productId == productId);
+        }
+
+        public async Task<OrderDetail?> GetOrderDetailByOrderAndBlindBoxAsync(int orderId, int blindBoxId)
+        {
+            return await _context.OrderDetails
+                .FirstOrDefaultAsync(d => d.orderId == orderId && d.blindBoxId == blindBoxId);
         }
 
         
@@ -100,6 +108,7 @@ namespace ClipNchic.DataAccess.Repositories
             return await _context.OrderDetails
                 .Include(od => od.Product)
                     .ThenInclude(p => p.Images)
+                .Include(od => od.BlindBox)
                 .Where(od => od.orderId == orderId)
                 .ToListAsync();
         }

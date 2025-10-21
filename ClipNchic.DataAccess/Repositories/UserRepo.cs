@@ -16,7 +16,8 @@ public class UserRepo
     public async Task<int> AddUserAsync(User user)
     {
         _context.Users.Add(user);
-        return await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
+        return user.id;
     }
 
     public async Task<User?> GetUserByEmailAsync(string email)
