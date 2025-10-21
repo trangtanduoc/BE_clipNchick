@@ -85,14 +85,14 @@ namespace ClipNchic.Api.Controllers
         public async Task<IActionResult> UpdateOrder(int orderId, [FromBody] OrderDTO dto)
         {
             var result = await _service.UpdateOrderAsync(orderId, dto);
-            return result ? Ok("Updated") : NotFound();
+            return result ? Ok(new {message = "Updated" }) : NotFound();
         }
 
         [HttpPut("update-detail/{orderDetailId}")]
         public async Task<IActionResult> UpdateOrderDetail(int orderDetailId, int quantity)
         {
             var result = await _service.UpdateOrderDetailAsync(orderDetailId, quantity);
-            return result ? Ok("Updated") : NotFound();
+            return result ? Ok(new { message = "Updated" }) : NotFound();
         }
 
 
@@ -110,7 +110,7 @@ namespace ClipNchic.Api.Controllers
         public async Task<IActionResult> UpdateStatus(int orderId, [FromQuery] string status)
         {
             var result = await _service.UpdateStatusAsync(orderId, status);
-            return result ? Ok("Updated") : NotFound();
+            return result ? Ok(new { message = "Updated" }) : NotFound();
         }
 
         // Cập nhật payMethod
@@ -118,7 +118,7 @@ namespace ClipNchic.Api.Controllers
         public async Task<IActionResult> UpdatePayMethod(int orderId, [FromQuery] string method)
         {
             var result = await _service.UpdatePayMethodAsync(orderId, method);
-            return result ? Ok("Updated") : NotFound();
+            return result ? Ok(new { message = "Updated" }) : NotFound();
         }
 
     }
