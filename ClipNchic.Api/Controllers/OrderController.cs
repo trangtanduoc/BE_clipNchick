@@ -89,9 +89,9 @@ namespace ClipNchic.Api.Controllers
         }
 
         [HttpPut("update-detail/{orderDetailId}")]
-        public async Task<IActionResult> UpdateOrderDetail(int orderDetailId, [FromBody] OrderDetailDTO dto)
+        public async Task<IActionResult> UpdateOrderDetail(int orderDetailId, int quantity)
         {
-            var result = await _service.UpdateOrderDetailAsync(orderDetailId, dto);
+            var result = await _service.UpdateOrderDetailAsync(orderDetailId, quantity);
             return result ? Ok("Updated") : NotFound();
         }
 
