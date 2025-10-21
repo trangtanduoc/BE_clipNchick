@@ -13,6 +13,7 @@ using CloudinaryDotNet;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpClient();
 // Configure Cloudinary
 var cloudinarySettings = builder.Configuration.GetSection("Cloudinary");
 var cloudinary = new Cloudinary(new Account(

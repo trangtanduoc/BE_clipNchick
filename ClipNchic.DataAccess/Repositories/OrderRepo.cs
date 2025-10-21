@@ -28,6 +28,7 @@ namespace ClipNchic.DataAccess.Repositories
             return await _context.Orders
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Product)
+                      .ThenInclude(p => p.Images)
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.BlindBox)
                 .FirstOrDefaultAsync(o => o.userId == userId && o.status == "pending");
