@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|c:\\users\\cungt\\source\\repos\\be_clipnchick\\clipnchic.api\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{1D5F3871-CC7A-4C03-B929-03C7D88D3C49}|ClipNchic.Business\\ClipNchic.Business.csproj|c:\\users\\cungt\\source\\repos\\be_clipnchick\\clipnchic.business\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1D5F3871-CC7A-4C03-B929-03C7D88D3C49}|ClipNchic.Business\\ClipNchic.Business.csproj|solutionrelative:clipnchic.business\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|c:\\users\\cungt\\source\\repos\\be_clipnchick\\clipnchic.api\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1CF92AD8-ADDC-462B-A37A-DF0CDC0A4C1F}|ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj|c:\\users\\cungt\\source\\repos\\be_clipnchick\\clipnchic.dataaccess\\models\\entities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -22,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,26 +62,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "OrderController.cs",
               "DocumentMoniker": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\Controllers\\OrderController.cs",
               "RelativeDocumentMoniker": "ClipNchic.Api\\Controllers\\OrderController.cs",
               "ToolTip": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\Controllers\\OrderController.cs",
               "RelativeToolTip": "ClipNchic.Api\\Controllers\\OrderController.cs",
-              "ViewState": "AgIAAGIAAAAAAAAAAAAswFkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAYwF0AAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-21T17:42:55.89Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "OrderService.cs",
               "DocumentMoniker": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\Services\\OrderService.cs",
               "RelativeDocumentMoniker": "ClipNchic.Business\\Services\\OrderService.cs",
               "ToolTip": "C:\\Users\\cungt\\source\\repos\\BE_clipNchick\\ClipNchic.Business\\Services\\OrderService.cs",
               "RelativeToolTip": "ClipNchic.Business\\Services\\OrderService.cs",
-              "ViewState": "AgIAAKMAAAAAAAAAAAAnwK8AAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAALYAAAAAAAAAAAArwLcAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-21T17:29:56.189Z",
               "EditorCaption": ""
