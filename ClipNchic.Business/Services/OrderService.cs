@@ -85,12 +85,6 @@ namespace ClipNchic.Business.Services
                 await _orderRepo.AddOrderDetailAsync(detail);
             }
 
-            // cập nhật giá
-            order.totalPrice = (order.totalPrice ?? 0) + price;
-            order.shipPrice = 30000;
-            order.payPrice = order.totalPrice + order.shipPrice;
-
-            await _orderRepo.UpdateOrderAsync(order);
             return order;
         }
 
@@ -121,11 +115,6 @@ namespace ClipNchic.Business.Services
                 await _orderRepo.AddOrderDetailAsync(detail);
             }
 
-            order.totalPrice = (order.totalPrice ?? 0) + price;
-            order.shipPrice = 30000;
-            order.payPrice = order.totalPrice + order.shipPrice;
-
-            await _orderRepo.UpdateOrderAsync(order);
             return order;
         }
 
@@ -139,17 +128,6 @@ namespace ClipNchic.Business.Services
             if (detail == null) return order;
 
             await _orderRepo.DeleteOrderDetailAsync(detail);
-
-            // cập nhật giá
-            order.totalPrice = (order.totalPrice ?? 0) - (detail.quantity ?? 0) * (detail.price ?? 0);
-            if (order.totalPrice <= 0)
-            {
-                order.totalPrice = 0;
-                order.shipPrice = 0;
-            }
-            order.payPrice = order.totalPrice + order.shipPrice;
-
-            await _orderRepo.UpdateOrderAsync(order);
             return order;
         }
         public async Task<Order?> GetOrderByIdAsync(int orderId)
@@ -174,34 +152,48 @@ namespace ClipNchic.Business.Services
             if (existingOrder == null)
                 return false;
 
-            // Cập nhật các trường cho phép thay đổi
-            existingOrder.phone = dto.Phone;
-            existingOrder.address = dto.Address;
-            existingOrder.name = dto.Name;
-            existingOrder.status = dto.Status;
-            existingOrder.payMethod = dto.PayMethod;
-            existingOrder.totalPrice = dto.TotalPrice;
-            existingOrder.shipPrice = dto.ShipPrice;
-            existingOrder.payPrice = dto.PayPrice;
+            if (dto.Phone != null)
+                existingOrder.phone = dto.Phone;
+
+            if (dto.Address != null)
+                existingOrder.address = dto.Address;
+
+            if (dto.Name != null)
+                existingOrder.name = dto.Name;
+
+            if (dto.Status != null)
+                existingOrder.status = dto.Status;
+
+            if (dto.PayMethod != null)
+                existingOrder.payMethod = dto.PayMethod;
+
+            if (dto.TotalPrice.HasValue)
+                existingOrder.totalPrice = dto.TotalPrice.Value;
+
+            if (dto.ShipPrice.HasValue)
+                existingOrder.shipPrice = dto.ShipPrice.Value;
+
+            if (dto.PayPrice.HasValue)
+                existingOrder.payPrice = dto.PayPrice.Value;
 
             await _orderRepo.UpdateOrderAsync(existingOrder);
             return true;
         }
 
+
         public async Task<bool> UpdateOrderDetailAsync(int orderDetailId, int quantity)
         {
             var existingDetail = await _orderRepo.GetOrderDetailByIdAsync(orderDetailId);
             var product = await _productRepo.GetByIdAsync(existingDetail?.productId ?? 0);
-            var order = await _orderRepo.GetOrderByIdAsync(existingDetail?.orderId ?? 0);
+            var blindbox = await _blindBoxRepo.GetByIdAsync(existingDetail.blindBoxId ?? 0);
             if (existingDetail == null)
                 return false;
-
             existingDetail.quantity = quantity;
-            order.totalPrice = order.totalPrice - existingDetail.price + (product.Totalprice * quantity);
-            existingDetail.price = product.Totalprice * quantity;
-            order.payPrice = order.totalPrice + order.shipPrice;
+            if (product != null)
+                existingDetail.price = product.Totalprice * quantity;
+            if (blindbox != null)
+                existingDetail.price = blindbox.price * quantity;
 
-            await _orderRepo.UpdateOrderAsync(order);
             await _orderRepo.UpdateOrderDetailAsync(existingDetail);
             return true;
         }
