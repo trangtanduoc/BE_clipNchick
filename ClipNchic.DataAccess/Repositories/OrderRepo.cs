@@ -124,6 +124,62 @@ namespace ClipNchic.DataAccess.Repositories
                 .ToListAsync();
         }
 
+        public async Task<(int OrdersCount, decimal CompletedSalesTotal)> GetTodaysOrdersAndCompletedSalesAsync()
+        {
+            var today = DateTime.Now.Date;
+            var tomorrow = today.AddDays(1);
+
+            var ordersCountTask = _context.Orders
+                .CountAsync(o => o.createDate >= today && o.createDate < tomorrow);
+
+            var sumTask = _context.Orders
+                .Where(o => o.createDate >= today && o.createDate < tomorrow && o.status == "delivered")
+                .SumAsync(o => (decimal?)o.totalPrice);
+
+            await Task.WhenAll(ordersCountTask, sumTask);
+
+            var ordersCount = ordersCountTask.Result;
+            var total = sumTask.Result ?? 0m;
+
+            return (ordersCount, total);
+        }
+
+        public async Task<MonthlySalesSummaryDto> GetYearlySalesSummaryAsync(int year)
+        {
+            var monthlyData = await _context.Orders
+                .Where(o =>  o.createDate.Value.Year == year)
+                .GroupBy(o => o.createDate.Value.Month)
+                .Select(g => new
+                {
+                    Month = g.Key,
+                    OrdersCount = g.Count(),
+                    SalesTotal = g.Sum(o => (decimal?)o.totalPrice) ?? 0m
+                })
+                .ToListAsync();
+
+            var summary = new MonthlySalesSummaryDto
+            {
+                Year = year,
+                MonthlySales = Enumerable.Range(1, 12)
+                    .Select(m =>
+                    {
+                        var data = monthlyData.FirstOrDefault(x => x.Month == m);
+                        return new MonthlySalesDto
+                        {
+                            Month = m,
+                            OrdersCount = data?.OrdersCount ?? 0,
+                            SalesTotal = data?.SalesTotal ?? 0m
+                        };
+                    })
+                    .ToList()
+            };
+
+            summary.YearlyTotalOrders = summary.MonthlySales.Sum(m => m.OrdersCount);
+            summary.YearlyTotalSales = summary.MonthlySales.Sum(m => m.SalesTotal);
+
+            return summary;
+        }
+
         //public async Task<Order?> GetCartByUserIdAsync(int userId)
         //{
         //    return await _context.Orders

@@ -121,6 +121,19 @@ namespace ClipNchic.Api.Controllers
             return result ? Ok(new { message = "Updated" }) : NotFound(new { message = "Failed to update" });
         }
 
-    }
+        [HttpGet("YearlySalesSummary")]
+        public async Task<ActionResult<MonthlySalesSummaryDto>> GetYearlySalesSummary([FromQuery] int year)
+        {
+            var result = await _service.GetYearlySalesSummaryAsync(year);
+            return Ok(result);
+        }
 
+        
+        [HttpGet("TodaysOrdersAndCompletedSales")]
+        public async Task<ActionResult<object>> GetTodaysOrdersAndCompletedSales()
+        {
+            var result = await _service.GetTodaysOrdersAndCompletedSalesAsync();
+            return Ok(result);
+        }
+    }
 }
