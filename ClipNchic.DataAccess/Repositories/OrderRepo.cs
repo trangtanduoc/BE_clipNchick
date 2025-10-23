@@ -149,8 +149,8 @@ namespace ClipNchic.DataAccess.Repositories
         public async Task<MonthlySalesSummaryDto> GetYearlySalesSummaryAsync(int year)
         {
             var monthlyData = await _context.Orders
-                .Where(o => o.createDate.Value.Year == year)
-                .GroupBy(o => o.createDate.Value.Month)
+                .Where(o => o.createDate != null && o.createDate.Value.Year == year)
+                .GroupBy(o => o.createDate!.Value.Month)
                 .Select(g => new
                 {
                     Month = g.Key,
