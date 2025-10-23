@@ -1,4 +1,5 @@
 ﻿using ClipNchic.DataAccess.Models;
+using ClipNchic.DataAccess.Models.DTO;
 using ClipNchic.DataAccess.Repositories;
 
 namespace ClipNchic.Business.Services
@@ -6,9 +7,13 @@ namespace ClipNchic.Business.Services
     public class OrderService
     {
         private readonly OrderRepo _orderRepo;
-        public OrderService(OrderRepo orderRepo)
+        private readonly ProductRepo _productRepo;
+        private readonly BlindBoxRepo _blindBoxRepo;
+        public OrderService(OrderRepo orderRepo, ProductRepo productRepo, BlindBoxRepo blindBoxRepo)
         {
             _orderRepo = orderRepo;
+            _productRepo = productRepo;
+            _blindBoxRepo = blindBoxRepo;
         }
 
         public Task<List<Order>> GetAllOrdersAsync()
@@ -35,7 +40,19 @@ namespace ClipNchic.Business.Services
                 };
                 await _orderRepo.CreatePendingOrderAsync(order);
             }
+            if(order != null)
+            {
+                foreach (var detail in order.OrderDetails)
+                {
+                    var product = detail.Product;
+                    var firstImage = product?.Images?.FirstOrDefault();
+                }
+            }
             return order;
+        }
+        public Task<List<Order>> GetOrdersByUserIdAsync(int userId)
+        {
+            return _orderRepo.GetOrdersByUserIdAsync(userId);
         }
 
         // Thêm OrderDetail
@@ -44,22 +61,76 @@ namespace ClipNchic.Business.Services
             var order = await _orderRepo.GetPendingOrderByUserIdAsync(userId)
                         ?? await GetOrCreatePendingOrderAsync(userId, phone, address, name);
 
-            var detail = new OrderDetail
+            var existingDetail = await _orderRepo.GetOrderDetailByOrderAndProductAsync(order.id, productId);
+            var product = await _productRepo.GetByIdAsync(productId);
+
+            if (existingDetail != null)
             {
-                orderId = order.id,
-                productId = productId,
-                quantity = quantity,
-                price = price
-            };
+                // Nếu đã có thì cộng thêm số lượng mới
+                existingDetail.quantity = (existingDetail.quantity ?? 0) + quantity;
+                if(existingDetail.quantity >= product.stock)
+                {
+                    existingDetail.quantity = product.stock;
+                }
+                existingDetail.price = product.Totalprice * existingDetail.quantity;
+                await _orderRepo.UpdateOrderDetailAsync(existingDetail);
+            }
+            else
+            {
+                // Nếu chưa có thì tạo mới
+                var detail = new OrderDetail
+                {
+                    orderId = order.id,
+                    productId = productId,
+                    quantity = quantity,
+                    price = product.Totalprice * quantity
+                };
+                if(detail.quantity >= product.stock)
+                {
+                    detail.quantity = product.stock;
+                }
 
-            await _orderRepo.AddOrderDetailAsync(detail);
+                await _orderRepo.AddOrderDetailAsync(detail);
+            }
 
-            // cập nhật giá
-            order.totalPrice = (order.totalPrice ?? 0) + quantity * price;
-            order.shipPrice = 30000;
-            order.payPrice = order.totalPrice + order.shipPrice;
+            return order;
+        }
 
-            await _orderRepo.UpdateOrderAsync(order);
+        public async Task<Order> AddBlindBoxDetailAsync(int userId, string? phone, string? address, string? name, int blindBoxId, int quantity, decimal price)
+        {
+            var order = await _orderRepo.GetPendingOrderByUserIdAsync(userId)
+                        ?? await GetOrCreatePendingOrderAsync(userId, phone, address, name);
+
+            var existingDetail = await _orderRepo.GetOrderDetailByOrderAndBlindBoxAsync(order.id, blindBoxId);
+            var blindBox = await _blindBoxRepo.GetByIdAsync(blindBoxId);
+
+            if (existingDetail != null)
+            {
+                existingDetail.quantity = (existingDetail.quantity ?? 0) + quantity;
+                if (existingDetail.quantity >= blindBox.stock)
+                {
+                    existingDetail.quantity = blindBox.stock;
+                }
+                existingDetail.price = blindBox.price * existingDetail.quantity;
+                await _orderRepo.UpdateOrderDetailAsync(existingDetail);
+            }
+            else
+            {
+                var detail = new OrderDetail
+                {
+                    orderId = order.id,
+                    blindBoxId = blindBoxId,
+                    quantity = quantity,
+                    price = blindBox.price * quantity
+                };
+                if(detail.quantity >= blindBox.stock)
+                {
+                    detail.quantity = blindBox.stock;
+                }
+
+                await _orderRepo.AddOrderDetailAsync(detail);
+            }
+
             return order;
         }
 
@@ -74,17 +145,118 @@ namespace ClipNchic.Business.Services
 
             await _orderRepo.DeleteOrderDetailAsync(detail);
 
-            // cập nhật giá
-            order.totalPrice = (order.totalPrice ?? 0) - (detail.quantity ?? 0) * (detail.price ?? 0);
-            if (order.totalPrice <= 0)
-            {
-                order.totalPrice = 0;
-                order.shipPrice = 0;
-            }
-            order.payPrice = order.totalPrice + order.shipPrice;
-
-            await _orderRepo.UpdateOrderAsync(order);
             return order;
+        }
+        public async Task<Order?> GetOrderByIdAsync(int orderId)
+        {
+            return await _orderRepo.GetOrderByIdAsync(orderId);
+        }
+
+        public async Task<List<OrderDetail>> GetOrderDetailsByOrderIdAsync(int orderId)
+        {
+            var orderDetails = await _orderRepo.GetOrderDetailsByOrderIdAsync(orderId);
+            foreach (var detail in orderDetails)
+            {
+                var product = detail.Product;
+                var firstImage = product?.Images?.FirstOrDefault();
+            }
+            return orderDetails;
+        }
+
+        public async Task<bool> UpdateOrderAsync(int orderId, OrderDTO dto)
+        {
+            var existingOrder = await _orderRepo.GetOrderByIdAsync(orderId);
+            if (existingOrder == null)
+                return false;
+
+            if (dto.Phone != null)
+                existingOrder.phone = dto.Phone;
+
+            if (dto.Address != null)
+                existingOrder.address = dto.Address;
+
+            if (dto.Name != null)
+                existingOrder.name = dto.Name;
+
+            if (dto.Status != null)
+            {
+                existingOrder.status = dto.Status;
+                if (dto.Status == "payment")
+                {
+                    foreach (var detail in existingOrder.OrderDetails)
+                    {
+                        var productDetail = detail.Product;
+                        var product = _productRepo.GetByIdAsync(productDetail?.id ?? 0).Result;
+                        if (product.stock <= detail.quantity)
+                        {
+                            await _productRepo.updateStock(product.id, 0);
+                        }
+                        else
+                        {
+                            await _productRepo.updateStock(product.id, (int)(product.stock - detail.quantity));
+                        }
+                    }
+                }
+                if(dto.Status == "cancelled" || dto.Status == "returned")
+                {
+                    foreach (var detail in existingOrder.OrderDetails)
+                    {
+                        var productDetail = detail.Product;
+                        var product = _productRepo.GetByIdAsync(productDetail?.id ?? 0).Result;
+                        await _productRepo.updateStock(product.id, (int)(product.stock + detail.quantity));
+                    }
+                }
+            }
+
+            if (dto.PayMethod != null)
+            {
+                existingOrder.payMethod = dto.PayMethod;
+                existingOrder.createDate = DateTime.Now;
+            }
+
+            if (dto.TotalPrice.HasValue)
+                existingOrder.totalPrice = dto.TotalPrice.Value;
+
+            if (dto.ShipPrice.HasValue)
+                existingOrder.shipPrice = dto.ShipPrice.Value;
+
+            if (dto.PayPrice.HasValue)
+                existingOrder.payPrice = dto.PayPrice.Value;
+
+            await _orderRepo.UpdateOrderAsync(existingOrder);
+            return true;
+        }
+
+
+        public async Task<bool> UpdateOrderDetailAsync(int orderDetailId, int quantity)
+        {
+            var existingDetail = await _orderRepo.GetOrderDetailByIdAsync(orderDetailId);
+            var product = await _productRepo.GetByIdAsync(existingDetail?.productId ?? 0);
+            var blindbox = await _blindBoxRepo.GetByIdAsync(existingDetail?.blindBoxId ?? 0);
+            if (existingDetail == null)
+                return false;
+
+            existingDetail.quantity = quantity;
+            
+            if (product != null)
+            {
+                if (existingDetail.quantity >= product?.stock)
+                {
+                    existingDetail.quantity = product.stock;
+                }
+                existingDetail.price = product.Totalprice * quantity;
+            }
+            if (blindbox != null)
+            {
+                if (existingDetail.quantity >= blindbox.stock)
+                {
+                    existingDetail.quantity = blindbox.stock;
+                }
+                existingDetail.price = blindbox.price * quantity;
+            }
+
+            await _orderRepo.UpdateOrderDetailAsync(existingDetail);
+            return true;
         }
 
         // Cập nhật status
@@ -92,6 +264,31 @@ namespace ClipNchic.Business.Services
         {
             var order = await _orderRepo.GetOrderByIdAsync(orderId);
             if (order == null) return false;
+            if (newStatus == "payment")
+            {
+                foreach (var detail in order.OrderDetails)
+                {
+                    var productDetail = detail.Product;
+                    var product = _productRepo.GetByIdAsync(productDetail?.id ?? 0).Result;
+                    if (product.stock <= detail.quantity)
+                    {
+                        await _productRepo.updateStock(product.id, 0);
+                    }
+                    else
+                    {
+                        await _productRepo.updateStock(product.id, (int)(product.stock - detail.quantity));
+                    }
+                }
+            }
+            if (newStatus == "cancelled" || newStatus == "returned")
+            {
+                foreach (var detail in order.OrderDetails)
+                {
+                    var productDetail = detail.Product;
+                    var product = _productRepo.GetByIdAsync(productDetail?.id ?? 0).Result;
+                    await _productRepo.updateStock(product.id, (int)(product.stock + detail.quantity));
+                }
+            }
 
             order.status = newStatus;
             await _orderRepo.UpdateOrderAsync(order);

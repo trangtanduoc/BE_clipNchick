@@ -3,6 +3,7 @@ using System.Security.Claims;
 using ClipNchic.Api.Models;
 using ClipNchic.Business.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClipNchic.Api.Controllers;
@@ -38,7 +39,8 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("me")]
-    public async Task<IActionResult> UpdateCurrentUser([FromBody] UpdateUserRequest request)
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UpdateCurrentUser([FromForm] UpdateUserRequest request)
     {
         if (request == null)
         {
@@ -57,7 +59,8 @@ public class UsersController : ControllerBase
             request.Phone,
             request.Birthday,
             request.Address,
-            request.Image);
+            request.ImageUrl,
+            request.ImageFile);
 
         if (user == null)
         {
@@ -65,6 +68,36 @@ public class UsersController : ControllerBase
         }
 
         return Ok(UserProfileDto.FromEntity(user));
+    }
+
+    [HttpDelete("me/delete_picture")]
+    public async Task<IActionResult> DeleteProfilePicture()
+    {
+        var userId = GetUserIdFromClaims();
+        if (userId == null)
+        {
+            return Unauthorized(new { message = "User identifier is not present in the token." });
+        }
+
+        var user = await _userService.GetUserByIdAsync(userId.Value);
+        if (user == null)
+        {
+            return NotFound(new { message = "User not found." });
+        }
+        var result = await _userService.UpdateUserProfileAsync(
+            user.id,
+            user.name,
+            user.phone,
+            user.birthday,
+            user.address,
+            null,
+            null,
+            removeImage: true);
+        if (result == null)
+        {
+            return NotFound(new { message = "User not found." });
+        }
+        return Ok(UserProfileDto.FromEntity(result));
     }
 
     private int? GetUserIdFromClaims()
@@ -80,5 +113,8 @@ public class UpdateUserRequest
     public string? Phone { get; set; }
     public DateTime? Birthday { get; set; }
     public string? Address { get; set; }
-    public string? Image { get; set; }
+    [FromForm(Name = "imageUrl")]
+    public string? ImageUrl { get; set; }
+    [FromForm(Name = "image")]
+    public IFormFile? ImageFile { get; set; }
 }

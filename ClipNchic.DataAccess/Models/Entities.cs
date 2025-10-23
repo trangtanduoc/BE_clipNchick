@@ -34,8 +34,30 @@ public class User
     [MaxLength(50)]
     public string? status { get; set; }
 
+    public bool isEmailVerified { get; set; } = false;
+
     public ICollection<Product> Products { get; set; } = new List<Product>();
     public ICollection<Order> Orders { get; set; } = new List<Order>();
+    public ICollection<EmailVerificationToken> EmailVerificationTokens { get; set; } = new List<EmailVerificationToken>();
+}
+
+[Table("EmailVerificationToken")]
+public class EmailVerificationToken
+{
+    [Key]
+    public int id { get; set; }
+
+    public int userId { get; set; }
+    public User? User { get; set; }
+
+    [MaxLength(255)]
+    public string token { get; set; } = string.Empty;
+
+    public DateTime expiryDate { get; set; }
+
+    public bool isUsed { get; set; } = false;
+
+    public DateTime createdDate { get; set; }
 }
 
 [Table("Collection")]
@@ -171,6 +193,7 @@ public class Product
 
     public ICollection<CharmProduct> CharmProducts { get; set; } = new List<CharmProduct>();
     public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public ICollection<Image> Images { get; set; } = new List<Image>();
 }
 
 [Table("CharmProduct")]
@@ -210,6 +233,8 @@ public class BlindBox
     [MaxLength(50)]
     public string? status { get; set; }
 
+    public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public ICollection<Image> Images { get; set; } = new List<Image>();
 }
 
 [Table("Ship")]
@@ -293,6 +318,9 @@ public class OrderDetail
 
     public int? productId { get; set; }
     public Product? Product { get; set; }
+
+    public int? blindBoxId { get; set; }
+    public BlindBox? BlindBox { get; set; }
 
     public int? quantity { get; set; }
 

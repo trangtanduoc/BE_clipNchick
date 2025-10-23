@@ -24,11 +24,21 @@ public class BlindBoxController : ControllerBase
     }
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] BlindBoxCreateDto dto)
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> Create([FromForm] BlindBoxCreateRequest request)
     {
-        var result = await _service.AddAsync(dto);
-        if (result > 0) return Ok(new { message = "BlindBox created successfully" });
-        return BadRequest(new { message = "Failed to create BlindBox" });
+        var dto = new BlindBoxCreateDto
+        {
+            collectId = request.collectId,
+            name = request.name,
+            descript = request.descript,
+            price = request.price,
+            stock = request.stock,
+            status = request.status
+        };
+        var result = await _service.AddAsync(dto, request.Images);
+        if (result != null) return Ok(result);
+        return BadRequest(new { message = "Failed to create blind box" });
     }
 
     [HttpPut("Update")]
@@ -46,4 +56,15 @@ public class BlindBoxController : ControllerBase
         if (result > 0) return Ok(new { message = "BlindBox deleted successfully" });
         return NotFound(new { message = "BlindBox not found" });
     }
+}
+
+public class BlindBoxCreateRequest
+{
+    public int collectId { get; set; }
+    public string name { get; set; } = null!;
+    public string descript { get; set; } = null!;
+    public decimal price { get; set; }
+    public int stock { get; set; }
+    public string status { get; set; } = null!;
+    public IEnumerable<IFormFile>? Images { get; set; }
 }

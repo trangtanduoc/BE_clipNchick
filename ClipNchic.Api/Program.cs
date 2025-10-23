@@ -13,6 +13,7 @@ using CloudinaryDotNet;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpClient();
 // Configure Cloudinary
 var cloudinarySettings = builder.Configuration.GetSection("Cloudinary");
 var cloudinary = new Cloudinary(new Account(
@@ -100,6 +101,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<UserRepo>();
+builder.Services.AddScoped<EmailVerificationTokenRepo>();
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<OrderRepo>();
 builder.Services.AddScoped<OrderService>();

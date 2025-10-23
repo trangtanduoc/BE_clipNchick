@@ -1,5 +1,6 @@
 using ClipNchic.Business.Services;
 using ClipNchic.DataAccess.Models;
+using ClipNchic.DataAccess.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -21,18 +22,26 @@ namespace ClipNchic.Api.Controllers
             var orders = await _service.GetAllOrdersAsync();
             return Ok(orders);
         }
-        // L?y th�ng tin user t? token
+        // Lấy thông tin user từ token
         private (int userId, string? name, string? phone, string? address) GetUserInfo()
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
             var name = User.FindFirst(ClaimTypes.Name)?.Value;
-            var phone = User.FindFirst("Phone")?.Value;
-            var address = User.FindFirst("Address")?.Value;
+            var phone = User.FindFirst(ClaimTypes.MobilePhone)?.Value;
+            var address = User.FindFirst(ClaimTypes.StreetAddress)?.Value;
             return (userId, name, phone, address);
         }
 
+        // Lấy tất cả order của user
+        [HttpGet("user-orders/{userId}")]
+        public async Task<IActionResult> GetUserOrders()
+        {
+            var (userId, _, _, _) = GetUserInfo();
+            var orders = await _service.GetOrdersByUserIdAsync(userId);
+            return Ok(orders);
+        }
 
-        // L?y ho?c t?o order pending
+        // Lấy hoặc tạo order pending
         [HttpGet("pending/{userId}")]
         public async Task<IActionResult> GetPendingOrder()
         {
@@ -41,7 +50,21 @@ namespace ClipNchic.Api.Controllers
             return Ok(order);
         }
 
-        // Th�m orderdetail
+        [HttpGet("{orderId}")]
+        public async Task<IActionResult> GetOrderById(int orderId)
+        {
+            var order = await _service.GetOrderByIdAsync(orderId);
+            return order == null ? NotFound(new { message = "Not found" }) : Ok(order);
+        }
+
+        [HttpGet("detail/{orderDetailId}")]
+        public async Task<IActionResult> GetOrderDetailById(int orderDetailId)
+        {
+            var detail = await _service.GetOrderDetailsByOrderIdAsync(orderDetailId);
+            return detail == null ? NotFound(new { message = "Not found" }) : Ok(detail);
+        }
+
+        // Thêm orderdetail
         [HttpPost("add-detail")]
         public async Task<IActionResult> AddOrderDetail(int productId, int quantity, decimal price)
         {
@@ -50,42 +73,54 @@ namespace ClipNchic.Api.Controllers
             return Ok(order);
         }
 
-        // X�a orderdetail
+        [HttpPost("add-blindbox-detail")]
+        public async Task<IActionResult> AddBlindBoxDetail(int blindBoxId, int quantity, decimal price)
+        {
+            var (userId, name, phone, address) = GetUserInfo();
+            var order = await _service.AddBlindBoxDetailAsync(userId, name, phone, address, blindBoxId, quantity, price);
+            return Ok(order);
+        }
+
+        [HttpPut("update-order/{orderId}")]
+        public async Task<IActionResult> UpdateOrder(int orderId, [FromBody] OrderDTO dto)
+        {
+            var result = await _service.UpdateOrderAsync(orderId, dto);
+            return result ? Ok(new {message = "Updated" }) : NotFound(new { message = "Failed to update" });
+        }
+
+        [HttpPut("update-quantity-detail/{orderDetailId}")]
+        public async Task<IActionResult> UpdateOrderDetail(int orderDetailId, int quantity)
+        {
+            var result = await _service.UpdateOrderDetailAsync(orderDetailId, quantity);
+            return result ? Ok(new { message = "Updated" }) : NotFound(new { message = "Failed to update" });
+        }
+
+
+        // Xóa orderdetail
         [HttpDelete("delete-detail/{userId}/{orderDetailId}")]
         public async Task<IActionResult> DeleteOrderDetail(int orderDetailId)
         {
             var (userId, _, _, _) = GetUserInfo();
             var order = await _service.DeleteOrderDetailAsync(userId, orderDetailId);
-            return order == null ? NotFound() : Ok(order);
+            return order == null ? NotFound(new { message = "Failed to delete" }) : Ok(order);
         }
 
-        // C?p nh?t status
+        // Cập nhật status
         [HttpPut("update-status/{orderId}")]
         public async Task<IActionResult> UpdateStatus(int orderId, [FromQuery] string status)
         {
             var result = await _service.UpdateStatusAsync(orderId, status);
-            return result ? Ok("Updated") : NotFound();
+            return result ? Ok(new { message = "Updated" }) : NotFound(new { message = "Failed to update" });
         }
 
-        // C?p nh?t payMethod
+        // Cập nhật payMethod
         [HttpPut("update-paymethod/{orderId}")]
         public async Task<IActionResult> UpdatePayMethod(int orderId, [FromQuery] string method)
         {
             var result = await _service.UpdatePayMethodAsync(orderId, method);
-            return result ? Ok("Updated") : NotFound();
+            return result ? Ok(new { message = "Updated" }) : NotFound(new { message = "Failed to update" });
         }
 
     }
 
-    // DTO cho request th�m orderdetail
-    public class OrderDetailRequest
-    {
-        public int userId { get; set; }
-        public string? phone { get; set; }
-        public string? address { get; set; }
-        public string? name { get; set; }
-        public int productId { get; set; }
-        public int quantity { get; set; }
-        public decimal price { get; set; }
-    }
 }
