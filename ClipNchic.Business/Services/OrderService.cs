@@ -64,6 +64,11 @@ namespace ClipNchic.Business.Services
             var existingDetail = await _orderRepo.GetOrderDetailByOrderAndProductAsync(order.id, productId);
             var product = await _productRepo.GetByIdAsync(productId);
 
+            if (product == null)
+            {
+                throw new InvalidOperationException($"Product with ID {productId} not found.");
+            }
+
             if (existingDetail != null)
             {
                 // Nếu đã có thì cộng thêm số lượng mới
@@ -103,6 +108,11 @@ namespace ClipNchic.Business.Services
 
             var existingDetail = await _orderRepo.GetOrderDetailByOrderAndBlindBoxAsync(order.id, blindBoxId);
             var blindBox = await _blindBoxRepo.GetByIdAsync(blindBoxId);
+
+            if (blindBox == null)
+            {
+                throw new InvalidOperationException($"BlindBox with ID {blindBoxId} not found.");
+            }
 
             if (existingDetail != null)
             {
@@ -256,8 +266,6 @@ namespace ClipNchic.Business.Services
         public async Task<bool> UpdateOrderDetailAsync(int orderDetailId, int quantity)
         {
             var existingDetail = await _orderRepo.GetOrderDetailByIdAsync(orderDetailId);
-            var product = await _productRepo.GetByIdAsync(existingDetail?.productId ?? 0);
-            var blindbox = await _blindBoxRepo.GetByIdAsync(existingDetail?.blindBoxId ?? 0);
             if (existingDetail == null)
                 return false;
 
@@ -265,19 +273,28 @@ namespace ClipNchic.Business.Services
 
             if (product != null)
             {
-                if (existingDetail.quantity >= product?.stock)
+                var product = await _productRepo.GetByIdAsync(existingDetail.productId.Value);
+                if (product != null)
                 {
-                    existingDetail.quantity = product.stock;
+                    if (existingDetail.quantity >= product.stock)
+                    {
+                        existingDetail.quantity = product.stock;
+                    }
+                    existingDetail.price = product.Totalprice * quantity;
                 }
-                existingDetail.price = product.Totalprice * quantity;
             }
-            if (blindbox != null)
+            
+            if (existingDetail.blindBoxId.HasValue)
             {
-                if (existingDetail.quantity >= blindbox.stock)
+                var blindbox = await _blindBoxRepo.GetByIdAsync(existingDetail.blindBoxId.Value);
+                if (blindbox != null)
                 {
-                    existingDetail.quantity = blindbox.stock;
+                    if (existingDetail.quantity >= blindbox.stock)
+                    {
+                        existingDetail.quantity = blindbox.stock;
+                    }
+                    existingDetail.price = blindbox.price * quantity;
                 }
-                existingDetail.price = blindbox.price * quantity;
             }
 
             await _orderRepo.UpdateOrderDetailAsync(existingDetail);

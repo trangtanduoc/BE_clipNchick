@@ -188,7 +188,7 @@ namespace ClipNchic.DataAccess.Repositories
             var topProducts = await _context.OrderDetails
                 .Include(od => od.Order)
                 .Include(od => od.Product)
-                .Where(od => od.productId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "đã giao hàng thành công")
+                .Where(od => od.productId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "delivered")
                 .GroupBy(od => new { od.productId, od.Product!.title })
                 .OrderByDescending(g => g.Sum(od => od.quantity ?? 0))
                 .Take(10)
@@ -210,7 +210,7 @@ namespace ClipNchic.DataAccess.Repositories
             var topBlindBoxes = await _context.OrderDetails
                 .Include(od => od.Order)
                 .Include(od => od.BlindBox)
-                .Where(od => od.blindBoxId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "đã giao hàng thành công")
+                .Where(od => od.blindBoxId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "delivered")
                 .GroupBy(od => new { od.blindBoxId, od.BlindBox!.name })
                 .OrderByDescending(g => g.Sum(od => od.quantity ?? 0))
                 .Take(10)
