@@ -16,6 +16,7 @@ namespace ClipNchic.DataAccess.Repositories
             if (product == null) return null;
 
             var baseEntity = await _context.Bases.FirstOrDefaultAsync(b => b.id == product.baseId);
+            var model = await _context.Models.FirstOrDefaultAsync(m => m.id == product.modelId);
             var charmProducts = await _context.CharmProducts.Where(cp => cp.productId == product.id).ToListAsync();
             var images = await _context.Images.Where(i => i.productId == product.id).ToListAsync();
             var collection = await _context.Collections
@@ -50,6 +51,8 @@ namespace ClipNchic.DataAccess.Repositories
                 Collection = collection,
                 baseId = product.baseId,
                 Base = baseEntity,
+                modelId = product.modelId,
+                Model = model,
                 CharmProducts = charmProducts,
                 createDate = product.createDate,
                 status = product.status,
@@ -65,6 +68,7 @@ namespace ClipNchic.DataAccess.Repositories
             foreach (var product in products)
             {
                 var baseEntity = await _context.Bases.FirstOrDefaultAsync(b => b.id == product.baseId);
+                var model = await _context.Models.FirstOrDefaultAsync(m => m.id == product.modelId);
                 var charmProducts = await _context.CharmProducts.Where(cp => cp.productId == product.id).ToListAsync();
                 var collection = await _context.Collections
                     .Where(c => c.id == product.collectId)
@@ -101,6 +105,8 @@ namespace ClipNchic.DataAccess.Repositories
                     Collection = collection,
                     baseId = product.baseId,
                     Base = baseEntity,
+                    modelId = product.modelId,
+                    Model = model,
                     CharmProducts = charmProducts,
                     createDate = product.createDate,
                     status = product.status,
