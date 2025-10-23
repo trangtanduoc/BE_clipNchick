@@ -8,19 +8,37 @@ public class ProductService
 {
     private readonly ProductRepo _repo;
     private readonly ImageService _imageService;
+    private readonly ModelService _modelService;
+    private readonly BaseService _baseService;
 
-    public ProductService(ProductRepo repo, ImageService imageService)
+    public ProductService(ProductRepo repo, ImageService imageService, ModelService modelService, BaseService baseService)
     {
         _repo = repo;
         _imageService = imageService;
+        _modelService = modelService;
+        _baseService = baseService;
     }
 
     public Task<ResponseProductDTO?> GetByIdAsync(int id) => _repo.GetByIdAsync(id);
     public Task<IEnumerable<ResponseProductDTO>> GetAllAsync() => _repo.GetAllAsync();
 
-    public async Task<ResponseProductDTO?> AddAsync(ProductCreateDto dto, IEnumerable<IFormFile>? files = null)
+    public async Task<ResponseProductDTO?> AddAsync(ProductCreateDto dto, IEnumerable<IFormFile>? files = null, IFormFile? modelFile = null)
     {
+        if (dto.baseId.HasValue)
+        {
+            var baseExists = await _baseService.GetByIdAsync(dto.baseId.Value);
+            if (baseExists == null)
+                throw new InvalidOperationException($"Base with id {dto.baseId} does not exist.");
+        }
+
         dto.createDate ??= DateTime.UtcNow;
+
+        if (modelFile != null && modelFile.Length > 0)
+        {
+            var model = await _modelService.CreateModelFromFileAsync(modelFile);
+            if (model != null)
+                dto.modelId = model.id;
+        }
 
         var product = await _repo.AddAsync(dto);
 

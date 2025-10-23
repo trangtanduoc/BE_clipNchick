@@ -27,23 +27,29 @@ public class ProductController : ControllerBase
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
     {
-        var dto = new ProductCreateDto
+        try
         {
-            collectId = request.collectId,
-            title = request.title,
-            descript = request.descript,
-            baseId = request.baseId,
-            price = request.price,
-            userId = request.userId,
-            stock = request.stock,
-            modelId = request.modelId,
-            createDate = request.createDate,
-            status = request.status
-        };
+            var dto = new ProductCreateDto
+            {
+                collectId = request.collectId,
+                title = request.title,
+                descript = request.descript,
+                baseId = request.baseId,
+                price = request.price,
+                userId = request.userId,
+                stock = request.stock,
+                createDate = request.createDate,
+                status = request.status
+            };
 
-        var result = await _service.AddAsync(dto, request.Images);
-        if (result != null) return Ok(result);
-        return BadRequest(new { message = "Failed to create Product" });
+            var result = await _service.AddAsync(dto, request.Images, request.ModelFile);
+            if (result != null) return Ok(result);
+            return BadRequest(new { message = "Failed to create Product" });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpPut("Update")]
@@ -72,8 +78,8 @@ public class ProductCreateRequest
     public decimal? price { get; set; }
     public int? userId { get; set; }
     public int? stock { get; set; }
-    public int? modelId { get; set; }
     public DateTime? createDate { get; set; }
     public string? status { get; set; }
     public List<IFormFile>? Images { get; set; }
+    public IFormFile? ModelFile { get; set; }
 }

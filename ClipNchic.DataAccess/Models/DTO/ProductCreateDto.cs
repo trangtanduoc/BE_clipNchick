@@ -12,7 +12,7 @@ namespace ClipNchic.DataAccess.Models.DTO
         public string? title { get; set; }
         public string? descript { get; set; }
         public int? baseId { get; set; }
-        public decimal? price { get; set; } // optional explicit price override
+        public decimal? price { get; set; }
         public int? userId { get; set; }
         public int? stock { get; set; }
         public int? modelId { get; set; }

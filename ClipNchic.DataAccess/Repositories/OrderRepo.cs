@@ -1,5 +1,6 @@
 using ClipNchic.DataAccess.Data;
 using ClipNchic.DataAccess.Models;
+using ClipNchic.DataAccess.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClipNchic.DataAccess.Repositories
@@ -178,6 +179,48 @@ namespace ClipNchic.DataAccess.Repositories
             summary.YearlyTotalSales = summary.MonthlySales.Sum(m => m.SalesTotal);
 
             return summary;
+        public async Task<List<TopSalesDto>> GetTop10ProductsLast30DaysAsync()
+        {
+            var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
+
+            var topProducts = await _context.OrderDetails
+                .Include(od => od.Order)
+                .Include(od => od.Product)
+                .Where(od => od.productId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "đã giao hàng thành công")
+                .GroupBy(od => new { od.productId, od.Product!.title })
+                .OrderByDescending(g => g.Sum(od => od.quantity ?? 0))
+                .Take(10)
+                .Select(g => new TopSalesDto
+                {
+                    id = g.Key.productId ?? 0,
+                    name = g.Key.title,
+                    quantitySold = g.Sum(od => od.quantity ?? 0)
+                })
+                .ToListAsync();
+
+            return topProducts;
+        }
+
+        public async Task<List<TopSalesDto>> GetTop10BlindBoxesLast30DaysAsync()
+        {
+            var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
+
+            var topBlindBoxes = await _context.OrderDetails
+                .Include(od => od.Order)
+                .Include(od => od.BlindBox)
+                .Where(od => od.blindBoxId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "đã giao hàng thành công")
+                .GroupBy(od => new { od.blindBoxId, od.BlindBox!.name })
+                .OrderByDescending(g => g.Sum(od => od.quantity ?? 0))
+                .Take(10)
+                .Select(g => new TopSalesDto
+                {
+                    id = g.Key.blindBoxId ?? 0,
+                    name = g.Key.name,
+                    quantitySold = g.Sum(od => od.quantity ?? 0)
+                })
+                .ToListAsync();
+
+            return topBlindBoxes;
         }
 
         //public async Task<Order?> GetCartByUserIdAsync(int userId)

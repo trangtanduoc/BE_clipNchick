@@ -1,4 +1,4 @@
-﻿using ClipNchic.DataAccess.Data;
+using ClipNchic.DataAccess.Data;
 using ClipNchic.DataAccess.Models;
 using ClipNchic.DataAccess.Models.DTO;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +16,7 @@ namespace ClipNchic.DataAccess.Repositories
             if (product == null) return null;
 
             var baseEntity = await _context.Bases.FirstOrDefaultAsync(b => b.id == product.baseId);
+            var model = await _context.Models.FirstOrDefaultAsync(m => m.id == product.modelId);
             var charmProducts = await _context.CharmProducts.Where(cp => cp.productId == product.id).ToListAsync();
             var images = await _context.Images.Where(i => i.productId == product.id).ToListAsync();
             var collection = await _context.Collections
@@ -39,6 +40,13 @@ namespace ClipNchic.DataAccess.Repositories
             }
             var finalPrice = product.price ?? total;
 
+            var modelDto = model != null ? new ModelDetailDto
+            {
+                id = model.id,
+                name = model.name,
+                address = model.address
+            } : null;
+
             return new ResponseProductDTO
             {
                 id = product.id,
@@ -50,6 +58,8 @@ namespace ClipNchic.DataAccess.Repositories
                 Collection = collection,
                 baseId = product.baseId,
                 Base = baseEntity,
+                modelId = product.modelId,
+                Model = modelDto,
                 CharmProducts = charmProducts,
                 createDate = product.createDate,
                 status = product.status,
@@ -65,6 +75,7 @@ namespace ClipNchic.DataAccess.Repositories
             foreach (var product in products)
             {
                 var baseEntity = await _context.Bases.FirstOrDefaultAsync(b => b.id == product.baseId);
+                var model = await _context.Models.FirstOrDefaultAsync(m => m.id == product.modelId);
                 var charmProducts = await _context.CharmProducts.Where(cp => cp.productId == product.id).ToListAsync();
                 var collection = await _context.Collections
                     .Where(c => c.id == product.collectId)
@@ -90,6 +101,13 @@ namespace ClipNchic.DataAccess.Repositories
                 }
                 var finalPrice = product.price ?? total;
 
+                var modelDto = model != null ? new ModelDetailDto
+                {
+                    id = model.id,
+                    name = model.name,
+                    address = model.address
+                } : null;
+
                 result.Add(new ResponseProductDTO
                 {
                     id = product.id,
@@ -101,6 +119,8 @@ namespace ClipNchic.DataAccess.Repositories
                     Collection = collection,
                     baseId = product.baseId,
                     Base = baseEntity,
+                    modelId = product.modelId,
+                    Model = modelDto,
                     CharmProducts = charmProducts,
                     createDate = product.createDate,
                     status = product.status,
