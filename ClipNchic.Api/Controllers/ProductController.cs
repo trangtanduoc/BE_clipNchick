@@ -41,7 +41,7 @@ public class ProductController : ControllerBase
             status = request.status
         };
 
-        var result = await _service.AddAsync(dto, request.Images);
+        var result = await _service.AddAsync(dto, request.Images, request.ModelFile);
         if (result != null) return Ok(result);
         return BadRequest(new { message = "Failed to create Product" });
     }
@@ -76,4 +76,5 @@ public class ProductCreateRequest
     public DateTime? createDate { get; set; }
     public string? status { get; set; }
     public List<IFormFile>? Images { get; set; }
+    public IFormFile? ModelFile { get; set; }
 }
