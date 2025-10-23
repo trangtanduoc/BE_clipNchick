@@ -40,7 +40,7 @@ namespace ClipNchic.Business.Services
                 };
                 await _orderRepo.CreatePendingOrderAsync(order);
             }
-            if(order != null)
+            if (order != null)
             {
                 foreach (var detail in order.OrderDetails)
                 {
@@ -68,7 +68,7 @@ namespace ClipNchic.Business.Services
             {
                 // Nếu đã có thì cộng thêm số lượng mới
                 existingDetail.quantity = (existingDetail.quantity ?? 0) + quantity;
-                if(existingDetail.quantity >= product.stock)
+                if (existingDetail.quantity >= product.stock)
                 {
                     existingDetail.quantity = product.stock;
                 }
@@ -85,7 +85,7 @@ namespace ClipNchic.Business.Services
                     quantity = quantity,
                     price = product.Totalprice * quantity
                 };
-                if(detail.quantity >= product.stock)
+                if (detail.quantity >= product.stock)
                 {
                     detail.quantity = product.stock;
                 }
@@ -123,7 +123,7 @@ namespace ClipNchic.Business.Services
                     quantity = quantity,
                     price = blindBox.price * quantity
                 };
-                if(detail.quantity >= blindBox.stock)
+                if (detail.quantity >= blindBox.stock)
                 {
                     detail.quantity = blindBox.stock;
                 }
@@ -186,24 +186,49 @@ namespace ClipNchic.Business.Services
                     foreach (var detail in existingOrder.OrderDetails)
                     {
                         var productDetail = detail.Product;
+                        var blindBoxDetail = detail.BlindBox;
                         var product = _productRepo.GetByIdAsync(productDetail?.id ?? 0).Result;
-                        if (product.stock <= detail.quantity)
+                        var blindBox = _blindBoxRepo.GetByIdAsync(blindBoxDetail?.id ?? 0).Result;
+                        if (product != null && product.stock.HasValue && detail.quantity.HasValue)
                         {
-                            await _productRepo.updateStock(product.id, 0);
+                            if (product.stock.Value <= detail.quantity.Value)
+                            {
+                                await _productRepo.updateStock(product.id, 0);
+                            }
+                            else
+                            {
+                                await _productRepo.updateStock(product.id, product.stock.Value - detail.quantity.Value);
+                            }
                         }
-                        else
+                        if (blindBox != null && blindBox.stock.HasValue && detail.quantity.HasValue)
                         {
-                            await _productRepo.updateStock(product.id, (int)(product.stock - detail.quantity));
+                            if (blindBox.stock.Value <= detail.quantity.Value)
+                            {
+                                await _blindBoxRepo.updateStock(blindBox.id, 0);
+                            }
+                            else
+                            {
+                                await _blindBoxRepo.updateStock(blindBox.id, blindBox.stock.Value - detail.quantity.Value);
+                            }
                         }
                     }
                 }
-                if(dto.Status == "cancelled" || dto.Status == "returned")
+                if (dto.Status == "cancelled" || dto.Status == "returned")
                 {
                     foreach (var detail in existingOrder.OrderDetails)
                     {
                         var productDetail = detail.Product;
+                        var blindBoxDetail = detail.BlindBox;
                         var product = _productRepo.GetByIdAsync(productDetail?.id ?? 0).Result;
-                        await _productRepo.updateStock(product.id, (int)(product.stock + detail.quantity));
+                        var blindBox = _blindBoxRepo.GetByIdAsync(blindBoxDetail?.id ?? 0).Result;
+                        if (product != null && product.stock.HasValue && detail.quantity.HasValue)
+                        {
+                            await _productRepo.updateStock(product.id, product.stock.Value + detail.quantity.Value);
+                        }
+                        if (blindBox != null && blindBox.stock.HasValue && detail.quantity.HasValue)
+                        {
+                            await _blindBoxRepo.updateStock(blindBox.id, blindBox.stock.Value + detail.quantity.Value);
+                        }
                     }
                 }
             }
@@ -237,7 +262,7 @@ namespace ClipNchic.Business.Services
                 return false;
 
             existingDetail.quantity = quantity;
-            
+
             if (product != null)
             {
                 if (existingDetail.quantity >= product?.stock)
@@ -269,14 +294,30 @@ namespace ClipNchic.Business.Services
                 foreach (var detail in order.OrderDetails)
                 {
                     var productDetail = detail.Product;
+                    var blindBoxDetail = detail.BlindBox;
                     var product = _productRepo.GetByIdAsync(productDetail?.id ?? 0).Result;
-                    if (product.stock <= detail.quantity)
+                    var blindBox = _blindBoxRepo.GetByIdAsync(blindBoxDetail?.id ?? 0).Result;
+                    if (product != null && product.stock.HasValue && detail.quantity.HasValue)
                     {
-                        await _productRepo.updateStock(product.id, 0);
+                        if (product.stock.Value <= detail.quantity.Value)
+                        {
+                            await _productRepo.updateStock(product.id, 0);
+                        }
+                        else
+                        {
+                            await _productRepo.updateStock(product.id, product.stock.Value - detail.quantity.Value);
+                        }
                     }
-                    else
+                    if (blindBox != null && blindBox.stock.HasValue && detail.quantity.HasValue)
                     {
-                        await _productRepo.updateStock(product.id, (int)(product.stock - detail.quantity));
+                        if (blindBox.stock.Value <= detail.quantity.Value)
+                        {
+                            await _blindBoxRepo.updateStock(blindBox.id, 0);
+                        }
+                        else
+                        {
+                            await _blindBoxRepo.updateStock(blindBox.id, blindBox.stock.Value - detail.quantity.Value);
+                        }
                     }
                 }
             }
@@ -285,8 +326,17 @@ namespace ClipNchic.Business.Services
                 foreach (var detail in order.OrderDetails)
                 {
                     var productDetail = detail.Product;
+                    var blindBoxDetail = detail.BlindBox;
                     var product = _productRepo.GetByIdAsync(productDetail?.id ?? 0).Result;
-                    await _productRepo.updateStock(product.id, (int)(product.stock + detail.quantity));
+                    var blindBox = _blindBoxRepo.GetByIdAsync(blindBoxDetail?.id ?? 0).Result;
+                    if (product != null && product.stock.HasValue && detail.quantity.HasValue)
+                    {
+                        await _productRepo.updateStock(product.id, product.stock.Value + detail.quantity.Value);
+                    }
+                    if (blindBox != null && blindBox.stock.HasValue && detail.quantity.HasValue)
+                    {
+                        await _blindBoxRepo.updateStock(blindBox.id, blindBox.stock.Value + detail.quantity.Value);
+                    }
                 }
             }
 

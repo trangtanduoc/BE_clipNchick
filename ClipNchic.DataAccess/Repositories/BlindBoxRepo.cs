@@ -93,6 +93,15 @@ namespace ClipNchic.DataAccess.Repositories
             return await _context.SaveChangesAsync();
         }
 
+        public async Task<int> updateStock(int blindBoxId, int quantity)
+        {
+            var existing = await _context.BlindBoxes.FindAsync(blindBoxId);
+            if (existing == null) return 0;
+            existing.stock = quantity;
+            _context.BlindBoxes.Update(existing);
+            return await _context.SaveChangesAsync();
+        }
+
         public async Task<int> DeleteAsync(int id)
         {
             var entity = await _context.BlindBoxes.FindAsync(id);
