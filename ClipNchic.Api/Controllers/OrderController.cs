@@ -121,6 +121,12 @@ namespace ClipNchic.Api.Controllers
             return result ? Ok(new { message = "Updated" }) : NotFound(new { message = "Failed to update" });
         }
 
+        [HttpGet("YearlySalesSummary")]
+        public async Task<ActionResult<MonthlySalesSummaryDto>> GetYearlySalesSummary([FromQuery] int year)
+        {
+            var result = await _service.GetYearlySalesSummaryAsync(year);
+            return Ok(result);
+        }
         // Get top 10 products sold in last 30 days
         [HttpGet("sales/top-products")]
         public async Task<IActionResult> GetTop10ProductsLast30Days()
@@ -139,4 +145,12 @@ namespace ClipNchic.Api.Controllers
 
     }
 
+        
+        [HttpGet("TodaysOrdersAndCompletedSales")]
+        public async Task<ActionResult<object>> GetTodaysOrdersAndCompletedSales()
+        {
+            var result = await _service.GetTodaysOrdersAndCompletedSalesAsync();
+            return Ok(result);
+        }
+    }
 }

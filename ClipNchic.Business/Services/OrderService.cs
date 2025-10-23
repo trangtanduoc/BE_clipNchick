@@ -306,6 +306,14 @@ namespace ClipNchic.Business.Services
             await _orderRepo.UpdateOrderAsync(order);
             return true;
         }
+        public async Task<MonthlySalesSummaryDto> GetYearlySalesSummaryAsync(int year)
+        {
+            return await _orderRepo.GetYearlySalesSummaryAsync(year);
+        }
+
+        public async Task<(int OrdersCount, decimal CompletedSalesTotal)> GetTodaysOrdersAndCompletedSalesAsync()
+        {
+            return await _orderRepo.GetTodaysOrdersAndCompletedSalesAsync();
 
         public async Task<List<TopSalesDto>> GetTop10ProductsLast30DaysAsync()
         {
