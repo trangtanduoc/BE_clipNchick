@@ -1,4 +1,4 @@
-﻿using ClipNchic.DataAccess.Data;
+using ClipNchic.DataAccess.Data;
 using ClipNchic.DataAccess.Models;
 using ClipNchic.DataAccess.Models.DTO;
 using Microsoft.EntityFrameworkCore;
@@ -165,6 +165,15 @@ namespace ClipNchic.DataAccess.Repositories
             existing.createDate = dto.createDate;
             existing.status = dto.status;
 
+            _context.Products.Update(existing);
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> updateStock(int productId, int quantity)
+        {
+            var existing = await _context.Products.FindAsync(productId);
+            if (existing == null) return 0;
+            existing.stock = quantity;
             _context.Products.Update(existing);
             return await _context.SaveChangesAsync();
         }

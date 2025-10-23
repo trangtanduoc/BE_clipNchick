@@ -234,6 +234,7 @@ public class BlindBox
     public string? status { get; set; }
 
     public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public ICollection<Image> Images { get; set; } = new List<Image>();
 }
 
 [Table("Ship")]

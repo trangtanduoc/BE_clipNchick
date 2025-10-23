@@ -3,20 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1CF92AD8-ADDC-462B-A37A-DF0CDC0A4C1F}|ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj|c:\\users\\minec\\source\\repos\\be_clipnchick\\clipnchic.dataaccess\\repositories\\orderrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1CF92AD8-ADDC-462B-A37A-DF0CDC0A4C1F}|ClipNchic.DataAccess\\ClipNchic.DataAccess.csproj|solutionrelative:clipnchic.dataaccess\\repositories\\orderrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|c:\\users\\minec\\source\\repos\\be_clipnchick\\clipnchic.api\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|c:\\users\\minec\\source\\repos\\be_clipnchick\\clipnchic.api\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|c:\\users\\minec\\source\\repos\\be_clipnchick\\clipnchic.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|c:\\users\\minec\\source\\repos\\be_clipnchick\\clipnchic.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{CEE037FE-7FE8-4C20-8A77-48929D713CCC}|ClipNchic.Api\\ClipNchic.Api.csproj|solutionrelative:clipnchic.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,54 +50,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "OrderController.cs",
-              "DocumentMoniker": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\Controllers\\OrderController.cs",
-              "RelativeDocumentMoniker": "ClipNchic.Api\\Controllers\\OrderController.cs",
-              "ToolTip": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\Controllers\\OrderController.cs",
-              "RelativeToolTip": "ClipNchic.Api\\Controllers\\OrderController.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAgwBMAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T01:53:02.232Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "OrderRepo.cs",
-              "DocumentMoniker": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\Repositories\\OrderRepo.cs",
-              "RelativeDocumentMoniker": "ClipNchic.DataAccess\\Repositories\\OrderRepo.cs",
-              "ToolTip": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.DataAccess\\Repositories\\OrderRepo.cs",
-              "RelativeToolTip": "ClipNchic.DataAccess\\Repositories\\OrderRepo.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAYwCAAAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T01:52:31.61Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PaymentController.cs",
-              "DocumentMoniker": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\Controllers\\PaymentController.cs",
-              "RelativeDocumentMoniker": "ClipNchic.Api\\Controllers\\PaymentController.cs",
-              "ToolTip": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\Controllers\\PaymentController.cs",
-              "RelativeToolTip": "ClipNchic.Api\\Controllers\\PaymentController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T01:00:15.861Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\Program.cs",
-              "RelativeDocumentMoniker": "ClipNchic.Api\\Program.cs",
-              "ToolTip": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\Program.cs",
-              "RelativeToolTip": "ClipNchic.Api\\Program.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABUAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T00:42:05.628Z",
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\appsettings.json",
+              "RelativeDocumentMoniker": "ClipNchic.Api\\appsettings.json",
+              "ToolTip": "C:\\Users\\minec\\source\\repos\\BE_clipNchick\\ClipNchic.Api\\appsettings.json",
+              "RelativeToolTip": "ClipNchic.Api\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-21T18:18:13.077Z",
               "EditorCaption": ""
             }
           ]
