@@ -314,6 +314,7 @@ namespace ClipNchic.Business.Services
         public async Task<(int OrdersCount, decimal CompletedSalesTotal)> GetTodaysOrdersAndCompletedSalesAsync()
         {
             return await _orderRepo.GetTodaysOrdersAndCompletedSalesAsync();
+        }
 
         public async Task<List<TopSalesDto>> GetTop10ProductsLast30DaysAsync()
         {
