@@ -20,7 +20,7 @@ namespace ClipNchic.DataAccess.Models.DTO
         public int? baseId { get; set; }
         public Base? Base { get; set; }
         public int? modelId { get; set; }
-        public Model? Model { get; set; }
+        public ModelDetailDto? Model { get; set; }
         public List<CharmProduct>? CharmProducts { get; set; } = new();
         public List<Image>? Images { get; set; } = new();
     }

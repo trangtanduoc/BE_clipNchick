@@ -40,6 +40,13 @@ namespace ClipNchic.DataAccess.Repositories
             }
             var finalPrice = product.price ?? total;
 
+            var modelDto = model != null ? new ModelDetailDto
+            {
+                id = model.id,
+                name = model.name,
+                address = model.address
+            } : null;
+
             return new ResponseProductDTO
             {
                 id = product.id,
@@ -52,7 +59,7 @@ namespace ClipNchic.DataAccess.Repositories
                 baseId = product.baseId,
                 Base = baseEntity,
                 modelId = product.modelId,
-                Model = model,
+                Model = modelDto,
                 CharmProducts = charmProducts,
                 createDate = product.createDate,
                 status = product.status,
@@ -94,6 +101,13 @@ namespace ClipNchic.DataAccess.Repositories
                 }
                 var finalPrice = product.price ?? total;
 
+                var modelDto = model != null ? new ModelDetailDto
+                {
+                    id = model.id,
+                    name = model.name,
+                    address = model.address
+                } : null;
+
                 result.Add(new ResponseProductDTO
                 {
                     id = product.id,
@@ -106,7 +120,7 @@ namespace ClipNchic.DataAccess.Repositories
                     baseId = product.baseId,
                     Base = baseEntity,
                     modelId = product.modelId,
-                    Model = model,
+                    Model = modelDto,
                     CharmProducts = charmProducts,
                     createDate = product.createDate,
                     status = product.status,
