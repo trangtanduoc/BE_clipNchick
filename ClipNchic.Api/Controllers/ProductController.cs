@@ -38,7 +38,6 @@ public class ProductController : ControllerBase
                 price = request.price,
                 userId = request.userId,
                 stock = request.stock,
-                modelId = request.modelId,
                 createDate = request.createDate,
                 status = request.status
             };
@@ -79,7 +78,6 @@ public class ProductCreateRequest
     public decimal? price { get; set; }
     public int? userId { get; set; }
     public int? stock { get; set; }
-    public int? modelId { get; set; }
     public DateTime? createDate { get; set; }
     public string? status { get; set; }
     public List<IFormFile>? Images { get; set; }
