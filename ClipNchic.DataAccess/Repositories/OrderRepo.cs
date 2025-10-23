@@ -23,6 +23,7 @@ namespace ClipNchic.DataAccess.Repositories
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.BlindBox)
                         .ThenInclude(bb => bb.Images)
+                .Where(o => o.status != "pending")
                 .OrderByDescending(o => o.createDate)
                 .ToListAsync();
         }
