@@ -148,6 +148,15 @@ namespace ClipNchic.DataAccess.Repositories
             _context.Products.Update(existing);
             return await _context.SaveChangesAsync();
         }
+
+        public async Task<int> updateStock(int productId, int quantity)
+        {
+            var existing = await _context.Products.FindAsync(productId);
+            if (existing == null) return 0;
+            existing.stock = quantity;
+            _context.Products.Update(existing);
+            return await _context.SaveChangesAsync();
+        }
         public async Task<int> DeleteProductAsync(int id)
         {
             var product = await _context.Products.FindAsync(id);

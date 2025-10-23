@@ -68,6 +68,10 @@ namespace ClipNchic.Business.Services
             {
                 // Nếu đã có thì cộng thêm số lượng mới
                 existingDetail.quantity = (existingDetail.quantity ?? 0) + quantity;
+                if(existingDetail.quantity >= product.stock)
+                {
+                    existingDetail.quantity = product.stock;
+                }
                 existingDetail.price = product.Totalprice * existingDetail.quantity;
                 await _orderRepo.UpdateOrderDetailAsync(existingDetail);
             }
@@ -81,6 +85,10 @@ namespace ClipNchic.Business.Services
                     quantity = quantity,
                     price = product.Totalprice * quantity
                 };
+                if(detail.quantity >= product.stock)
+                {
+                    detail.quantity = product.stock;
+                }
 
                 await _orderRepo.AddOrderDetailAsync(detail);
             }
@@ -99,6 +107,10 @@ namespace ClipNchic.Business.Services
             if (existingDetail != null)
             {
                 existingDetail.quantity = (existingDetail.quantity ?? 0) + quantity;
+                if (existingDetail.quantity >= blindBox.stock)
+                {
+                    existingDetail.quantity = blindBox.stock;
+                }
                 existingDetail.price = blindBox.price * existingDetail.quantity;
                 await _orderRepo.UpdateOrderDetailAsync(existingDetail);
             }
@@ -111,6 +123,10 @@ namespace ClipNchic.Business.Services
                     quantity = quantity,
                     price = blindBox.price * quantity
                 };
+                if(detail.quantity >= blindBox.stock)
+                {
+                    detail.quantity = blindBox.stock;
+                }
 
                 await _orderRepo.AddOrderDetailAsync(detail);
             }
@@ -163,10 +179,40 @@ namespace ClipNchic.Business.Services
                 existingOrder.name = dto.Name;
 
             if (dto.Status != null)
+            {
                 existingOrder.status = dto.Status;
+                if (dto.Status == "payment")
+                {
+                    foreach (var detail in existingOrder.OrderDetails)
+                    {
+                        var productDetail = detail.Product;
+                        var product = _productRepo.GetByIdAsync(productDetail?.id ?? 0).Result;
+                        if (product.stock <= detail.quantity)
+                        {
+                            await _productRepo.updateStock(product.id, 0);
+                        }
+                        else
+                        {
+                            await _productRepo.updateStock(product.id, (int)(product.stock - detail.quantity));
+                        }
+                    }
+                }
+                if(dto.Status == "cancelled" || dto.Status == "returned")
+                {
+                    foreach (var detail in existingOrder.OrderDetails)
+                    {
+                        var productDetail = detail.Product;
+                        var product = _productRepo.GetByIdAsync(productDetail?.id ?? 0).Result;
+                        await _productRepo.updateStock(product.id, (int)(product.stock + detail.quantity));
+                    }
+                }
+            }
 
             if (dto.PayMethod != null)
+            {
                 existingOrder.payMethod = dto.PayMethod;
+                existingOrder.createDate = DateTime.Now;
+            }
 
             if (dto.TotalPrice.HasValue)
                 existingOrder.totalPrice = dto.TotalPrice.Value;
@@ -191,10 +237,23 @@ namespace ClipNchic.Business.Services
                 return false;
 
             existingDetail.quantity = quantity;
-            if(product != null)
+            
+            if (product != null)
+            {
+                if (existingDetail.quantity >= product?.stock)
+                {
+                    existingDetail.quantity = product.stock;
+                }
                 existingDetail.price = product.Totalprice * quantity;
-            if(blindbox != null)
+            }
+            if (blindbox != null)
+            {
+                if (existingDetail.quantity >= blindbox.stock)
+                {
+                    existingDetail.quantity = blindbox.stock;
+                }
                 existingDetail.price = blindbox.price * quantity;
+            }
 
             await _orderRepo.UpdateOrderDetailAsync(existingDetail);
             return true;
@@ -205,6 +264,31 @@ namespace ClipNchic.Business.Services
         {
             var order = await _orderRepo.GetOrderByIdAsync(orderId);
             if (order == null) return false;
+            if (newStatus == "payment")
+            {
+                foreach (var detail in order.OrderDetails)
+                {
+                    var productDetail = detail.Product;
+                    var product = _productRepo.GetByIdAsync(productDetail?.id ?? 0).Result;
+                    if (product.stock <= detail.quantity)
+                    {
+                        await _productRepo.updateStock(product.id, 0);
+                    }
+                    else
+                    {
+                        await _productRepo.updateStock(product.id, (int)(product.stock - detail.quantity));
+                    }
+                }
+            }
+            if (newStatus == "cancelled" || newStatus == "returned")
+            {
+                foreach (var detail in order.OrderDetails)
+                {
+                    var productDetail = detail.Product;
+                    var product = _productRepo.GetByIdAsync(productDetail?.id ?? 0).Result;
+                    await _productRepo.updateStock(product.id, (int)(product.stock + detail.quantity));
+                }
+            }
 
             order.status = newStatus;
             await _orderRepo.UpdateOrderAsync(order);
