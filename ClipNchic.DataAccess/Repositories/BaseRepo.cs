@@ -17,8 +17,22 @@ namespace ClipNchic.DataAccess.Repositories
             var baseEntity = await _context.Bases.FirstOrDefaultAsync(b => b.id == id);
             if (baseEntity == null) return null;
 
-            var images = await _context.Images.Where(i => i.baseId == baseEntity.id).ToListAsync();
+            var image = await _context.Images.FirstOrDefaultAsync(i => i.baseId == baseEntity.id);
             var model = await _context.Models.FirstOrDefaultAsync(m => m.id == baseEntity.modelId);
+
+            var imageDto = image != null ? new ImageDetailDto
+            {
+                id = image.id,
+                name = image.name,
+                address = image.address
+            } : null;
+
+            var modelDto = model != null ? new ModelDetailDto
+            {
+                id = model.id,
+                name = model.name,
+                address = model.address
+            } : null;
 
             return new ResponseBaseDTO
             {
@@ -26,19 +40,9 @@ namespace ClipNchic.DataAccess.Repositories
                 name = baseEntity.name,
                 color = baseEntity.color,
                 price = baseEntity.price,
-                Images = images.Select(i => new Image
-                {
-                    id = i.id,
-                    address = i.address,
-                    charmId = i.charmId,
-                    productId = i.productId,
-                    baseId = i.baseId,
-                    blindBoxId = i.blindBoxId,
-                    name = i.name
-
-                }).ToList(),
+                Image = imageDto,
                 modelId = baseEntity.modelId,
-                Model = model
+                Model = modelDto
             };
         }
 
@@ -49,8 +53,22 @@ namespace ClipNchic.DataAccess.Repositories
             foreach (var base1 in bases)
             {
                 var model = await _context.Models.FirstOrDefaultAsync(m => m.id == base1.modelId);
-                base1.modelId = model?.id;
-                var images = await _context.Images.Where(i => i.baseId == base1.id).ToListAsync();
+                var image = await _context.Images.FirstOrDefaultAsync(i => i.baseId == base1.id);
+
+                var imageDto = image != null ? new ImageDetailDto
+                {
+                    id = image.id,
+                    name = image.name,
+                    address = image.address
+                } : null;
+
+                var modelDto = model != null ? new ModelDetailDto
+                {
+                    id = model.id,
+                    name = model.name,
+                    address = model.address
+                } : null;
+
                 var dto = new ResponseBaseDTO
                 {
                     id = base1.id,
@@ -58,18 +76,8 @@ namespace ClipNchic.DataAccess.Repositories
                     price = base1.price,
                     color = base1.color,
                     modelId = base1.modelId,
-                    Images = images.Select(i => new Image
-                    {
-                        id = i.id,
-                        address = i.address,
-                        charmId = i.charmId,
-                        productId = i.productId,
-                        baseId = i.baseId,
-                        blindBoxId = i.blindBoxId,
-                        name = i.name
-
-                    }).ToList(),
-
+                    Image = imageDto,
+                    Model = modelDto
                 };
                 baseDtos.Add(dto);
             }
