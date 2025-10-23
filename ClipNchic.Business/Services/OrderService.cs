@@ -21,7 +21,7 @@ namespace ClipNchic.Business.Services
             return _orderRepo.GetAllOrdersAsync();
         }
         // Lấy tất cả OrderDetail theo OrderId của order pending
-        public async Task<Order> GetOrCreatePendingOrderAsync(int userId, string? phone, string? address, string? name)
+        public async Task<Order?> GetOrCreatePendingOrderAsync(int userId, string? phone, string? address, string? name)
         {
             var order = await _orderRepo.GetPendingOrderByUserIdAsync(userId);
             if (order == null)
@@ -56,10 +56,13 @@ namespace ClipNchic.Business.Services
         }
 
         // Thêm OrderDetail
-        public async Task<Order> AddOrderDetailAsync(int userId, string? phone, string? address, string? name, int productId, int quantity, decimal price)
+        public async Task<Order?> AddOrderDetailAsync(int userId, string? phone, string? address, string? name, int productId, int quantity, decimal price)
         {
             var order = await _orderRepo.GetPendingOrderByUserIdAsync(userId)
                         ?? await GetOrCreatePendingOrderAsync(userId, phone, address, name);
+            
+            if (order == null)
+                return null;
 
             var existingDetail = await _orderRepo.GetOrderDetailByOrderAndProductAsync(order.id, productId);
             var product = await _productRepo.GetByIdAsync(productId);
@@ -101,10 +104,13 @@ namespace ClipNchic.Business.Services
             return order;
         }
 
-        public async Task<Order> AddBlindBoxDetailAsync(int userId, string? phone, string? address, string? name, int blindBoxId, int quantity, decimal price)
+        public async Task<Order?> AddBlindBoxDetailAsync(int userId, string? phone, string? address, string? name, int blindBoxId, int quantity, decimal price)
         {
             var order = await _orderRepo.GetPendingOrderByUserIdAsync(userId)
                         ?? await GetOrCreatePendingOrderAsync(userId, phone, address, name);
+            
+            if (order == null)
+                return null;
 
             var existingDetail = await _orderRepo.GetOrderDetailByOrderAndBlindBoxAsync(order.id, blindBoxId);
             var blindBox = await _blindBoxRepo.GetByIdAsync(blindBoxId);
@@ -271,12 +277,12 @@ namespace ClipNchic.Business.Services
 
             existingDetail.quantity = quantity;
 
-            if (product != null)
+            if (existingDetail.productId.HasValue)
             {
                 var product = await _productRepo.GetByIdAsync(existingDetail.productId.Value);
-                if (product != null)
+                if (product != null && existingDetail.quantity.HasValue)
                 {
-                    if (existingDetail.quantity >= product.stock)
+                    if (existingDetail.quantity.Value >= product.stock)
                     {
                         existingDetail.quantity = product.stock;
                     }
@@ -287,9 +293,9 @@ namespace ClipNchic.Business.Services
             if (existingDetail.blindBoxId.HasValue)
             {
                 var blindbox = await _blindBoxRepo.GetByIdAsync(existingDetail.blindBoxId.Value);
-                if (blindbox != null)
+                if (blindbox != null && existingDetail.quantity.HasValue)
                 {
-                    if (existingDetail.quantity >= blindbox.stock)
+                    if (existingDetail.quantity.Value >= blindbox.stock)
                     {
                         existingDetail.quantity = blindbox.stock;
                     }
