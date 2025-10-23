@@ -25,7 +25,7 @@ namespace ClipNchic.Business.Services
         public async Task<int> UpdateAsync(ModelUpdateDto dto) => await _repo.UpdateAsync(dto);
         public async Task<int> DeleteAsync(int id) => await _repo.DeleteAsync(id);
 
-        public async Task<string?> UploadModelFileAsync(IFormFile file)
+        public async Task<Model?> CreateModelFromFileAsync(IFormFile file)
         {
             if (file == null || file.Length == 0) return null;
 
@@ -45,7 +45,14 @@ namespace ClipNchic.Business.Services
                 var uploadResult = await _cloudinary.UploadAsync(uploadParams);
                 if (uploadResult.StatusCode == HttpStatusCode.OK)
                 {
-                    return uploadResult.SecureUrl.ToString();
+                    var modelDto = new ModelCreateDto
+                    {
+                        name = Path.GetFileNameWithoutExtension(file.FileName),
+                        address = uploadResult.SecureUrl.ToString()
+                    };
+                    await AddAsync(modelDto);
+                    var createdModel = await _repo.GetAllAsync();
+                    return createdModel.LastOrDefault();
                 }
 
                 return null;

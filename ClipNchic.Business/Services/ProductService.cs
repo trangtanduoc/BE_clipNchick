@@ -33,6 +33,13 @@ public class ProductService
 
         dto.createDate ??= DateTime.UtcNow;
 
+        if (modelFile != null && modelFile.Length > 0)
+        {
+            var model = await _modelService.CreateModelFromFileAsync(modelFile);
+            if (model != null)
+                dto.modelId = model.id;
+        }
+
         var product = await _repo.AddAsync(dto);
 
         if (files != null)
@@ -41,21 +48,6 @@ public class ProductService
             {
                 if (file == null || file.Length == 0) continue;
                 await _imageService.UploadProductImageAsync(product.id, file);
-            }
-        }
-
-        if (modelFile != null && modelFile.Length > 0)
-        {
-            var modelUrl = await _modelService.UploadModelFileAsync(modelFile);
-            if (!string.IsNullOrEmpty(modelUrl) && dto.modelId.HasValue)
-            {
-                var modelUpdateDto = new ModelUpdateDto
-                {
-                    id = dto.modelId.Value,
-                    name = Path.GetFileNameWithoutExtension(modelFile.FileName),
-                    address = modelUrl
-                };
-                await _modelService.UpdateAsync(modelUpdateDto);
             }
         }
 
