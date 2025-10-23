@@ -143,8 +143,6 @@ namespace ClipNchic.Api.Controllers
             return Ok(topBlindBoxes);
         }
 
-    }
-
         
         [HttpGet("TodaysOrdersAndCompletedSales")]
         public async Task<ActionResult<object>> GetTodaysOrdersAndCompletedSales()

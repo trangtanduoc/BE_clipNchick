@@ -149,7 +149,7 @@ namespace ClipNchic.DataAccess.Repositories
         public async Task<MonthlySalesSummaryDto> GetYearlySalesSummaryAsync(int year)
         {
             var monthlyData = await _context.Orders
-                .Where(o =>  o.createDate.Value.Year == year)
+                .Where(o => o.createDate.Value.Year == year)
                 .GroupBy(o => o.createDate.Value.Month)
                 .Select(g => new
                 {
@@ -180,6 +180,7 @@ namespace ClipNchic.DataAccess.Repositories
             summary.YearlyTotalSales = summary.MonthlySales.Sum(m => m.SalesTotal);
 
             return summary;
+        }
         public async Task<List<TopSalesDto>> GetTop10ProductsLast30DaysAsync()
         {
             var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
