@@ -9,12 +9,14 @@ public class ProductService
     private readonly ProductRepo _repo;
     private readonly ImageService _imageService;
     private readonly ModelService _modelService;
+    private readonly BaseService _baseService;
 
-    public ProductService(ProductRepo repo, ImageService imageService, ModelService modelService)
+    public ProductService(ProductRepo repo, ImageService imageService, ModelService modelService, BaseService baseService)
     {
         _repo = repo;
         _imageService = imageService;
         _modelService = modelService;
+        _baseService = baseService;
     }
 
     public Task<ResponseProductDTO?> GetByIdAsync(int id) => _repo.GetByIdAsync(id);
@@ -22,6 +24,13 @@ public class ProductService
 
     public async Task<ResponseProductDTO?> AddAsync(ProductCreateDto dto, IEnumerable<IFormFile>? files = null, IFormFile? modelFile = null)
     {
+        if (dto.baseId.HasValue)
+        {
+            var baseExists = await _baseService.GetByIdAsync(dto.baseId.Value);
+            if (baseExists == null)
+                throw new InvalidOperationException($"Base with id {dto.baseId} does not exist.");
+        }
+
         dto.createDate ??= DateTime.UtcNow;
 
         var product = await _repo.AddAsync(dto);
