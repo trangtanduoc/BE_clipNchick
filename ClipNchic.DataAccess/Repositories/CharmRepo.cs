@@ -15,27 +15,31 @@ namespace ClipNchic.DataAccess.Repositories
             Charm? charm = await _context.Charms.FirstOrDefaultAsync(c => c.id == id);
 
             var model = await _context.Models.FirstOrDefaultAsync(m => m.id == charm.modelId);
-            charm.modelId = model?.id;
-            var images = await _context.Images.Where(i => i.charmId == charm.id).ToListAsync();
+            var image = await _context.Images.FirstOrDefaultAsync(i => i.charmId == charm.id);
             var charmProducts = await _context.CharmProducts.Where(cp => cp.charmId == charm.id).ToListAsync();
+
+            var imageDto = image != null ? new ImageDetailDto
+            {
+                id = image.id,
+                name = image.name,
+                address = image.address
+            } : null;
+
+            var modelDto = model != null ? new ModelDetailDto
+            {
+                id = model.id,
+                name = model.name,
+                address = model.address
+            } : null;
+
             var dto = new ResponseCharmDTO
             {
                 id = charm.id,
                 name = charm.name,
                 price = charm.price,
                 modelId = charm.modelId,
-                Model = model,
-                Images = images.Select(i => new Image
-                {
-                    id = i.id,
-                    address = i.address,
-                    charmId = i.charmId,
-                    productId = i.productId,
-                    baseId = i.baseId,
-                    blindBoxId = i.blindBoxId,
-                    name = i.name
-
-                }).ToList(),
+                Model = modelDto,
+                Image = imageDto,
                 CharmProducts = charmProducts.Select(cp => new CharmProduct
                 {
                     id = cp.id,
@@ -54,26 +58,31 @@ namespace ClipNchic.DataAccess.Repositories
             foreach (var charm in charms)
             {
                 var model = await _context.Models.FirstOrDefaultAsync(m => m.id == charm.modelId);
-                charm.modelId = model?.id;
-                var images = await _context.Images.Where(i => i.charmId == charm.id).ToListAsync();
+                var image = await _context.Images.FirstOrDefaultAsync(i => i.charmId == charm.id);
                 var charmProducts = await _context.CharmProducts.Where(cp => cp.charmId == charm.id).ToListAsync();
+
+                var imageDto = image != null ? new ImageDetailDto
+                {
+                    id = image.id,
+                    name = image.name,
+                    address = image.address
+                } : null;
+
+                var modelDto = model != null ? new ModelDetailDto
+                {
+                    id = model.id,
+                    name = model.name,
+                    address = model.address
+                } : null;
+
                 var dto = new ResponseCharmDTO
                 {
                     id = charm.id,
                     name = charm.name,
                     price = charm.price,
                     modelId = charm.modelId,
-                    Images = images.Select(i => new Image
-                    {
-                        id = i.id,
-                        address = i.address,
-                        charmId = i.charmId,
-                        productId = i.productId,
-                        baseId = i.baseId,
-                        blindBoxId = i.blindBoxId,
-                        name = i.name
-
-                    }).ToList(),
+                    Model = modelDto,
+                    Image = imageDto,
                     CharmProducts = charmProducts.Select(cp => new CharmProduct
                     {
                         id = cp.id,

@@ -2,6 +2,7 @@ using ClipNchic.Business.Services;
 using ClipNchic.DataAccess.Models;
 using ClipNchic.DataAccess.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace ClipNchic.Api.Controllers;
 
@@ -24,11 +25,26 @@ public class BaseController : ControllerBase
     }
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] BaseCreateDto dto)
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> Create([FromForm] BaseCreateRequest request)
     {
-        var result = await _service.AddAsync(dto);
-        if (result > 0) return Ok(new { message = "Base created successfully" });
-        return BadRequest(new { message = "Failed to create Base" });
+        try
+        {
+            var dto = new BaseCreateDto
+            {
+                name = request.name,
+                color = request.color,
+                price = request.price
+            };
+
+            var result = await _service.AddAsync(dto, request.ImageFile, request.ModelFile);
+            if (result > 0) return Ok(new { message = "Base created successfully" });
+            return BadRequest(new { message = "Failed to create Base" });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpPut("Update")]
@@ -46,4 +62,13 @@ public class BaseController : ControllerBase
         if (result > 0) return Ok(new { message = "Base deleted successfully" });
         return NotFound(new { message = "Base not found" });
     }
+}
+
+public class BaseCreateRequest
+{
+    public string? name { get; set; }
+    public string? color { get; set; }
+    public decimal? price { get; set; }
+    public IFormFile? ImageFile { get; set; }
+    public IFormFile? ModelFile { get; set; }
 }
