@@ -129,17 +129,15 @@ namespace ClipNchic.DataAccess.Repositories
             var today = DateTime.Now.Date;
             var tomorrow = today.AddDays(1);
 
-            var ordersCountTask = _context.Orders
+            var ordersCount =await _context.Orders
                 .CountAsync(o => o.createDate >= today && o.createDate < tomorrow);
 
-            var sumTask = _context.Orders
+            var sumTask =await _context.Orders
                 .Where(o => o.createDate >= today && o.createDate < tomorrow && o.status == "delivered")
                 .SumAsync(o => (decimal?)o.totalPrice);
 
-            await Task.WhenAll(ordersCountTask, sumTask);
-
-            var ordersCount = ordersCountTask.Result;
-            var total = sumTask.Result ?? 0m;
+           
+            var total = sumTask ?? 0m;  
 
             return (ordersCount, total);
         }
