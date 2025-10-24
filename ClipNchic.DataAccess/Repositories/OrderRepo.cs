@@ -23,6 +23,7 @@ namespace ClipNchic.DataAccess.Repositories
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.BlindBox)
                         .ThenInclude(bb => bb.Images)
+                .Where(o => o.status != "pending")
                 .OrderByDescending(o => o.createDate)
                 .ToListAsync();
         }
@@ -186,7 +187,7 @@ namespace ClipNchic.DataAccess.Repositories
             var topProducts = await _context.OrderDetails
                 .Include(od => od.Order)
                 .Include(od => od.Product)
-                .Where(od => od.productId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "đã giao hàng thành công")
+                .Where(od => od.productId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "delivered")
                 .GroupBy(od => new { od.productId, od.Product!.title })
                 .OrderByDescending(g => g.Sum(od => od.quantity ?? 0))
                 .Take(10)
@@ -215,7 +216,7 @@ namespace ClipNchic.DataAccess.Repositories
             var topBlindBoxes = await _context.OrderDetails
                 .Include(od => od.Order)
                 .Include(od => od.BlindBox)
-                .Where(od => od.blindBoxId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "đã giao hàng thành công")
+                .Where(od => od.blindBoxId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "delivered")
                 .GroupBy(od => new { od.blindBoxId, od.BlindBox!.name })
                 .OrderByDescending(g => g.Sum(od => od.quantity ?? 0))
                 .Take(10)
@@ -252,65 +253,5 @@ namespace ClipNchic.DataAccess.Repositories
             };
             return summary;
         }
-
-        //public async Task<Order?> GetCartByUserIdAsync(int userId)
-        //{
-        //    return await _context.Orders
-        //        .Include(o => o.OrderDetails)
-        //        .ThenInclude(od => od.Product)
-        //        .FirstOrDefaultAsync(o => o.userId == userId && o.status == "Cart");
-        //}
-
-        //public async Task<Order> CreateCartAsync(int userId)
-        //{
-        //    var cart = new Order
-        //    {
-        //        userId = userId,
-        //        status = "Cart",
-        //        createDate = DateTime.UtcNow,
-        //        totalPrice = 0
-        //    };
-        //    _context.Orders.Add(cart);
-        //    await _context.SaveChangesAsync();
-        //    return cart;
-        //}
-
-        //public async Task AddOrUpdateCartItemAsync(int cartId, int productId, int quantity, decimal price)
-        //{
-        //    var detail = await _context.OrderDetails.FirstOrDefaultAsync(od => od.orderId == cartId && od.productId == productId);
-        //    if (detail == null)
-        //    {
-        //        detail = new OrderDetail { orderId = cartId, productId = productId, quantity = quantity, price = price };
-        //        _context.OrderDetails.Add(detail);
-        //    }
-        //    else
-        //    {
-        //        detail.quantity = quantity;
-        //        detail.price = price;
-        //    }
-        //    await _context.SaveChangesAsync();
-        //}
-
-        //public async Task RemoveCartItemAsync(int cartId, int productId)
-        //{
-        //    var detail = await _context.OrderDetails.FirstOrDefaultAsync(od => od.orderId == cartId && od.productId == productId);
-        //    if (detail != null)
-        //    {
-        //        _context.OrderDetails.Remove(detail);
-        //        await _context.SaveChangesAsync();
-        //    }
-        //}
-
-        //public async Task CheckoutAsync(int cartId, decimal totalPrice)
-        //{
-        //    var cart = await _context.Orders.FindAsync(cartId);
-        //    if (cart != null && cart.status == "Cart")
-        //    {
-        //        cart.status = "Completed";
-        //        cart.totalPrice = totalPrice;
-        //        cart.createDate = DateTime.UtcNow;
-        //        await _context.SaveChangesAsync();
-        //    }
-        //}
     }
 }
