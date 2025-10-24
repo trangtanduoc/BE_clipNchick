@@ -127,6 +127,23 @@ namespace ClipNchic.Api.Controllers
             var result = await _service.GetYearlySalesSummaryAsync(year);
             return Ok(result);
         }
+        // Get top 10 products sold in last 30 days
+        [HttpGet("sales/top-products")]
+        public async Task<IActionResult> GetTop10ProductsLast30Days()
+        {
+            var topProducts = await _service.GetTop10ProductsLast30DaysAsync();
+            return Ok(topProducts);
+        }
+
+        // Get top 10 blind boxes sold in last 30 days
+        [HttpGet("sales/top-blindboxes")]
+        public async Task<IActionResult> GetTop10BlindBoxesLast30Days()
+        {
+            var topBlindBoxes = await _service.GetTop10BlindBoxesLast30DaysAsync();
+            return Ok(topBlindBoxes);
+        }
+
+    }
 
         
         [HttpGet("TodaysOrdersAndCompletedSales")]
