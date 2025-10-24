@@ -23,7 +23,6 @@ namespace ClipNchic.DataAccess.Repositories
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.BlindBox)
                         .ThenInclude(bb => bb.Images)
-                .Where(o => o.status != "pending")
                 .OrderByDescending(o => o.createDate)
                 .ToListAsync();
         }
@@ -131,17 +130,15 @@ namespace ClipNchic.DataAccess.Repositories
             var today = DateTime.Now.Date;
             var tomorrow = today.AddDays(1);
 
-            var ordersCountTask = _context.Orders
+            var ordersCount =await _context.Orders
                 .CountAsync(o => o.createDate >= today && o.createDate < tomorrow);
 
-            var sumTask = _context.Orders
+            var sumTask =await _context.Orders
                 .Where(o => o.createDate >= today && o.createDate < tomorrow && o.status == "delivered")
                 .SumAsync(o => (decimal?)o.totalPrice);
 
-            await Task.WhenAll(ordersCountTask, sumTask);
-
-            var ordersCount = ordersCountTask.Result;
-            var total = sumTask.Result ?? 0m;
+           
+            var total = sumTask ?? 0m;  
 
             return (ordersCount, total);
         }
@@ -149,8 +146,8 @@ namespace ClipNchic.DataAccess.Repositories
         public async Task<MonthlySalesSummaryDto> GetYearlySalesSummaryAsync(int year)
         {
             var monthlyData = await _context.Orders
-                .Where(o => o.createDate != null && o.createDate.Value.Year == year)
-                .GroupBy(o => o.createDate!.Value.Month)
+                .Where(o =>  o.createDate.Value.Year == year)
+                .GroupBy(o => o.createDate.Value.Month)
                 .Select(g => new
                 {
                     Month = g.Key,
@@ -180,7 +177,8 @@ namespace ClipNchic.DataAccess.Repositories
             summary.YearlyTotalSales = summary.MonthlySales.Sum(m => m.SalesTotal);
 
             return summary;
-        }
+
+}
         public async Task<List<TopSalesDto>> GetTop10ProductsLast30DaysAsync()
         {
             var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
@@ -188,7 +186,7 @@ namespace ClipNchic.DataAccess.Repositories
             var topProducts = await _context.OrderDetails
                 .Include(od => od.Order)
                 .Include(od => od.Product)
-                .Where(od => od.productId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "delivered")
+                .Where(od => od.productId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "đã giao hàng thành công")
                 .GroupBy(od => new { od.productId, od.Product!.title })
                 .OrderByDescending(g => g.Sum(od => od.quantity ?? 0))
                 .Take(10)
@@ -217,7 +215,7 @@ namespace ClipNchic.DataAccess.Repositories
             var topBlindBoxes = await _context.OrderDetails
                 .Include(od => od.Order)
                 .Include(od => od.BlindBox)
-                .Where(od => od.blindBoxId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "delivered")
+                .Where(od => od.blindBoxId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "đã giao hàng thành công")
                 .GroupBy(od => new { od.blindBoxId, od.BlindBox!.name })
                 .OrderByDescending(g => g.Sum(od => od.quantity ?? 0))
                 .Take(10)
@@ -239,5 +237,80 @@ namespace ClipNchic.DataAccess.Repositories
             return topBlindBoxes;
         }
 
+        public async Task<DailySalesSummaryDto> GetDaily()
+        {
+            var today = DateTime.UtcNow.Date;
+            var ordersToday = await _context.Orders
+                .Where(o => o.createDate >= today && o.createDate < today.AddDays(1) && (o.status != "pending" || o.status != "failed" || o.status != "unknown"))
+                .ToListAsync();
+            var canceledOrdersToday = ordersToday.Where(o => o.status == "canceled").ToList();
+            var summary = new DailySalesSummaryDto
+            {
+                countOrder = ordersToday.Count,
+                totalSales = ordersToday.Where(o => o.status != "canceled" || o.status != "refunded" || o.status !="returned").Sum(o => o.totalPrice) ?? 0,
+                countOrderCancel = canceledOrdersToday.Count
+            };
+            return summary;
+        }
+
+        //public async Task<Order?> GetCartByUserIdAsync(int userId)
+        //{
+        //    return await _context.Orders
+        //        .Include(o => o.OrderDetails)
+        //        .ThenInclude(od => od.Product)
+        //        .FirstOrDefaultAsync(o => o.userId == userId && o.status == "Cart");
+        //}
+
+        //public async Task<Order> CreateCartAsync(int userId)
+        //{
+        //    var cart = new Order
+        //    {
+        //        userId = userId,
+        //        status = "Cart",
+        //        createDate = DateTime.UtcNow,
+        //        totalPrice = 0
+        //    };
+        //    _context.Orders.Add(cart);
+        //    await _context.SaveChangesAsync();
+        //    return cart;
+        //}
+
+        //public async Task AddOrUpdateCartItemAsync(int cartId, int productId, int quantity, decimal price)
+        //{
+        //    var detail = await _context.OrderDetails.FirstOrDefaultAsync(od => od.orderId == cartId && od.productId == productId);
+        //    if (detail == null)
+        //    {
+        //        detail = new OrderDetail { orderId = cartId, productId = productId, quantity = quantity, price = price };
+        //        _context.OrderDetails.Add(detail);
+        //    }
+        //    else
+        //    {
+        //        detail.quantity = quantity;
+        //        detail.price = price;
+        //    }
+        //    await _context.SaveChangesAsync();
+        //}
+
+        //public async Task RemoveCartItemAsync(int cartId, int productId)
+        //{
+        //    var detail = await _context.OrderDetails.FirstOrDefaultAsync(od => od.orderId == cartId && od.productId == productId);
+        //    if (detail != null)
+        //    {
+        //        _context.OrderDetails.Remove(detail);
+        //        await _context.SaveChangesAsync();
+        //    }
+        //}
+
+        //public async Task CheckoutAsync(int cartId, decimal totalPrice)
+        //{
+        //    var cart = await _context.Orders.FindAsync(cartId);
+        //    if (cart != null && cart.status == "Cart")
+        //    {
+        //        cart.status = "Completed";
+        //        cart.totalPrice = totalPrice;
+        //        cart.createDate = DateTime.UtcNow;
+        //        await _context.SaveChangesAsync();
+        //    }
+        //}
     }
 }
