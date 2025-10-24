@@ -1,5 +1,6 @@
 using ClipNchic.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace ClipNchic.DataAccess.Data;
 
@@ -7,6 +8,13 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        optionsBuilder.ConfigureWarnings(w =>
+            w.Ignore(RelationalEventId.MultipleCollectionIncludeWarning));
     }
 
     public DbSet<User> Users => Set<User>();

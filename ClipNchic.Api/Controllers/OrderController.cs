@@ -25,7 +25,11 @@ namespace ClipNchic.Api.Controllers
         // Lấy thông tin user từ token
         private (int userId, string? name, string? phone, string? address) GetUserInfo()
         {
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrWhiteSpace(userIdClaim) || !int.TryParse(userIdClaim, out var userId))
+            {
+                throw new UnauthorizedAccessException("Invalid or missing user ID in token");
+            }
             var name = User.FindFirst(ClaimTypes.Name)?.Value;
             var phone = User.FindFirst(ClaimTypes.MobilePhone)?.Value;
             var address = User.FindFirst(ClaimTypes.StreetAddress)?.Value;
@@ -34,18 +38,26 @@ namespace ClipNchic.Api.Controllers
 
         // Lấy tất cả order của user
         [HttpGet("user-orders/{userId}")]
-        public async Task<IActionResult> GetUserOrders()
+        public async Task<IActionResult> GetUserOrders(int userId)
         {
-            var (userId, _, _, _) = GetUserInfo();
+            var (tokenUserId, _, _, _) = GetUserInfo();
+            if (tokenUserId != userId)
+            {
+                return Forbid();
+            }
             var orders = await _service.GetOrdersByUserIdAsync(userId);
             return Ok(orders);
         }
 
         // Lấy hoặc tạo order pending
         [HttpGet("pending/{userId}")]
-        public async Task<IActionResult> GetPendingOrder()
+        public async Task<IActionResult> GetPendingOrder(int userId)
         {
-            var (userId, name, phone, address) = GetUserInfo();
+            var (tokenUserId, name, phone, address) = GetUserInfo();
+            if (tokenUserId != userId)
+            {
+                return Forbid();
+            }
             var order = await _service.GetOrCreatePendingOrderAsync(userId, phone, address, name);
             return Ok(order);
         }
@@ -142,8 +154,6 @@ namespace ClipNchic.Api.Controllers
             var topBlindBoxes = await _service.GetTop10BlindBoxesLast30DaysAsync();
             return Ok(topBlindBoxes);
         }
-
-    }
 
         
         [HttpGet("TodaysOrdersAndCompletedSales")]
