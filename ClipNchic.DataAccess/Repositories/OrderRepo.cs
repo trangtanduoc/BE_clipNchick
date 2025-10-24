@@ -253,5 +253,27 @@ namespace ClipNchic.DataAccess.Repositories
             };
             return summary;
         }
+
+        public async Task<MonthlySalesOrderDto> GetMonthly()
+        {
+            var now = DateTime.UtcNow.Date;
+            var OrderThisMonth = await _context.Orders
+                .Where(o => o.createDate.Value.Year == now.Year && o.createDate.Value.Month == now.Month && (o.status != "pending" || o.status != "failed" || o.status != "unknown"))
+                .ToListAsync();
+            var lastMonth = now.AddMonths(-1);
+            var OrderLastMonth = await _context.Orders
+                .Where(o => o.createDate.Value.Year == lastMonth.Year && o.createDate.Value.Month == lastMonth.Month && (o.status != "pending" || o.status != "failed" || o.status != "unknown"))
+                .ToListAsync();
+            var OrderFailedThisMonth = OrderThisMonth.Where(o => o.status == "canceled" || o.status == "refunded" || o.status == "returned").ToList();
+            var OrderFailedLastMonth = OrderLastMonth.Where(o => o.status == "canceled" || o.status == "refunded" || o.status == "returned").ToList();
+            var summary = new MonthlySalesOrderDto
+            {
+                OrderThisMonth = OrderThisMonth.Count,
+                OrderLastMonth = OrderLastMonth.Count,
+                OrderFailedThisMonth = OrderFailedThisMonth.Count,
+                OrderFailedLastMonth = OrderFailedLastMonth.Count
+            };
+            return summary;
+        }
     }
 }

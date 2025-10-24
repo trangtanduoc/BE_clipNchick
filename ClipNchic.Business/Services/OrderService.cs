@@ -60,7 +60,7 @@ namespace ClipNchic.Business.Services
         {
             var order = await _orderRepo.GetPendingOrderByUserIdAsync(userId)
                         ?? await GetOrCreatePendingOrderAsync(userId, phone, address, name);
-            
+
             if (order == null)
                 return null;
 
@@ -108,7 +108,7 @@ namespace ClipNchic.Business.Services
         {
             var order = await _orderRepo.GetPendingOrderByUserIdAsync(userId)
                         ?? await GetOrCreatePendingOrderAsync(userId, phone, address, name);
-            
+
             if (order == null)
                 return null;
 
@@ -289,7 +289,7 @@ namespace ClipNchic.Business.Services
                     existingDetail.price = product.Totalprice * quantity;
                 }
             }
-            
+
             if (existingDetail.blindBoxId.HasValue)
             {
                 var blindbox = await _blindBoxRepo.GetByIdAsync(existingDetail.blindBoxId.Value);
@@ -401,6 +401,10 @@ namespace ClipNchic.Business.Services
         public async Task<DailySalesSummaryDto> GetDailySales()
         {
             return await _orderRepo.GetDaily();
+        }
+        public async Task<MonthlySalesOrderDto> GetMonthlySales()
+        {
+            return await _orderRepo.GetMonthly();
         }
     }
 }

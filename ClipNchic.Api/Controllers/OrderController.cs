@@ -98,7 +98,7 @@ namespace ClipNchic.Api.Controllers
         public async Task<IActionResult> UpdateOrder(int orderId, [FromBody] OrderDTO dto)
         {
             var result = await _service.UpdateOrderAsync(orderId, dto);
-            return result ? Ok(new {message = "Updated" }) : NotFound(new { message = "Failed to update" });
+            return result ? Ok(new { message = "Updated" }) : NotFound(new { message = "Failed to update" });
         }
 
         [HttpPut("update-quantity-detail/{orderDetailId}")]
@@ -156,7 +156,7 @@ namespace ClipNchic.Api.Controllers
             return Ok(topBlindBoxes);
         }
 
-        
+
         [HttpGet("TodaysOrdersAndCompletedSales")]
         public async Task<ActionResult<object>> GetTodaysOrdersAndCompletedSales()
         {
@@ -165,9 +165,16 @@ namespace ClipNchic.Api.Controllers
         }
 
         [HttpGet("DailyOrder")]
-            public async Task<ActionResult<DailySalesSummaryDto>> GetDailyOrder()
+        public async Task<ActionResult<DailySalesSummaryDto>> GetDailyOrder()
         {
             var result = await _service.GetDailySales();
+            return Ok(result);
+        }
+
+        [HttpGet("MonthlySalesOrder")]
+        public async Task<ActionResult<MonthlySalesOrderDto>> GetMonthlySalesOrder()
+        {
+            var result = await _service.GetMonthlySales();
             return Ok(result);
         }
     }
