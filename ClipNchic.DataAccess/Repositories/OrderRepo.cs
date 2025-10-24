@@ -223,6 +223,22 @@ namespace ClipNchic.DataAccess.Repositories
             return topBlindBoxes;
         }
 
+        public async Task<DailySalesSummaryDto> GetDaily()
+        {
+            var today = DateTime.UtcNow.Date;
+            var ordersToday = await _context.Orders
+                .Where(o => o.createDate >= today && o.createDate < today.AddDays(1) && (o.status != "pending" || o.status != "failed" || o.status != "unknown"))
+                .ToListAsync();
+            var canceledOrdersToday = ordersToday.Where(o => o.status == "canceled").ToList();
+            var summary = new DailySalesSummaryDto
+            {
+                countOrder = ordersToday.Count,
+                totalSales = ordersToday.Where(o => o.status != "canceled" || o.status != "refunded" || o.status !="returned").Sum(o => o.totalPrice) ?? 0,
+                countOrderCancel = canceledOrdersToday.Count
+            };
+            return summary;
+        }
+
         //public async Task<Order?> GetCartByUserIdAsync(int userId)
         //{
         //    return await _context.Orders
