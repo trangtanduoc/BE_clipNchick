@@ -19,7 +19,7 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x' # Đảm bảo đúng version bạn đang dùng
+          dotnet-version: '9.0.x'
 
       - name: Restore dependencies
         run: dotnet restore ClipNchic.Api/ClipNchic.Api.csproj
@@ -28,13 +28,16 @@ jobs:
         run: dotnet build ClipNchic.Api/ClipNchic.Api.csproj --configuration Release --no-restore
 
       - name: Publish project
-        run: dotnet publish ClipNchic.Api/ClipNchic.Api.csproj --configuration Release --output ./publish
+        run: dotnet publish ClipNchic.Api/ClipNchic.Api.csproj --configuration Release --output ${{ github.workspace }}/publish
+
+      - name: Kiểm tra nội dung thư mục publish
+        run: ls -la ${{ github.workspace }}/publish
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: dotnet-app
-          path: ./publish
+          path: ${{ github.workspace }}/publish
 
   deploy:
     runs-on: ubuntu-latest
