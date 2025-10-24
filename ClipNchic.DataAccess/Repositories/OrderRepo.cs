@@ -23,7 +23,6 @@ namespace ClipNchic.DataAccess.Repositories
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.BlindBox)
                         .ThenInclude(bb => bb.Images)
-                .Where(o => o.status != "pending")
                 .OrderByDescending(o => o.createDate)
                 .ToListAsync();
         }
@@ -131,17 +130,15 @@ namespace ClipNchic.DataAccess.Repositories
             var today = DateTime.Now.Date;
             var tomorrow = today.AddDays(1);
 
-            var ordersCountTask = _context.Orders
+            var ordersCount =await _context.Orders
                 .CountAsync(o => o.createDate >= today && o.createDate < tomorrow);
 
-            var sumTask = _context.Orders
+            var sumTask =await _context.Orders
                 .Where(o => o.createDate >= today && o.createDate < tomorrow && o.status == "delivered")
                 .SumAsync(o => (decimal?)o.totalPrice);
 
-            await Task.WhenAll(ordersCountTask, sumTask);
-
-            var ordersCount = ordersCountTask.Result;
-            var total = sumTask.Result ?? 0m;
+           
+            var total = sumTask ?? 0m;  
 
             return (ordersCount, total);
         }
@@ -149,8 +146,8 @@ namespace ClipNchic.DataAccess.Repositories
         public async Task<MonthlySalesSummaryDto> GetYearlySalesSummaryAsync(int year)
         {
             var monthlyData = await _context.Orders
-                .Where(o => o.createDate != null && o.createDate.Value.Year == year)
-                .GroupBy(o => o.createDate!.Value.Month)
+                .Where(o =>  o.createDate.Value.Year == year)
+                .GroupBy(o => o.createDate.Value.Month)
                 .Select(g => new
                 {
                     Month = g.Key,
@@ -180,7 +177,6 @@ namespace ClipNchic.DataAccess.Repositories
             summary.YearlyTotalSales = summary.MonthlySales.Sum(m => m.SalesTotal);
 
             return summary;
-        }
         public async Task<List<TopSalesDto>> GetTop10ProductsLast30DaysAsync()
         {
             var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
@@ -188,7 +184,7 @@ namespace ClipNchic.DataAccess.Repositories
             var topProducts = await _context.OrderDetails
                 .Include(od => od.Order)
                 .Include(od => od.Product)
-                .Where(od => od.productId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "delivered")
+                .Where(od => od.productId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "đã giao hàng thành công")
                 .GroupBy(od => new { od.productId, od.Product!.title })
                 .OrderByDescending(g => g.Sum(od => od.quantity ?? 0))
                 .Take(10)
@@ -210,7 +206,7 @@ namespace ClipNchic.DataAccess.Repositories
             var topBlindBoxes = await _context.OrderDetails
                 .Include(od => od.Order)
                 .Include(od => od.BlindBox)
-                .Where(od => od.blindBoxId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "delivered")
+                .Where(od => od.blindBoxId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "đã giao hàng thành công")
                 .GroupBy(od => new { od.blindBoxId, od.BlindBox!.name })
                 .OrderByDescending(g => g.Sum(od => od.quantity ?? 0))
                 .Take(10)
