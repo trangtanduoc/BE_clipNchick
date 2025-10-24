@@ -1,6 +1,7 @@
 using ClipNchic.Business.Services;
 using ClipNchic.DataAccess.Models;
 using ClipNchic.DataAccess.Models.DTO;
+using ClipNchic.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -160,6 +161,13 @@ namespace ClipNchic.Api.Controllers
         public async Task<ActionResult<object>> GetTodaysOrdersAndCompletedSales()
         {
             var result = await _service.GetTodaysOrdersAndCompletedSalesAsync();
+            return Ok(result);
+        }
+
+        [HttpGet("DailyOrder")]
+            public async Task<ActionResult<DailySalesSummaryDto>> GetDailyOrder()
+        {
+            var result = await _service.GetDailySales();
             return Ok(result);
         }
     }
