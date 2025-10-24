@@ -398,5 +398,9 @@ namespace ClipNchic.Business.Services
         {
             return await _orderRepo.GetTop10BlindBoxesLast30DaysAsync();
         }
+        public async Task<DailySalesSummaryDto> GetDailySales()
+        {
+            return await _orderRepo.GetDaily();
+        }
     }
 }
