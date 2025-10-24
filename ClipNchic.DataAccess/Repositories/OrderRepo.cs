@@ -177,6 +177,8 @@ namespace ClipNchic.DataAccess.Repositories
             summary.YearlyTotalSales = summary.MonthlySales.Sum(m => m.SalesTotal);
 
             return summary;
+
+}
         public async Task<List<TopSalesDto>> GetTop10ProductsLast30DaysAsync()
         {
             var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
