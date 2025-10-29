@@ -32,14 +32,14 @@ namespace ClipNchic.Business.Services
                     dto.modelId = model.id;
             }
 
-            var charmId = await _repo.AddAsync(dto);
+            var charmEntity = await _repo.AddAsync(dto);
 
             if (imageFile != null && imageFile.Length > 0)
             {
-                await _imageService.UploadCharmImageAsync(charmId, imageFile);
+                await _imageService.UploadCharmImageAsync(charmEntity.id, imageFile);
             }
 
-            return charmId;
+            return charmEntity.id;
         }
 
         public async Task<int> UpdateAsync(Charm charm) => await _repo.UpdateAsync(charm);

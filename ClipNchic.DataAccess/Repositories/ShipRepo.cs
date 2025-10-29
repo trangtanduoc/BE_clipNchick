@@ -19,7 +19,7 @@ namespace ClipNchic.DataAccess.Repositories
         public async Task<IEnumerable<Ship>> GetAllAsync() =>
             await _context.Ships.ToListAsync();
 
-        public async Task<int> AddAsync(ShipCreateDto dto)
+        public async Task<Ship> AddAsync(ShipCreateDto dto)
         {
             var ship = new Ship
             {
@@ -27,7 +27,8 @@ namespace ClipNchic.DataAccess.Repositories
                 price = dto.price
             };
             _context.Ships.Add(ship);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return ship;
         }
 
         public async Task<int> UpdateAsync(Ship ship)

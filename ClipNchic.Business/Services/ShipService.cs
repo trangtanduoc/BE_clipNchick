@@ -16,7 +16,7 @@ namespace ClipNchic.Business.Services
 
         public async Task<IEnumerable<Ship>> GetAllAsync() => await _repo.GetAllAsync();
 
-        public async Task<int> AddAsync(ShipCreateDto dto) => await _repo.AddAsync(dto);
+        public async Task<Ship> AddAsync(ShipCreateDto dto) => await _repo.AddAsync(dto);
 
 
         public async Task<int> UpdateAsync(Ship ship) => await _repo.UpdateAsync(ship);
