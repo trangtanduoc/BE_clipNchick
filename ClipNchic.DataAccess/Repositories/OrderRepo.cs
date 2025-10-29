@@ -13,6 +13,7 @@ namespace ClipNchic.DataAccess.Repositories
             _context = context;
         }
 
+#pragma warning disable CS8602
         public async Task<List<Order>> GetAllOrdersAsync()
         {
             return await _context.Orders
@@ -27,7 +28,9 @@ namespace ClipNchic.DataAccess.Repositories
                 .OrderByDescending(o => o.createDate)
                 .ToListAsync();
         }
+#pragma warning restore CS8602
 
+#pragma warning disable CS8602
         public async Task<Order?> GetPendingOrderByUserIdAsync(int userId)
         {
             return await _context.Orders
@@ -52,6 +55,7 @@ namespace ClipNchic.DataAccess.Repositories
                 .OrderByDescending(o => o.createDate)
                 .ToListAsync();
         }
+#pragma warning restore CS8602
 
         public async Task<Order> CreatePendingOrderAsync(Order order)
         {
@@ -102,6 +106,7 @@ namespace ClipNchic.DataAccess.Repositories
             await _context.SaveChangesAsync();
         }
 
+#pragma warning disable CS8602
         public async Task<Order?> GetOrderByIdAsync(int orderId)
         {
             return await _context.Orders
@@ -125,6 +130,7 @@ namespace ClipNchic.DataAccess.Repositories
                 .Where(od => od.orderId == orderId)
                 .ToListAsync();
         }
+#pragma warning restore CS8602
 
         public async Task<(int OrdersCount, decimal CompletedSalesTotal)> GetTodaysOrdersAndCompletedSalesAsync()
         {
@@ -147,8 +153,8 @@ namespace ClipNchic.DataAccess.Repositories
         public async Task<MonthlySalesSummaryDto> GetYearlySalesSummaryAsync(int year)
         {
             var monthlyData = await _context.Orders
-                .Where(o =>  o.createDate.Value.Year == year)
-                .GroupBy(o => o.createDate.Value.Month)
+                .Where(o => o.createDate.HasValue && o.createDate.Value.Year == year)
+                .GroupBy(o => o.createDate!.Value.Month)
                 .Select(g => new
                 {
                     Month = g.Key,
@@ -180,6 +186,7 @@ namespace ClipNchic.DataAccess.Repositories
             return summary;
 
 }
+#pragma warning disable CS8602
         public async Task<List<TopSalesDto>> GetTop10ProductsLast30DaysAsync()
         {
             var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
@@ -208,7 +215,9 @@ namespace ClipNchic.DataAccess.Repositories
 
             return topProducts;
         }
+#pragma warning restore CS8602
 
+#pragma warning disable CS8602
         public async Task<List<TopSalesDto>> GetTop10BlindBoxesLast30DaysAsync()
         {
             var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
@@ -237,12 +246,13 @@ namespace ClipNchic.DataAccess.Repositories
 
             return topBlindBoxes;
         }
+#pragma warning restore CS8602
 
         public async Task<DailySalesSummaryDto> GetDaily()
         {
             var today = DateTime.UtcNow.Date;
             var ordersToday = await _context.Orders
-                .Where(o => o.createDate >= today && o.createDate < today.AddDays(1) && o.status != "pending" && o.status != "unknown")
+                .Where(o => o.createDate.HasValue && o.createDate >= today && o.createDate < today.AddDays(1) && o.status != "pending" && o.status != "unknown")
                 .ToListAsync();
             var canceledOrdersToday = ordersToday.Where(o => o.status == "canceled").ToList();
             var summary = new DailySalesSummaryDto
@@ -258,11 +268,11 @@ namespace ClipNchic.DataAccess.Repositories
         {
             var now = DateTime.UtcNow.Date;
             var OrderThisMonth = await _context.Orders
-                .Where(o => o.createDate.Value.Year == now.Year && o.createDate.Value.Month == now.Month && o.status != "pending" && o.status != "unknown")
+                .Where(o => o.createDate.HasValue && o.createDate.Value.Year == now.Year && o.createDate.Value.Month == now.Month && o.status != "pending" && o.status != "unknown")
                 .ToListAsync();
             var lastMonth = now.AddMonths(-1);
             var OrderLastMonth = await _context.Orders
-                .Where(o => o.createDate.Value.Year == lastMonth.Year && o.createDate.Value.Month == lastMonth.Month && o.status != "pending" && o.status != "unknown")
+                .Where(o => o.createDate.HasValue && o.createDate.Value.Year == lastMonth.Year && o.createDate.Value.Month == lastMonth.Month && o.status != "pending" && o.status != "unknown")
                 .ToListAsync();
             var OrderFailedThisMonth = OrderThisMonth.Where(o => o.status != "pending" && o.status != "unknown").ToList();
             var OrderFailedLastMonth = OrderLastMonth.Where(o => o.status != "pending" && o.status != "unknown").ToList();

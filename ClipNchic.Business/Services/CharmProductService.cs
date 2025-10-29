@@ -11,7 +11,7 @@ namespace ClipNchic.Business.Services
 
         public async Task<CharmProduct?> GetByIdAsync(int id) => await _repo.GetByIdAsync(id);
         public async Task<IEnumerable<CharmProduct>> GetAllAsync() => await _repo.GetAllAsync();
-        public async Task<int> AddAsync(CharmProductCreateDto dto) => await _repo.AddAsync(dto);
+        public async Task<CharmProduct> AddAsync(CharmProductCreateDto dto) => await _repo.AddAsync(dto);
         public async Task<int> UpdateAsync(CharmProduct charmProduct) => await _repo.UpdateAsync(charmProduct);
         public async Task<int> DeleteAsync(int id) => await _repo.DeleteAsync(id);
     }

@@ -32,14 +32,14 @@ namespace ClipNchic.Business.Services
                     dto.modelId = model.id;
             }
 
-            var baseId = await _repo.AddAsync(dto);
+            var baseEntity = await _repo.AddAsync(dto);
 
             if (imageFile != null && imageFile.Length > 0)
             {
-                await _imageService.UploadBaseImageAsync(baseId, imageFile);
+                await _imageService.UploadBaseImageAsync(baseEntity.id, imageFile);
             }
 
-            return baseId;
+            return baseEntity.id;
         }
 
         public async Task<int> UpdateAsync(BaseUpdateDto dto) => await _repo.UpdateAsync(dto);

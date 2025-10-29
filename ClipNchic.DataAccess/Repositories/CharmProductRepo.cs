@@ -16,7 +16,7 @@ namespace ClipNchic.DataAccess.Repositories
         public async Task<IEnumerable<CharmProduct>> GetAllAsync() =>
             await _context.CharmProducts.ToListAsync();
 
-        public async Task<int> AddAsync(CharmProductCreateDto dto)
+        public async Task<CharmProduct> AddAsync(CharmProductCreateDto dto)
         {
             var entity = new CharmProduct
             {
@@ -24,7 +24,8 @@ namespace ClipNchic.DataAccess.Repositories
                 charmId = dto.charmId
             };
             _context.CharmProducts.Add(entity);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<int> UpdateAsync(CharmProduct charmProduct)
