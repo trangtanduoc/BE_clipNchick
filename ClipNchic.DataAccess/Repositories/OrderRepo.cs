@@ -252,7 +252,7 @@ namespace ClipNchic.DataAccess.Repositories
         {
             var today = DateTime.UtcNow.Date;
             var ordersToday = await _context.Orders
-                .Where(o => o.createDate >= today && o.createDate < today.AddDays(1) && o.status != "pending" && o.status != "unknown")
+                .Where(o => o.createDate.HasValue && o.createDate >= today && o.createDate < today.AddDays(1) && o.status != "pending" && o.status != "unknown")
                 .ToListAsync();
             var canceledOrdersToday = ordersToday.Where(o => o.status == "canceled").ToList();
             var summary = new DailySalesSummaryDto
@@ -268,11 +268,11 @@ namespace ClipNchic.DataAccess.Repositories
         {
             var now = DateTime.UtcNow.Date;
             var OrderThisMonth = await _context.Orders
-                .Where(o => o.createDate.Value.Year == now.Year && o.createDate.Value.Month == now.Month && o.status != "pending" && o.status != "unknown")
+                .Where(o => o.createDate.HasValue && o.createDate.Value.Year == now.Year && o.createDate.Value.Month == now.Month && o.status != "pending" && o.status != "unknown")
                 .ToListAsync();
             var lastMonth = now.AddMonths(-1);
             var OrderLastMonth = await _context.Orders
-                .Where(o => o.createDate.Value.Year == lastMonth.Year && o.createDate.Value.Month == lastMonth.Month && o.status != "pending" && o.status != "unknown")
+                .Where(o => o.createDate.HasValue && o.createDate.Value.Year == lastMonth.Year && o.createDate.Value.Month == lastMonth.Month && o.status != "pending" && o.status != "unknown")
                 .ToListAsync();
             var OrderFailedThisMonth = OrderThisMonth.Where(o => o.status != "pending" && o.status != "unknown").ToList();
             var OrderFailedLastMonth = OrderLastMonth.Where(o => o.status != "pending" && o.status != "unknown").ToList();
