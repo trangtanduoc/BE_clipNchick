@@ -16,7 +16,9 @@ public class MonthlySalesDto
 public class MonthlySalesOrderDto
 {
     public int OrderThisMonth { get; set; }
+    public decimal ThisMonthSales { get; set; }
     public int OrderLastMonth { get; set; }
+    public decimal LastMonthSales { get; set; }
     public int OrderFailedThisMonth { get; set; }
     public int OrderFailedLastMonth { get; set; }
 }

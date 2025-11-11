@@ -274,12 +274,14 @@ namespace ClipNchic.DataAccess.Repositories
             var OrderLastMonth = await _context.Orders
                 .Where(o => o.createDate.HasValue && o.createDate.Value.Year == lastMonth.Year && o.createDate.Value.Month == lastMonth.Month && o.status != "pending" && o.status != "unknown")
                 .ToListAsync();
-            var OrderFailedThisMonth = OrderThisMonth.Where(o => o.status != "pending" && o.status != "unknown").ToList();
-            var OrderFailedLastMonth = OrderLastMonth.Where(o => o.status != "pending" && o.status != "unknown").ToList();
+            var OrderFailedThisMonth = OrderThisMonth.Where(o => o.status == "canceled").ToList();
+            var OrderFailedLastMonth = OrderLastMonth.Where(o => o.status == "canceled").ToList();
             var summary = new MonthlySalesOrderDto
             {
                 OrderThisMonth = OrderThisMonth.Count,
+                ThisMonthSales = OrderThisMonth.Where(o => o.status != "pending" && o.status != "unknown").Sum(o => o.totalPrice) ?? 0,
                 OrderLastMonth = OrderLastMonth.Count,
+                LastMonthSales = OrderLastMonth.Where(o => o.status != "pending" && o.status != "unknown").Sum(o => o.totalPrice) ?? 0,
                 OrderFailedThisMonth = OrderFailedThisMonth.Count,
                 OrderFailedLastMonth = OrderFailedLastMonth.Count
             };
