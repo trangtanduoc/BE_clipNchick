@@ -254,7 +254,7 @@ namespace ClipNchic.DataAccess.Repositories
             var ordersToday = await _context.Orders
                 .Where(o => o.createDate.HasValue && o.createDate >= today && o.createDate < today.AddDays(1) && o.status != "pending" && o.status != "unknown")
                 .ToListAsync();
-            var canceledOrdersToday = ordersToday.Where(o => o.status == "canceled").ToList();
+            var canceledOrdersToday = ordersToday.Where(o => o.status == "cancelled").ToList();
             var summary = new DailySalesSummaryDto
             {
                 countOrder = ordersToday.Count,
@@ -274,8 +274,8 @@ namespace ClipNchic.DataAccess.Repositories
             var OrderLastMonth = await _context.Orders
                 .Where(o => o.createDate.HasValue && o.createDate.Value.Year == lastMonth.Year && o.createDate.Value.Month == lastMonth.Month && o.status != "pending" && o.status != "unknown")
                 .ToListAsync();
-            var OrderFailedThisMonth = OrderThisMonth.Where(o => o.status == "canceled").ToList();
-            var OrderFailedLastMonth = OrderLastMonth.Where(o => o.status == "canceled").ToList();
+            var OrderFailedThisMonth = OrderThisMonth.Where(o => o.status == "cancelled").ToList();
+            var OrderFailedLastMonth = OrderLastMonth.Where(o => o.status == "cancelled").ToList();
             var summary = new MonthlySalesOrderDto
             {
                 OrderThisMonth = OrderThisMonth.Count,
