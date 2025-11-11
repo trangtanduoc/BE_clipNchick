@@ -1,7 +1,10 @@
 using ClipNchic.Business.Services;
 using ClipNchic.DataAccess.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace ClipNchic.Api.Controllers;
 
@@ -23,12 +26,32 @@ public class ProductController : ControllerBase
         return Ok(entity);
     }
 
+    [HttpGet("GetByUserId")]
+    [Authorize]
+    public async Task<IActionResult> GetByUserId()
+    {
+        var userId = GetUserIdFromClaims();
+        if (userId == null)
+        {
+            return Unauthorized(new { message = "User identifier is not present in the token." });
+        }
+
+        var products = await _service.GetByUserIdAsync(userId.Value);
+        if (products == null || !products.Any()) return NotFound(new { message = "No products found for this user" });
+        return Ok(products);
+    }
+
     [HttpPost("Create")]
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
     {
         try
         {
+            if (request.ModelFile != null && !request.ModelFile.FileName.ToLower().EndsWith(".json"))
+            {
+                return BadRequest(new { message = "Model file must be in JSON format (.json)" });
+            }
+
             var dto = new ProductCreateDto
             {
                 collectId = request.collectId,
@@ -66,6 +89,12 @@ public class ProductController : ControllerBase
         var result = await _service.DeleteAsync(id);
         if (result > 0) return Ok(new { message = "Product deleted successfully" });
         return NotFound(new { message = "Product not found" });
+    }
+
+    private int? GetUserIdFromClaims()
+    {
+        var idClaim = User.FindFirst(ClaimTypes.NameIdentifier) ?? User.FindFirst(JwtRegisteredClaimNames.Sub);
+        return idClaim != null && int.TryParse(idClaim.Value, out var userId) ? userId : null;
     }
 }
 

@@ -30,7 +30,7 @@ public class ImageController : ControllerBase
     public async Task<IActionResult> Create([FromBody] ImageCreateDto dto)
     {
         var result = await _service.AddAsync(dto);
-        if (result > 0) return Ok(new { message = "Image created successfully" });
+        if (result != null) return Ok(new { message = "Image created successfully" });
         return BadRequest(new { message = "Failed to create Image" });
     }
 

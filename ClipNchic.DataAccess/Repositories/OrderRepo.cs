@@ -13,6 +13,7 @@ namespace ClipNchic.DataAccess.Repositories
             _context = context;
         }
 
+#pragma warning disable CS8602
         public async Task<List<Order>> GetAllOrdersAsync()
         {
             return await _context.Orders
@@ -23,10 +24,13 @@ namespace ClipNchic.DataAccess.Repositories
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.BlindBox)
                         .ThenInclude(bb => bb.Images)
+                .Where(o => o.status != "pending")
                 .OrderByDescending(o => o.createDate)
                 .ToListAsync();
         }
+#pragma warning restore CS8602
 
+#pragma warning disable CS8602
         public async Task<Order?> GetPendingOrderByUserIdAsync(int userId)
         {
             return await _context.Orders
@@ -51,6 +55,7 @@ namespace ClipNchic.DataAccess.Repositories
                 .OrderByDescending(o => o.createDate)
                 .ToListAsync();
         }
+#pragma warning restore CS8602
 
         public async Task<Order> CreatePendingOrderAsync(Order order)
         {
@@ -101,6 +106,7 @@ namespace ClipNchic.DataAccess.Repositories
             await _context.SaveChangesAsync();
         }
 
+#pragma warning disable CS8602
         public async Task<Order?> GetOrderByIdAsync(int orderId)
         {
             return await _context.Orders
@@ -124,6 +130,7 @@ namespace ClipNchic.DataAccess.Repositories
                 .Where(od => od.orderId == orderId)
                 .ToListAsync();
         }
+#pragma warning restore CS8602
 
         public async Task<(int OrdersCount, decimal CompletedSalesTotal)> GetTodaysOrdersAndCompletedSalesAsync()
         {
@@ -146,8 +153,8 @@ namespace ClipNchic.DataAccess.Repositories
         public async Task<MonthlySalesSummaryDto> GetYearlySalesSummaryAsync(int year)
         {
             var monthlyData = await _context.Orders
-                .Where(o =>  o.createDate.Value.Year == year)
-                .GroupBy(o => o.createDate.Value.Month)
+                .Where(o => o.createDate.HasValue && o.createDate.Value.Year == year)
+                .GroupBy(o => o.createDate!.Value.Month)
                 .Select(g => new
                 {
                     Month = g.Key,
@@ -177,6 +184,9 @@ namespace ClipNchic.DataAccess.Repositories
             summary.YearlyTotalSales = summary.MonthlySales.Sum(m => m.SalesTotal);
 
             return summary;
+
+}
+#pragma warning disable CS8602
         public async Task<List<TopSalesDto>> GetTop10ProductsLast30DaysAsync()
         {
             var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
@@ -184,7 +194,7 @@ namespace ClipNchic.DataAccess.Repositories
             var topProducts = await _context.OrderDetails
                 .Include(od => od.Order)
                 .Include(od => od.Product)
-                .Where(od => od.productId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "đã giao hàng thành công")
+                .Where(od => od.productId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "delivered")
                 .GroupBy(od => new { od.productId, od.Product!.title })
                 .OrderByDescending(g => g.Sum(od => od.quantity ?? 0))
                 .Take(10)
@@ -195,10 +205,19 @@ namespace ClipNchic.DataAccess.Repositories
                     quantitySold = g.Sum(od => od.quantity ?? 0)
                 })
                 .ToListAsync();
+            foreach (var item in topProducts)
+            {
+                var images = await _context.Images
+                    .Where(img => img.productId == item.id)
+                    .ToListAsync();
+                item.Images = images;
+            }
 
             return topProducts;
         }
+#pragma warning restore CS8602
 
+#pragma warning disable CS8602
         public async Task<List<TopSalesDto>> GetTop10BlindBoxesLast30DaysAsync()
         {
             var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
@@ -206,7 +225,7 @@ namespace ClipNchic.DataAccess.Repositories
             var topBlindBoxes = await _context.OrderDetails
                 .Include(od => od.Order)
                 .Include(od => od.BlindBox)
-                .Where(od => od.blindBoxId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "đã giao hàng thành công")
+                .Where(od => od.blindBoxId != null && od.Order != null && od.Order.createDate >= thirtyDaysAgo && od.Order.status == "delivered")
                 .GroupBy(od => new { od.blindBoxId, od.BlindBox!.name })
                 .OrderByDescending(g => g.Sum(od => od.quantity ?? 0))
                 .Take(10)
@@ -217,68 +236,56 @@ namespace ClipNchic.DataAccess.Repositories
                     quantitySold = g.Sum(od => od.quantity ?? 0)
                 })
                 .ToListAsync();
+            foreach (var item in topBlindBoxes)
+            {
+                var images = await _context.Images
+                    .Where(img => img.blindBoxId == item.id)
+                    .ToListAsync();
+                item.Images = images;
+            }
 
             return topBlindBoxes;
         }
+#pragma warning restore CS8602
 
-        //public async Task<Order?> GetCartByUserIdAsync(int userId)
-        //{
-        //    return await _context.Orders
-        //        .Include(o => o.OrderDetails)
-        //        .ThenInclude(od => od.Product)
-        //        .FirstOrDefaultAsync(o => o.userId == userId && o.status == "Cart");
-        //}
+        public async Task<DailySalesSummaryDto> GetDaily()
+        {
+            var today = DateTime.UtcNow.Date;
+            var ordersToday = await _context.Orders
+                .Where(o => o.createDate.HasValue && o.createDate >= today && o.createDate < today.AddDays(1) && o.status != "pending" && o.status != "unknown")
+                .ToListAsync();
+            var canceledOrdersToday = ordersToday.Where(o => o.status == "cancelled").ToList();
+            var summary = new DailySalesSummaryDto
+            {
+                countOrder = ordersToday.Count,
+                totalSales = ordersToday.Where(o => o.status != "pending" && o.status != "unknown").Sum(o => o.totalPrice) ?? 0,
+                countOrderCancel = canceledOrdersToday.Count
+            };
+            return summary;
+        }
 
-        //public async Task<Order> CreateCartAsync(int userId)
-        //{
-        //    var cart = new Order
-        //    {
-        //        userId = userId,
-        //        status = "Cart",
-        //        createDate = DateTime.UtcNow,
-        //        totalPrice = 0
-        //    };
-        //    _context.Orders.Add(cart);
-        //    await _context.SaveChangesAsync();
-        //    return cart;
-        //}
-
-        //public async Task AddOrUpdateCartItemAsync(int cartId, int productId, int quantity, decimal price)
-        //{
-        //    var detail = await _context.OrderDetails.FirstOrDefaultAsync(od => od.orderId == cartId && od.productId == productId);
-        //    if (detail == null)
-        //    {
-        //        detail = new OrderDetail { orderId = cartId, productId = productId, quantity = quantity, price = price };
-        //        _context.OrderDetails.Add(detail);
-        //    }
-        //    else
-        //    {
-        //        detail.quantity = quantity;
-        //        detail.price = price;
-        //    }
-        //    await _context.SaveChangesAsync();
-        //}
-
-        //public async Task RemoveCartItemAsync(int cartId, int productId)
-        //{
-        //    var detail = await _context.OrderDetails.FirstOrDefaultAsync(od => od.orderId == cartId && od.productId == productId);
-        //    if (detail != null)
-        //    {
-        //        _context.OrderDetails.Remove(detail);
-        //        await _context.SaveChangesAsync();
-        //    }
-        //}
-
-        //public async Task CheckoutAsync(int cartId, decimal totalPrice)
-        //{
-        //    var cart = await _context.Orders.FindAsync(cartId);
-        //    if (cart != null && cart.status == "Cart")
-        //    {
-        //        cart.status = "Completed";
-        //        cart.totalPrice = totalPrice;
-        //        cart.createDate = DateTime.UtcNow;
-        //        await _context.SaveChangesAsync();
-        //    }
-        //}
+        public async Task<MonthlySalesOrderDto> GetMonthly()
+        {
+            var now = DateTime.UtcNow.Date;
+            var OrderThisMonth = await _context.Orders
+                .Where(o => o.createDate.HasValue && o.createDate.Value.Year == now.Year && o.createDate.Value.Month == now.Month && o.status != "pending" && o.status != "unknown")
+                .ToListAsync();
+            var lastMonth = now.AddMonths(-1);
+            var OrderLastMonth = await _context.Orders
+                .Where(o => o.createDate.HasValue && o.createDate.Value.Year == lastMonth.Year && o.createDate.Value.Month == lastMonth.Month && o.status != "pending" && o.status != "unknown")
+                .ToListAsync();
+            var OrderFailedThisMonth = OrderThisMonth.Where(o => o.status == "cancelled").ToList();
+            var OrderFailedLastMonth = OrderLastMonth.Where(o => o.status == "cancelled").ToList();
+            var summary = new MonthlySalesOrderDto
+            {
+                OrderThisMonth = OrderThisMonth.Count,
+                ThisMonthSales = OrderThisMonth.Where(o => o.status != "pending" && o.status != "unknown").Sum(o => o.totalPrice) ?? 0,
+                OrderLastMonth = OrderLastMonth.Count,
+                LastMonthSales = OrderLastMonth.Where(o => o.status != "pending" && o.status != "unknown").Sum(o => o.totalPrice) ?? 0,
+                OrderFailedThisMonth = OrderFailedThisMonth.Count,
+                OrderFailedLastMonth = OrderFailedLastMonth.Count
+            };
+            return summary;
+        }
     }
 }

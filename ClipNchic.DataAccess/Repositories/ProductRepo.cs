@@ -130,6 +130,68 @@ namespace ClipNchic.DataAccess.Repositories
             return result;
         }
 
+        public async Task<IEnumerable<ResponseProductDTO>> GetByUserIdAsync(int userId)
+        {
+            var products = await _context.Products.Where(p => p.userId == userId).ToListAsync();
+            var result = new List<ResponseProductDTO>();
+
+            foreach (var product in products)
+            {
+                var baseEntity = await _context.Bases.FirstOrDefaultAsync(b => b.id == product.baseId);
+                var model = await _context.Models.FirstOrDefaultAsync(m => m.id == product.modelId);
+                var charmProducts = await _context.CharmProducts.Where(cp => cp.productId == product.id).ToListAsync();
+                var collection = await _context.Collections
+                    .Where(c => c.id == product.collectId)
+                    .Select(c => new CollectionDTO
+                    {
+                        id = c.id,
+                        name = c.name,
+                        descript = c.descript
+                    })
+                    .FirstOrDefaultAsync();
+
+                var images = await _context.Images.Where(i => i.productId == product.id).ToListAsync();
+
+                decimal total = baseEntity?.price ?? 0;
+                foreach (var cp in charmProducts)
+                {
+                    if (cp.charmId.HasValue)
+                    {
+                        var charm = await _context.Charms.FirstOrDefaultAsync(c => c.id == cp.charmId);
+                        if (charm?.price != null) total += charm.price.Value;
+                    }
+                }
+                var finalPrice = product.price ?? total;
+
+                var modelDto = model != null ? new ModelDetailDto
+                {
+                    id = model.id,
+                    name = model.name,
+                    address = model.address
+                } : null;
+
+                result.Add(new ResponseProductDTO
+                {
+                    id = product.id,
+                    title = product.title,
+                    descript = product.descript,
+                    stock = product.stock,
+                    Totalprice = finalPrice,
+                    collectId = product.collectId,
+                    Collection = collection,
+                    baseId = product.baseId,
+                    Base = baseEntity,
+                    modelId = product.modelId,
+                    Model = modelDto,
+                    CharmProducts = charmProducts,
+                    createDate = product.createDate,
+                    status = product.status,
+                    Images = images
+                });
+            }
+            return result;
+        }
+
         public async Task<Product> AddAsync(ProductCreateDto dto)
         {
             var entity = new Product

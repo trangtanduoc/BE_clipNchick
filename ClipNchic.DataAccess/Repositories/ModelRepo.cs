@@ -16,7 +16,7 @@ namespace ClipNchic.DataAccess.Repositories
         public async Task<IEnumerable<Model>> GetAllAsync() =>
             await _context.Models.ToListAsync();
 
-        public async Task<int> AddAsync(ModelCreateDto dto)
+        public async Task<Model> AddAsync(ModelCreateDto dto)
         {
             var entity = new Model
             {
@@ -24,7 +24,8 @@ namespace ClipNchic.DataAccess.Repositories
                 address = dto.address
             };
             _context.Models.Add(entity);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<int> UpdateAsync(ModelUpdateDto dto)

@@ -21,6 +21,7 @@ public class ProductService
 
     public Task<ResponseProductDTO?> GetByIdAsync(int id) => _repo.GetByIdAsync(id);
     public Task<IEnumerable<ResponseProductDTO>> GetAllAsync() => _repo.GetAllAsync();
+    public Task<IEnumerable<ResponseProductDTO>> GetByUserIdAsync(int userId) => _repo.GetByUserIdAsync(userId);
 
     public async Task<ResponseProductDTO?> AddAsync(ProductCreateDto dto, IEnumerable<IFormFile>? files = null, IFormFile? modelFile = null)
     {
@@ -35,7 +36,7 @@ public class ProductService
 
         if (modelFile != null && modelFile.Length > 0)
         {
-            var model = await _modelService.CreateModelFromFileAsync(modelFile);
+            var model = await _modelService.CreateModelFromJsonFileAsync(modelFile);
             if (model != null)
                 dto.modelId = model.id;
         }

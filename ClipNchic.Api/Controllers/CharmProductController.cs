@@ -27,7 +27,7 @@ public class CharmProductController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CharmProductCreateDto dto)
     {
         var result = await _service.AddAsync(dto);
-        if (result > 0) return Ok(new { message = "CharmProduct created successfully" });
+        if (result != null) return Ok(new { message = "CharmProduct created successfully" });
         return BadRequest(new { message = "Failed to create CharmProduct" });
     }
 

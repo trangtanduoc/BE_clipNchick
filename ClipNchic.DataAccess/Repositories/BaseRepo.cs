@@ -85,7 +85,7 @@ namespace ClipNchic.DataAccess.Repositories
             return baseDtos;
         }
 
-        public async Task<int> AddAsync(BaseCreateDto dto)
+        public async Task<Base> AddAsync(BaseCreateDto dto)
         {
             var entity = new Base
             {
@@ -95,7 +95,8 @@ namespace ClipNchic.DataAccess.Repositories
                 modelId = dto.modelId
             };
             _context.Bases.Add(entity);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<int> UpdateAsync(BaseUpdateDto dto)

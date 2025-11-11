@@ -27,7 +27,7 @@ public class CollectionController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CollectionCreateDto dto)
     {
         var result = await _service.AddAsync(dto);
-        if (result > 0) return Ok(new { message = "Collection created successfully" });
+        if (result != null) return Ok(new { message = "Collection created successfully" });
         return BadRequest(new { message = "Failed to create Collection" });
     }
 

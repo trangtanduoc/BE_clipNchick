@@ -13,6 +13,7 @@ namespace ClipNchic.DataAccess.Repositories
         public async Task<ResponseCharmDTO?> GetByIdAsync(int id)
         {
             Charm? charm = await _context.Charms.FirstOrDefaultAsync(c => c.id == id);
+            if (charm == null) return null;
 
             var model = await _context.Models.FirstOrDefaultAsync(m => m.id == charm.modelId);
             var image = await _context.Images.FirstOrDefaultAsync(i => i.charmId == charm.id);
@@ -100,7 +101,7 @@ namespace ClipNchic.DataAccess.Repositories
             return charmDtos;
         }
 
-        public async Task<int> AddAsync(CharmCreateDto dto)
+        public async Task<Charm> AddAsync(CharmCreateDto dto)
         {
             
             var entity = new Charm
@@ -110,7 +111,8 @@ namespace ClipNchic.DataAccess.Repositories
                 modelId = dto.modelId
             };
             _context.Charms.Add(entity);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<int> UpdateAsync(Charm charm)

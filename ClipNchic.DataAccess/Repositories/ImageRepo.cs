@@ -27,7 +27,7 @@ namespace ClipNchic.DataAccess.Repositories
             return await _context.Images.ToListAsync();
         }
 
-        public async Task<int> AddAsync(ImageCreateDto dto)
+        public async Task<Image> AddAsync(ImageCreateDto dto)
         {
             var entity = new Image
             {
@@ -39,7 +39,8 @@ namespace ClipNchic.DataAccess.Repositories
                 blindBoxId = dto.blindBoxId
             };
             _context.Images.Add(entity);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<int> UpdateAsync(Image image)

@@ -30,6 +30,11 @@ public class BaseController : ControllerBase
     {
         try
         {
+            if (request.ModelFile != null && !request.ModelFile.FileName.ToLower().EndsWith(".glb"))
+            {
+                return BadRequest(new { message = "Model file must be in GLB format (.glb)" });
+            }
+
             var dto = new BaseCreateDto
             {
                 name = request.name,

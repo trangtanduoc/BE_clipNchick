@@ -27,7 +27,7 @@ public class ModelController : ControllerBase
     public async Task<IActionResult> Create([FromBody] ModelCreateDto dto)
     {
         var result = await _service.AddAsync(dto);
-        if (result > 0) return Ok(new { message = "Model created successfully" });
+        if (result != null) return Ok(new { message = "Model created successfully" });
         return BadRequest(new { message = "Failed to create Model" });
     }
 

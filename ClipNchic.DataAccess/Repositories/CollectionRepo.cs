@@ -16,7 +16,7 @@ namespace ClipNchic.DataAccess.Repositories
         public async Task<IEnumerable<Collection>> GetAllAsync() =>
             await _context.Collections.ToListAsync();
 
-        public async Task<int> AddAsync(CollectionCreateDto dto)
+        public async Task<Collection> AddAsync(CollectionCreateDto dto)
         {
             var entity = new Collection
             {
@@ -24,7 +24,8 @@ namespace ClipNchic.DataAccess.Repositories
                 descript = dto.descript
             };
             _context.Collections.Add(entity);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<int> UpdateAsync(Collection collection)

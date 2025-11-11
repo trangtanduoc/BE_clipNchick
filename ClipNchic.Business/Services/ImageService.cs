@@ -51,7 +51,7 @@ namespace ClipNchic.Business.Services
             });
         }
 
-        public async Task<int> AddAsync(ImageCreateDto dto) => await _repo.AddAsync(dto);
+        public async Task<Image> AddAsync(ImageCreateDto dto) => await _repo.AddAsync(dto);
         public async Task<int> UpdateAsync(Image image) => await _repo.UpdateAsync(image);
         public async Task<int> DeleteAsync(int id) => await _repo.DeleteAsync(id);
 

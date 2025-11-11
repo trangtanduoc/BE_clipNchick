@@ -34,7 +34,7 @@ public class ShipController : ControllerBase
     public async Task<IActionResult> Create([FromBody] ShipCreateDto dto)
     {
         var result = await _service.AddAsync(dto);
-        if (result > 0) return Ok(new { message = "Ship created successfully" });
+        if (result != null) return Ok(new { message = "Ship created successfully" });
         return BadRequest(new { message = "Failed to create ship" });
     }
 
