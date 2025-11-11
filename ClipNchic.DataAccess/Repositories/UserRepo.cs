@@ -35,6 +35,11 @@ public class UserRepo
         return await _context.Users.FindAsync(userId);
     }
 
+    public async Task<List<User>> GetAllAsync()
+    {
+        return await _context.Users.ToListAsync();
+    }
+
     public async Task<User> UpdateUserAsync(User user)
     {
         _context.Users.Update(user);
