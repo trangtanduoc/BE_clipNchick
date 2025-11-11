@@ -371,4 +371,8 @@ public class UserService
             }
         }
     }
+    public async Task<List<User>> GetAllUsers()
+    {
+        return await _userRepo.GetAllAsync();
+    }
 }
