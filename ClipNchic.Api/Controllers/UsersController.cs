@@ -100,6 +100,13 @@ public class UsersController : ControllerBase
         return Ok(UserProfileDto.FromEntity(result));
     }
 
+    [HttpGet("GetAllUsers")]
+    public async Task<IActionResult> GetAllUsers()
+    {
+        var users = await _userService.GetAllUsers();
+        return Ok(users);
+    }
+
     private int? GetUserIdFromClaims()
     {
         var idClaim = User.FindFirst(ClaimTypes.NameIdentifier) ?? User.FindFirst(JwtRegisteredClaimNames.Sub);
