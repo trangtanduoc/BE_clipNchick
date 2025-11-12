@@ -10,7 +10,7 @@ namespace ClipNchic.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
+
 public class UsersController : ControllerBase
 {
     private readonly UserService _userService;
