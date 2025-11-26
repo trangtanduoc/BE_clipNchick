@@ -83,6 +83,42 @@ public class ProductController : ControllerBase
         return BadRequest(new { message = "Failed to update Product" });
     }
 
+    [HttpPut("UpdateWithFile")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UpdateWithFile([FromForm] ProductUpdateWithFileRequest request)
+    {
+        try
+        {
+            if (request.ModelFile != null && !request.ModelFile.FileName.ToLower().EndsWith(".json"))
+            {
+                return BadRequest(new { message = "Model file must be in JSON format (.json)" });
+            }
+
+            var dto = new ProductUpdateDto
+            {
+                id = request.id,
+                collectId = request.collectId,
+                title = request.title,
+                descript = request.descript,
+                baseId = request.baseId,
+                price = request.price,
+                userId = request.userId,
+                stock = request.stock,
+                modelId = request.modelId,
+                createDate = request.createDate,
+                status = request.status
+            };
+
+            var result = await _service.UpdateAsync(dto, request.Images, request.ModelFile);
+            if (result > 0) return Ok(new { message = "Product updated successfully" });
+            return BadRequest(new { message = "Failed to update Product" });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
     [HttpDelete("Delete/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -107,6 +143,23 @@ public class ProductCreateRequest
     public decimal? price { get; set; }
     public int? userId { get; set; }
     public int? stock { get; set; }
+    public DateTime? createDate { get; set; }
+    public string? status { get; set; }
+    public List<IFormFile>? Images { get; set; }
+    public IFormFile? ModelFile { get; set; }
+}
+
+public class ProductUpdateWithFileRequest
+{
+    public int id { get; set; }
+    public int? collectId { get; set; }
+    public string? title { get; set; }
+    public string? descript { get; set; }
+    public int? baseId { get; set; }
+    public decimal? price { get; set; }
+    public int? userId { get; set; }
+    public int? stock { get; set; }
+    public int? modelId { get; set; }
     public DateTime? createDate { get; set; }
     public string? status { get; set; }
     public List<IFormFile>? Images { get; set; }

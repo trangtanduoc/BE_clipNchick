@@ -55,6 +55,34 @@ public class ProductService
         return await _repo.GetByIdAsync(product.id);
     }
 
-    public Task<int> UpdateAsync(ProductUpdateDto dto) => _repo.UpdateAsync(dto);
+    public async Task<int> UpdateAsync(ProductUpdateDto dto, IEnumerable<IFormFile>? files = null, IFormFile? modelFile = null)
+    {
+        if (dto.baseId.HasValue)
+        {
+            var baseExists = await _baseService.GetByIdAsync(dto.baseId.Value);
+            if (baseExists == null)
+                throw new InvalidOperationException($"Base with id {dto.baseId} does not exist.");
+        }
+
+        if (modelFile != null && modelFile.Length > 0)
+        {
+            var model = await _modelService.CreateModelFromJsonFileAsync(modelFile);
+            if (model != null)
+                dto.modelId = model.id;
+        }
+
+        var result = await _repo.UpdateAsync(dto);
+
+        if (result > 0 && files != null)
+        {
+            foreach (var file in files)
+            {
+                if (file == null || file.Length == 0) continue;
+                await _imageService.UploadProductImageAsync(dto.id, file);
+            }
+        }
+
+        return result;
+    }
     public Task<int> DeleteAsync(int id) => _repo.DeleteProductAsync(id);
 }
