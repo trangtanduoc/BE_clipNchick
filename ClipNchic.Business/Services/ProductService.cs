@@ -21,6 +21,7 @@ public class ProductService
 
     public Task<ResponseProductDTO?> GetByIdAsync(int id) => _repo.GetByIdAsync(id);
     public Task<IEnumerable<ResponseProductDTO>> GetAllAsync() => _repo.GetAllAsync();
+    public Task<IEnumerable<ResponseProductDTO>> GetAllCustomAsync() => _repo.GetAllCustomAsync();
     public Task<IEnumerable<ResponseProductDTO>> GetByUserIdAsync(int userId) => _repo.GetByUserIdAsync(userId);
 
     public async Task<ResponseProductDTO?> AddAsync(ProductCreateDto dto, IEnumerable<IFormFile>? files = null, IFormFile? modelFile = null)
