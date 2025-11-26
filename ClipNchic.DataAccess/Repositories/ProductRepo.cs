@@ -69,7 +69,9 @@ namespace ClipNchic.DataAccess.Repositories
 
         public async Task<IEnumerable<ResponseProductDTO>> GetAllAsync()
         {
-            var products = await _context.Products.ToListAsync();
+            var products = await _context.Products
+                .Where(p => p.status == null || p.status.ToLower() != "private")
+                .ToListAsync();
             var result = new List<ResponseProductDTO>();
 
             foreach (var product in products)
