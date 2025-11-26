@@ -64,17 +64,40 @@ public class ProductService
                 throw new InvalidOperationException($"Base with id {dto.baseId} does not exist.");
         }
 
+        ResponseProductDTO? existing = null;
+
         if (modelFile != null && modelFile.Length > 0)
         {
-            var model = await _modelService.CreateModelFromJsonFileAsync(modelFile);
-            if (model != null)
-                dto.modelId = model.id;
+            // Prefer updating the existing model when present; otherwise create a new one.
+            existing = existing ?? await _repo.GetByIdAsync(dto.id);
+            var targetModelId = dto.modelId ?? existing?.modelId;
+
+            if (targetModelId.HasValue)
+            {
+                var model = await _modelService.UpdateModelFromJsonFileAsync(targetModelId.Value, modelFile);
+                dto.modelId = model?.id ?? targetModelId.Value;
+            }
+            else
+            {
+                var model = await _modelService.CreateModelFromJsonFileAsync(modelFile);
+                if (model != null)
+                    dto.modelId = model.id;
+            }
         }
 
         var result = await _repo.UpdateAsync(dto);
 
         if (result > 0 && files != null)
         {
+            existing = existing ?? await _repo.GetByIdAsync(dto.id);
+            if (existing?.Images != null)
+            {
+                foreach (var image in existing.Images)
+                {
+                    await _imageService.DeleteAsync(image.id);
+                }
+            }
+
             foreach (var file in files)
             {
                 if (file == null || file.Length == 0) continue;
