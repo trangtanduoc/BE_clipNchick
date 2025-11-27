@@ -60,6 +60,36 @@ public class BaseController : ControllerBase
         return BadRequest(new { message = "Failed to update Base" });
     }
 
+    [HttpPut("UpdateWithFile")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UpdateWithFile([FromForm] BaseUpdateWithFileRequest request)
+    {
+        try
+        {
+            if (request.ModelFile != null && !request.ModelFile.FileName.ToLower().EndsWith(".glb"))
+            {
+                return BadRequest(new { message = "Model file must be in GLB format (.glb)" });
+            }
+
+            var dto = new BaseUpdateDto
+            {
+                id = request.id,
+                name = request.name,
+                color = request.color,
+                price = request.price,
+                modelId = request.modelId
+            };
+
+            var result = await _service.UpdateAsync(dto, request.ImageFile, request.ModelFile);
+            if (result > 0) return Ok(new { message = "Base updated successfully" });
+            return BadRequest(new { message = "Failed to update Base" });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
     [HttpDelete("Delete/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -74,6 +104,17 @@ public class BaseCreateRequest
     public string? name { get; set; }
     public string? color { get; set; }
     public decimal? price { get; set; }
+    public IFormFile? ImageFile { get; set; }
+    public IFormFile? ModelFile { get; set; }
+}
+
+public class BaseUpdateWithFileRequest
+{
+    public int id { get; set; }
+    public string? name { get; set; }
+    public string? color { get; set; }
+    public decimal? price { get; set; }
+    public int? modelId { get; set; }
     public IFormFile? ImageFile { get; set; }
     public IFormFile? ModelFile { get; set; }
 }

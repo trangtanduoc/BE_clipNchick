@@ -156,6 +156,51 @@ namespace ClipNchic.Business.Services
             }
         }
 
+        public async Task<Model?> UpdateModelFromGlbFileAsync(int modelId, IFormFile file)
+        {
+            if (file == null || file.Length == 0) return null;
+
+            if (!ValidateGlbFile(file))
+                throw new InvalidOperationException("Invalid file format. Only GLB files are accepted.");
+
+            var tempPath = Path.Combine(Path.GetTempPath(), Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".glb");
+            await using (var stream = System.IO.File.Create(tempPath))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            try
+            {
+                var uploadParams = new RawUploadParams()
+                {
+                    File = new FileDescription(tempPath)
+                };
+
+                var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+                if (uploadResult.StatusCode == HttpStatusCode.OK)
+                {
+                    var dto = new ModelUpdateDto
+                    {
+                        id = modelId,
+                        name = Path.GetFileNameWithoutExtension(file.FileName),
+                        address = uploadResult.SecureUrl.ToString()
+                    };
+                    var updated = await _repo.UpdateAsync(dto);
+                    if (updated > 0)
+                        return await _repo.GetByIdAsync(modelId);
+                }
+
+                return null;
+            }
+            finally
+            {
+                if (System.IO.File.Exists(tempPath))
+                {
+                    System.IO.File.Delete(tempPath);
+                }
+            }
+        }
+
         private bool ValidateGlbFile(IFormFile file)
         {
             var extension = Path.GetExtension(file.FileName).ToLower();

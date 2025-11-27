@@ -42,7 +42,43 @@ namespace ClipNchic.Business.Services
             return baseEntity.id;
         }
 
-        public async Task<int> UpdateAsync(BaseUpdateDto dto) => await _repo.UpdateAsync(dto);
+        public async Task<int> UpdateAsync(BaseUpdateDto dto, IFormFile? imageFile = null, IFormFile? modelFile = null)
+        {
+            ResponseBaseDTO? existing = null;
+
+            if (modelFile != null && modelFile.Length > 0)
+            {
+                existing ??= await _repo.GetByIdAsync(dto.id);
+                var targetModelId = dto.modelId ?? existing?.modelId;
+
+                if (targetModelId.HasValue)
+                {
+                    var model = await _modelService.UpdateModelFromGlbFileAsync(targetModelId.Value, modelFile);
+                    dto.modelId = model?.id ?? targetModelId.Value;
+                }
+                else
+                {
+                    var model = await _modelService.CreateModelFromFileAsync(modelFile);
+                    if (model != null)
+                        dto.modelId = model.id;
+                }
+            }
+
+            var result = await _repo.UpdateAsync(dto);
+
+            if (result > 0 && imageFile != null && imageFile.Length > 0)
+            {
+                existing ??= await _repo.GetByIdAsync(dto.id);
+                if (existing?.Image != null)
+                {
+                    await _imageService.DeleteAsync(existing.Image.id);
+                }
+
+                await _imageService.UploadBaseImageAsync(dto.id, imageFile);
+            }
+
+            return result;
+        }
         public async Task<int> DeleteAsync(int id) => await _repo.DeleteAsync(id);
     }
 }
