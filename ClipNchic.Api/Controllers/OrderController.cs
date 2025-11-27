@@ -66,7 +66,7 @@ namespace ClipNchic.Api.Controllers
         [HttpGet("{orderId}")]
         public async Task<IActionResult> GetOrderById(int orderId)
         {
-            var order = await _service.GetOrderByIdAsync(orderId);
+            var order = await _service.GetOrderResponseByIdAsync(orderId);
             return order == null ? NotFound(new { message = "Not found" }) : Ok(order);
         }
 

@@ -14,19 +14,93 @@ namespace ClipNchic.DataAccess.Repositories
         }
 
 #pragma warning disable CS8602
-        public async Task<List<Order>> GetAllOrdersAsync()
+        public async Task<List<OrderResponseDto>> GetAllOrdersAsync()
         {
-            return await _context.Orders
-                .Include(o => o.User)
-                .Include(o => o.OrderDetails)
-                    .ThenInclude(od => od.Product)
-                        .ThenInclude(p => p.Images)
-                .Include(o => o.OrderDetails)
-                    .ThenInclude(od => od.BlindBox)
-                        .ThenInclude(bb => bb.Images)
-                .Where(o => o.status != "pending")
+            return await ProjectOrders(excludePending: true).ToListAsync();
+        }
+
+        public async Task<OrderResponseDto?> GetOrderResponseByIdAsync(int orderId)
+        {
+            return await ProjectOrders(excludePending: false)
+                .FirstOrDefaultAsync(o => o.id == orderId);
+        }
+
+        private IQueryable<OrderResponseDto> ProjectOrders(bool excludePending)
+        {
+            var query = _context.Orders.AsQueryable();
+            if (excludePending)
+            {
+                query = query.Where(o => o.status != "pending");
+            }
+
+            return query
                 .OrderByDescending(o => o.createDate)
-                .ToListAsync();
+                .Select(o => new OrderResponseDto
+                {
+                    id = o.id,
+                    userId = o.userId,
+                    user = o.User == null ? null : new UserLiteDto
+                    {
+                        id = o.User.id,
+                        email = o.User.email,
+                        phone = o.User.phone,
+                        name = o.User.name,
+                        address = o.User.address,
+                        image = o.User.image
+                    },
+                    phone = o.phone,
+                    address = o.address,
+                    name = o.name,
+                    createDate = o.createDate,
+                    totalPrice = o.totalPrice,
+                    shipPrice = o.shipPrice,
+                    payPrice = o.payPrice,
+                    status = o.status,
+                    payMethod = o.payMethod,
+                    orderDetails = o.OrderDetails.Select(od => new OrderDetailResponseDto
+                    {
+                        id = od.id,
+                        productId = od.productId,
+                        product = od.Product == null ? null : new ProductLiteDto
+                        {
+                            id = od.Product.id,
+                            title = od.Product.title,
+                            descript = od.Product.descript,
+                            price = od.Product.price,
+                            status = od.Product.status,
+                            model = od.Product.Model == null ? null : new ModelLiteDto
+                            {
+                                address = od.Product.Model.address
+                            },
+                            images = od.Product.Images
+                                .Select(img => new ImageLiteDto
+                                {
+                                    id = img.id,
+                                    name = img.name,
+                                    address = img.address
+                                })
+                                .ToList()
+                        },
+                        blindBoxId = od.blindBoxId,
+                        blindBox = od.BlindBox == null ? null : new BlindBoxLiteDto
+                        {
+                            id = od.BlindBox.id,
+                            name = od.BlindBox.name,
+                            descript = od.BlindBox.descript,
+                            price = od.BlindBox.price,
+                            images = od.BlindBox.Images
+                                .Select(img => new ImageLiteDto
+                                {
+                                    id = img.id,
+                                    name = img.name,
+                                    address = img.address
+                                })
+                                .ToList()
+                        },
+                        quantity = od.quantity,
+                        price = od.price
+                    }).ToList()
+                });
         }
 #pragma warning restore CS8602
 

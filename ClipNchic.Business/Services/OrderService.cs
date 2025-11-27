@@ -16,9 +16,14 @@ namespace ClipNchic.Business.Services
             _blindBoxRepo = blindBoxRepo;
         }
 
-        public Task<List<Order>> GetAllOrdersAsync()
+        public Task<List<OrderResponseDto>> GetAllOrdersAsync()
         {
             return _orderRepo.GetAllOrdersAsync();
+        }
+
+        public Task<OrderResponseDto?> GetOrderResponseByIdAsync(int orderId)
+        {
+            return _orderRepo.GetOrderResponseByIdAsync(orderId);
         }
         // Lấy tất cả OrderDetail theo OrderId của order pending
         public async Task<Order?> GetOrCreatePendingOrderAsync(int userId, string? phone, string? address, string? name)
